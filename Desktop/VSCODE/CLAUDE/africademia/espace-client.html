@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/src/css/espace-client.css">
+<!-- SEO-START -->
+<meta name="description" content="Gérez vos formations, suivez vos projets et accédez à vos ressources depuis votre espace client Africademia.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/espace-client.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Mon Espace Client — Africademia">
+<meta property="og:description" content="Gérez vos formations, suivez vos projets et accédez à vos ressources depuis votre espace client Africademia.">
+<meta property="og:url" content="https://africademia.com/espace-client.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Mon Espace Client — Africademia">
+<meta name="twitter:description" content="Gérez vos formations, suivez vos projets et accédez à vos ressources depuis votre espace client Africademia.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SEO-END -->
+
+<title>Mon Espace Client — Africademia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="spinner"></div>
+</div>
+
+<!-- Toast -->
+<div id="toast"><span class="t-icon"></span><span id="toast-msg"></span></div>
+
+<!-- ═══════════════ AUTH SCREEN ═══════════════ -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <h1>Africa<span>demia</span></h1>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:.25rem">Espace Client</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Connexion</button>
+      <button class="auth-tab" onclick="switchTab('register')">Créer un compte</button>
+    </div>
+
+    <!-- Login -->
+    <div class="auth-panel active" id="panel-login">
+      <div class="form-group">
+        <label>Adresse e-mail</label>
+        <input type="email" class="form-control" id="login-email" placeholder="vous@exemple.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" class="form-control" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-primary" id="btn-login" onclick="doLogin()">
+        <span id="btn-login-txt">Se connecter</span>
+      </button>
+      <div class="auth-err" id="login-err"></div>
+      <p class="auth-link">Pas encore de compte ? <a href="#" onclick="switchTab('register');return false">Créer un compte</a></p>
+    </div>
+
+    <!-- Register -->
+    <div class="auth-panel" id="panel-register">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" class="form-control" id="reg-prenom" placeholder="Khadidja" autocomplete="given-name">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" class="form-control" id="reg-nom" placeholder="Diallo" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adresse e-mail</label>
+        <input type="email" class="form-control" id="reg-email" placeholder="vous@exemple.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" class="form-control" id="reg-password" placeholder="Min. 8 caractères" autocomplete="new-password">
+        <p class="form-hint">Minimum 8 caractères, incluez chiffres et majuscules.</p>
+      </div>
+      <div class="form-group">
+        <label>Téléphone (optionnel)</label>
+        <input type="tel" class="form-control" id="reg-tel" placeholder="+224 6XX XX XX XX">
+      </div>
+      <button class="btn-primary" id="btn-register" onclick="doRegister()">
+        <span id="btn-register-txt">Créer mon compte</span>
+      </button>
+      <div class="auth-err" id="register-err"></div>
+      <p class="auth-link">Déjà un compte ? <a href="#" onclick="switchTab('login');return false">Se connecter</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div id="app">
+  <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div class="app-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="ri-graduation-cap-fill"></i></div>
+        <div class="brand-text">
+          <h2>Africademia</h2>
+          <p>Espace Client</p>
+        </div>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="sidebar-user-row">
+          <div class="user-avatar" id="user-avatar">?</div>
+          <div class="user-info">
+            <div class="user-name" id="user-name">Chargement…</div>
+            <div class="user-email" id="user-email"></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Navigation</div>
+        <a class="nav-item active" onclick="showView('v-dashboard')">
+          <i class="ri-home-4-line"></i> Tableau de bord
+        </a>
+        <a class="nav-item" onclick="showView('v-formations')">
+          <i class="ri-book-open-line"></i> Mes Formations
+          <span class="nav-badge" id="badge-formations">0</span>
+        </a>
+        <a class="nav-item" onclick="showView('v-history')">
+          <i class="ri-history-line"></i> Historique
+        </a>
+        <div class="nav-label">Paramètres</div>
+        <a class="nav-item" onclick="showView('v-account')">
+          <i class="ri-user-settings-line"></i> Mon Compte
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="doLogout()">
+          <i class="ri-logout-box-line"></i> Déconnexion
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <button class="btn-hamburger" onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
+          <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+        </div>
+        <div class="topbar-right">
+          <a href="formations.html" class="btn-outline" style="font-size:.8rem;padding:.45rem .875rem">
+            <i class="ri-add-line"></i> Acheter une formation
+          </a>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div class="view active" id="v-dashboard">
+          <div class="welcome-banner">
+            <div>
+              <h2>Bienvenue, <span id="welcome-name">…</span> 👋</h2>
+              <p>Accédez à vos formations et continuez votre apprentissage.</p>
+            </div>
+            <div class="welcome-icon"><i class="ri-graduation-cap-fill"></i></div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-icon gold"><i class="ri-book-fill"></i></div>
+              <div>
+                <div class="stat-val" id="stat-formations">0</div>
+                <div class="stat-lbl">Formations achetées</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="ri-check-double-line"></i></div>
+              <div>
+                <div class="stat-val" id="stat-actives">0</div>
+                <div class="stat-lbl">Accès actifs</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="ri-file-download-line"></i></div>
+              <div>
+                <div class="stat-val" id="stat-fichiers">0</div>
+                <div class="stat-lbl">Fichiers disponibles</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">
+            <div>
+              <div class="section-title">Dernières formations</div>
+              <div class="section-subtitle">Vos achats récents</div>
+            </div>
+            <button class="btn-outline" onclick="showView('v-formations')">Voir tout</button>
+          </div>
+          <div class="formations-grid" id="dashboard-formations-grid">
+            <div class="empty-state">
+              <div class="empty-icon"><i class="ri-shopping-bag-line"></i></div>
+              <h3>Aucune formation achetée</h3>
+              <p>Découvrez nos formations et commencez votre parcours digital.</p>
+              <a href="formations.html" class="btn-outline"><i class="ri-arrow-right-line"></i> Explorer les formations</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- MES FORMATIONS -->
+        <div class="view" id="v-formations">
+          <div class="section-header">
+            <div>
+              <div class="section-title">Mes Formations</div>
+              <div class="section-subtitle">Toutes vos formations avec accès actif</div>
+            </div>
+            <a href="formations.html" class="btn-outline"><i class="ri-add-line"></i> Acheter une formation</a>
+          </div>
+          <div class="formations-grid" id="formations-grid">
+            <div class="empty-state">
+              <div class="empty-icon"><i class="ri-book-3-line"></i></div>
+              <h3>Aucune formation disponible</h3>
+              <p>Achetez une formation pour accéder à vos contenus ici.</p>
+              <a href="formations.html" class="btn-outline"><i class="ri-arrow-right-line"></i> Explorer les formations</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEWER -->
+        <div class="view" id="v-viewer">
+          <button class="viewer-back" onclick="showView('v-formations')">
+            <i class="ri-arrow-left-line"></i> Retour aux formations
+          </button>
+          <div class="viewer-header" id="viewer-header"></div>
+          <div class="viewer-tabs" id="viewer-tabs"></div>
+          <div id="viewer-content"></div>
+        </div>
+
+        <!-- HISTORIQUE -->
+        <div class="view" id="v-history">
+          <div class="section-header">
+            <div>
+              <div class="section-title">Historique d'achats</div>
+              <div class="section-subtitle">Tous vos paiements et commandes</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Formation</th>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Méthode</th>
+                    <th>Statut</th>
+                    <th>Accès</th>
+                  </tr>
+                </thead>
+                <tbody id="history-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- MON COMPTE -->
+        <div class="view" id="v-account">
+          <div class="section-header">
+            <div>
+              <div class="section-title">Mon Compte</div>
+              <div class="section-subtitle">Gérez vos informations personnelles</div>
+            </div>
+          </div>
+          <div class="account-grid">
+            <!-- Profil -->
+            <div class="card">
+              <div class="card-header"><h3>Informations personnelles</h3></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" class="form-control" id="acc-prenom" placeholder="Prénom">
+                  </div>
+                  <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" class="form-control" id="acc-nom" placeholder="Nom">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Téléphone</label>
+                  <input type="tel" class="form-control" id="acc-tel" placeholder="+224 6XX XX XX XX">
+                </div>
+                <div class="form-group">
+                  <label>Pays</label>
+                  <input type="text" class="form-control" id="acc-pays" placeholder="Guinée, Sénégal, Mali…">
+                </div>
+                <button class="btn-save" onclick="saveProfile()">
+                  <i class="ri-save-line"></i> Sauvegarder
+                </button>
+              </div>
+            </div>
+
+            <!-- Sécurité -->
+            <div style="display:flex;flex-direction:column;gap:1.5rem">
+              <div class="card">
+                <div class="card-header"><h3>Adresse e-mail</h3></div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Nouvelle adresse e-mail</label>
+                    <input type="email" class="form-control" id="acc-email" placeholder="nouvelle@email.com">
+                    <p class="form-hint">Un e-mail de confirmation vous sera envoyé.</p>
+                  </div>
+                  <button class="btn-save" onclick="saveEmail()">
+                    <i class="ri-mail-line"></i> Modifier l'e-mail
+                  </button>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header"><h3>Mot de passe</h3></div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Nouveau mot de passe</label>
+                    <input type="password" class="form-control" id="acc-pwd" placeholder="Min. 8 caractères" autocomplete="new-password">
+                  </div>
+                  <div class="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <input type="password" class="form-control" id="acc-pwd2" placeholder="Répétez le mot de passe" autocomplete="new-password">
+                  </div>
+                  <button class="btn-save" onclick="savePassword()">
+                    <i class="ri-lock-line"></i> Modifier le mot de passe
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+    </main>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="data/formations.js"></script>
+<script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/tracker.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════════════════════ */
+let _achats = [];
+let _activeView = 'v-dashboard';
+let _viewerFormationId = null;
+
+/* ════════════════════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════════════════════ */
+let _toastTimer;
+function toast(msg, type = 'ok') {
+  const el = document.getElementById('toast');
+  const msgEl = document.getElementById('toast-msg');
+  el.className = 'show ' + type;
+  msgEl.textContent = msg;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.className = ''; }, 3500);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AUTH TABS
+════════════════════════════════════════════════════════════════ */
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t, i) => {
+    t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+  });
+  document.getElementById('panel-login').classList.toggle('active', tab === 'login');
+  document.getElementById('panel-register').classList.toggle('active', tab === 'register');
+  hideErr('login-err');
+  hideErr('register-err');
+}
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideErr(id) {
+  const el = document.getElementById(id);
+  el.textContent = '';
+  el.classList.remove('show');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LOGIN
+════════════════════════════════════════════════════════════════ */
+async function doLogin() {
+  hideErr('login-err');
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { showErr('login-err', 'Veuillez remplir tous les champs.'); return; }
+
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true;
+  document.getElementById('btn-login-txt').textContent = 'Connexion…';
+
+  try {
+    const result = await AUTH.login(email, password);
+    const profile = result?.profile;
+    if (profile?.role === 'admin') {
+      window.location.href = 'admin.html';
+      return;
+    }
+    await bootApp();
+  } catch(e) {
+    console.error('[LOGIN]', e);
+    showErr('login-err', _authErr(e?.message || e?.error_description || String(e)));
+    btn.disabled = false;
+    document.getElementById('btn-login-txt').textContent = 'Se connecter';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   REGISTER
+════════════════════════════════════════════════════════════════ */
+async function doRegister() {
+  hideErr('register-err');
+  const prenom = document.getElementById('reg-prenom').value.trim();
+  const nom = document.getElementById('reg-nom').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const tel = document.getElementById('reg-tel').value.trim();
+
+  if (!prenom || !email || !password) { showErr('register-err', 'Prénom, e-mail et mot de passe sont requis.'); return; }
+  if (password.length < 8) { showErr('register-err', 'Le mot de passe doit contenir au moins 8 caractères.'); return; }
+
+  const btn = document.getElementById('btn-register');
+  btn.disabled = true;
+  document.getElementById('btn-register-txt').textContent = 'Création…';
+
+  try {
+    await AUTH.register(email, password, { prenom, nom, telephone: tel });
+    toast('Compte créé ! Vérifiez votre e-mail pour confirmer.', 'ok');
+    switchTab('login');
+  } catch(e) {
+    showErr('register-err', _authErr(e.message));
+  } finally {
+    btn.disabled = false;
+    document.getElementById('btn-register-txt').textContent = 'Créer mon compte';
+  }
+}
+
+function _authErr(msg) {
+  if (!msg) return 'Une erreur est survenue. Vérifiez votre connexion internet.';
+  const m = String(msg);
+  if (m.includes('Invalid login') || m.includes('invalid_credentials') || m.includes('Invalid credentials')) return 'E-mail ou mot de passe incorrect.';
+  if (m.includes('already registered') || m.includes('already exists') || m.includes('User already')) return 'Cet e-mail est déjà utilisé. Connectez-vous.';
+  if (m.includes('Email not confirmed') || m.includes('email_not_confirmed')) return 'E-mail non confirmé. Cliquez sur le lien reçu dans votre boîte mail.';
+  if (m.includes('Password should be') || m.includes('password')) return 'Mot de passe trop faible (min. 8 caractères, chiffres et majuscules).';
+  if (m.includes('non configuré') || m.includes('supabase')) return 'Erreur de connexion au serveur. Rechargez la page.';
+  if (m.includes('fetch') || m.includes('network') || m.includes('NetworkError')) return 'Erreur réseau. Vérifiez votre connexion internet.';
+  if (m.includes('rate limit') || m.includes('too many')) return 'Trop de tentatives. Attendez quelques minutes.';
+  if (m.includes('User not found') || m.includes('user_not_found')) return 'Aucun compte trouvé avec cet e-mail.';
+  return m;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LOGOUT
+════════════════════════════════════════════════════════════════ */
+async function doLogout() {
+  await AUTH.logout();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  switchTab('login');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   BOOT APP
+════════════════════════════════════════════════════════════════ */
+async function bootApp() {
+  const user = AUTH.user;
+  const profile = AUTH.profile;
+
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  const fullName = [profile?.prenom, profile?.nom].filter(Boolean).join(' ') || user?.email?.split('@')[0] || 'Client';
+  const initial = fullName.charAt(0).toUpperCase();
+
+  document.getElementById('user-avatar').textContent = initial;
+  document.getElementById('user-name').textContent = fullName;
+  document.getElementById('user-email').textContent = user?.email || '';
+  document.getElementById('welcome-name').textContent = profile?.prenom || fullName;
+
+  if (profile) {
+    document.getElementById('acc-prenom').value = profile.prenom || '';
+    document.getElementById('acc-nom').value = profile.nom || '';
+    document.getElementById('acc-tel').value = profile.telephone || '';
+    document.getElementById('acc-pays').value = profile.pays || '';
+  }
+
+  try { await loadAchats(); } catch(e) { console.error('[bootApp] loadAchats:', e); }
+  hideLoading();
+  try { TRACKER.autoTrack(); } catch(e) {}
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LOAD ACHATS
+════════════════════════════════════════════════════════════════ */
+async function loadAchats() {
+  const uid = AUTH.user?.id;
+  if (!uid) return;
+
+  _achats = await DB.getAchats({ userId: uid });
+
+  const actifs = _achats.filter(a => a.statut === 'confirme' && a.acces_actif);
+  const totalFichiers = await countFichiers(actifs);
+
+  document.getElementById('stat-formations').textContent = _achats.length;
+  document.getElementById('stat-actives').textContent = actifs.length;
+  document.getElementById('stat-fichiers').textContent = totalFichiers;
+  document.getElementById('badge-formations').textContent = actifs.length;
+
+  renderFormationCards(actifs, 'dashboard-formations-grid', 3);
+  renderFormationCards(actifs, 'formations-grid');
+  renderHistory();
+}
+
+async function countFichiers(achats) {
+  if (!achats.length) return 0;
+  let count = 0;
+  for (const a of achats) {
+    const files = await DB.getFichiersFormation(a.formation_id || a.id);
+    count += files.length;
+  }
+  return count;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RENDER FORMATION CARDS
+════════════════════════════════════════════════════════════════ */
+function renderFormationCards(achats, containerId, limit = null) {
+  const container = document.getElementById(containerId);
+  const items = limit ? achats.slice(0, limit) : achats;
+
+  if (!items.length) {
+    container.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon"><i class="ri-book-3-line"></i></div>
+        <h3>Aucune formation disponible</h3>
+        <p>Achetez une formation pour accéder à vos contenus ici.</p>
+        <a href="formations.html" class="btn-outline"><i class="ri-arrow-right-line"></i> Explorer les formations</a>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = items.map(a => `
+    <div class="formation-card" onclick="openViewer('${a.formation_id || a.id}', '${esc(a.formation_titre)}', '${esc(a.formation_icon || '📚')}')">
+      <div class="fc-thumb">
+        <span>${a.formation_icon || '📚'}</span>
+        <span class="fc-badge">${_formatLabel(a.formation_format)}</span>
+      </div>
+      <div class="fc-body">
+        <div class="fc-title">${esc(a.formation_titre || 'Formation')}</div>
+        <div class="fc-meta">Accès actif</div>
+        <div class="fc-files"><i class="ri-folder-line"></i> Voir les fichiers</div>
+        <button class="fc-btn">
+          <i class="ri-play-circle-line"></i> Accéder à la formation
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function _formatLabel(fmt) {
+  if (fmt === 'pdf') return 'PDF';
+  if (fmt === 'live') return 'Live';
+  if (fmt === 'hybrid') return 'Hybride';
+  return fmt || 'Vidéo';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   VIEWER
+════════════════════════════════════════════════════════════════ */
+async function openViewer(formationId, titre, icon) {
+  _viewerFormationId = formationId;
+  showView('v-viewer');
+
+  document.getElementById('viewer-header').innerHTML = `
+    <div class="viewer-icon">${icon}</div>
+    <div>
+      <div class="viewer-title">${esc(titre)}</div>
+      <div class="viewer-desc">Vos ressources de formation</div>
+    </div>`;
+
+  document.getElementById('viewer-content').innerHTML = `<div style="text-align:center;padding:3rem"><div class="spinner" style="margin:0 auto"></div></div>`;
+  document.getElementById('viewer-tabs').innerHTML = '';
+
+  const fichiers = await DB.getFichiersFormation(formationId);
+
+  if (!fichiers.length) {
+    document.getElementById('viewer-content').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon"><i class="ri-folder-open-line"></i></div>
+        <h3>Aucun fichier disponible</h3>
+        <p>Les ressources de cette formation seront bientôt disponibles.</p>
+      </div>`;
+    return;
+  }
+
+  const typeGroups = { pdf: [], video: [], zip: [], lien: [] };
+  fichiers.forEach(f => {
+    const group = f.type.startsWith('video') ? 'video' : (f.type === 'zip' ? 'zip' : f.type === 'lien' ? 'lien' : 'pdf');
+    typeGroups[group].push(f);
+  });
+
+  const tabs = [];
+  const panels = [];
+
+  if (typeGroups.pdf.length)   { tabs.push({ id: 'tab-pdf', label: `<i class="ri-file-pdf-2-line"></i> PDF (${typeGroups.pdf.length})` }); panels.push({ id: 'panel-pdf', files: typeGroups.pdf }); }
+  if (typeGroups.video.length) { tabs.push({ id: 'tab-video', label: `<i class="ri-video-line"></i> Vidéos (${typeGroups.video.length})` }); panels.push({ id: 'panel-video', files: typeGroups.video }); }
+  if (typeGroups.zip.length)   { tabs.push({ id: 'tab-zip', label: `<i class="ri-folder-zip-line"></i> Fichiers (${typeGroups.zip.length})` }); panels.push({ id: 'panel-zip', files: typeGroups.zip }); }
+  if (typeGroups.lien.length)  { tabs.push({ id: 'tab-lien', label: `<i class="ri-links-line"></i> Liens (${typeGroups.lien.length})` }); panels.push({ id: 'panel-lien', files: typeGroups.lien }); }
+
+  const allTab = { id: 'tab-all', label: `Tous (${fichiers.length})` };
+  tabs.unshift(allTab);
+  panels.unshift({ id: 'panel-all', files: fichiers });
+
+  document.getElementById('viewer-tabs').innerHTML = tabs.map((t, i) =>
+    `<button class="vtab ${i === 0 ? 'active' : ''}" onclick="switchViewerTab('${t.id}')">${t.label}</button>`
+  ).join('');
+
+  document.getElementById('viewer-content').innerHTML = panels.map((p, i) =>
+    `<div id="${p.id}" class="${i === 0 ? '' : 'd-none'}" style="${i > 0 ? 'display:none' : ''}">
+      <div class="files-list">
+        ${p.files.map(f => renderFileItem(f)).join('')}
+      </div>
+    </div>`
+  ).join('');
+}
+
+function switchViewerTab(activeId) {
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.vtab[onclick="switchViewerTab('${activeId}')"]`).classList.add('active');
+
+  const tabMap = { 'tab-all': 'panel-all', 'tab-pdf': 'panel-pdf', 'tab-video': 'panel-video', 'tab-zip': 'panel-zip', 'tab-lien': 'panel-lien' };
+  Object.values(tabMap).forEach(pid => {
+    const el = document.getElementById(pid);
+    if (el) el.style.display = tabMap[activeId] === pid ? 'block' : 'none';
+  });
+}
+
+function renderFileItem(f) {
+  const iconClass = f.type === 'pdf' ? 'pdf' : f.type.startsWith('video') ? 'video' : f.type === 'zip' ? 'zip' : 'link';
+  const iconName = f.type === 'pdf' ? 'ri-file-pdf-2-fill' : f.type.startsWith('video') ? 'ri-video-fill' : f.type === 'zip' ? 'ri-file-zip-fill' : 'ri-links-fill';
+  const canView = ['pdf', 'video_youtube', 'video_vimeo', 'video_direct', 'lien'].includes(f.type);
+  const canDl = ['pdf', 'zip', 'video_direct'].includes(f.type);
+
+  return `
+    <div class="file-item">
+      <div class="file-icon ${iconClass}"><i class="${iconName}"></i></div>
+      <div class="file-meta">
+        <div class="file-name">${esc(f.titre)}${f.gratuit ? '<span class="file-free">Gratuit</span>' : ''}</div>
+        <div class="file-size">${f.description || ''}${f.taille_mo ? ` — ${f.taille_mo} Mo` : ''}</div>
+      </div>
+      <div class="file-actions">
+        ${canView ? `<button class="btn-file view" onclick="openFile(this, '${esc(f.url)}', '${f.type}', '${esc(f.titre)}')"><i class="ri-eye-line"></i> Ouvrir</button>` : ''}
+        ${canDl ? `<a class="btn-file dl" href="${esc(f.url)}" download target="_blank"><i class="ri-download-line"></i> DL</a>` : ''}
+        ${!canView && !canDl ? `<a class="btn-file view" href="${esc(f.url)}" target="_blank" rel="noopener"><i class="ri-external-link-line"></i> Ouvrir</a>` : ''}
+      </div>
+    </div>`;
+}
+
+function openFile(btn, url, type, titre) {
+  const existing = document.getElementById('inline-viewer-box');
+  if (existing) existing.remove();
+
+  let html = '';
+  if (type === 'pdf') {
+    html = `<iframe src="${url}" title="${esc(titre)}"></iframe>`;
+  } else if (type === 'video_youtube') {
+    const ytId = _ytId(url);
+    html = `<div class="viewer-yt"><iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen></iframe></div>`;
+  } else if (type === 'video_vimeo') {
+    const vmId = _vmId(url);
+    html = `<div class="viewer-yt"><iframe src="https://player.vimeo.com/video/${vmId}" allowfullscreen></iframe></div>`;
+  } else if (type === 'video_direct') {
+    html = `<video controls><source src="${url}"><p>Votre navigateur ne supporte pas la lecture vidéo.</p></video>`;
+  } else if (type === 'lien') {
+    window.open(url, '_blank', 'noopener');
+    return;
+  }
+
+  const box = document.createElement('div');
+  box.id = 'inline-viewer-box';
+  box.className = 'inline-viewer';
+  box.innerHTML = `
+    <div class="inline-viewer-header">
+      <span class="inline-viewer-title">${esc(titre)}</span>
+      <button class="btn-close-viewer" onclick="document.getElementById('inline-viewer-box').remove()"><i class="ri-close-line"></i></button>
+    </div>
+    ${html}`;
+
+  btn.closest('.file-item').after(box);
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function _ytId(url) {
+  const m = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : url;
+}
+function _vmId(url) {
+  const m = url.match(/vimeo\.com\/(\d+)/);
+  return m ? m[1] : url;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   HISTORY
+════════════════════════════════════════════════════════════════ */
+function renderHistory() {
+  const tbody = document.getElementById('history-tbody');
+  if (!_achats.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Aucun achat enregistré.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = _achats.map(a => `
+    <tr>
+      <td><strong>${esc(a.formation_titre || '—')}</strong></td>
+      <td>${_fmtDate(a.created_at)}</td>
+      <td><strong>${Number(a.montant || 0).toLocaleString('fr-FR')} ${a.devise || 'FCFA'}</strong></td>
+      <td>${_methodeLabel(a.methode)}</td>
+      <td><span class="badge badge-${a.statut?.replace('_', '-') || 'en-attente'}">${_statutLabel(a.statut)}</span></td>
+      <td>
+        ${a.acces_actif
+          ? `<span style="color:var(--success);font-weight:600"><i class="ri-check-line"></i> Actif</span>`
+          : `<span style="color:var(--muted)">—</span>`}
+      </td>
+    </tr>`).join('');
+}
+
+function _fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+function _methodeLabel(m) {
+  const map = { wave:'Wave', orange_money:'Orange Money', mtn:'MTN', paypal:'PayPal', virement:'Virement', carte:'Carte bancaire', especes:'Espèces', offert:'Offert', autre:'Autre' };
+  return map[m] || m || '—';
+}
+function _statutLabel(s) {
+  const map = { en_attente:'En attente', confirme:'Confirmé', rembourse:'Remboursé', litige:'Litige' };
+  return map[s] || s || '—';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ACCOUNT
+════════════════════════════════════════════════════════════════ */
+async function saveProfile() {
+  const payload = {
+    prenom: document.getElementById('acc-prenom').value.trim(),
+    nom: document.getElementById('acc-nom').value.trim(),
+    telephone: document.getElementById('acc-tel').value.trim(),
+    pays: document.getElementById('acc-pays').value.trim(),
+  };
+  try {
+    await AUTH.updateProfile(payload);
+    toast('Profil mis à jour.', 'ok');
+    document.getElementById('user-name').textContent = [payload.prenom, payload.nom].filter(Boolean).join(' ') || AUTH.user?.email;
+    document.getElementById('welcome-name').textContent = payload.prenom || document.getElementById('user-name').textContent;
+    document.getElementById('user-avatar').textContent = (payload.prenom || '?').charAt(0).toUpperCase();
+  } catch(e) {
+    toast('Erreur : ' + e.message, 'err');
+  }
+}
+
+async function saveEmail() {
+  const email = document.getElementById('acc-email').value.trim();
+  if (!email) { toast('Veuillez saisir une adresse e-mail.', 'err'); return; }
+  try {
+    await AUTH.updateEmail(email);
+    toast('Un e-mail de confirmation a été envoyé à ' + email, 'ok');
+    document.getElementById('acc-email').value = '';
+  } catch(e) {
+    toast('Erreur : ' + e.message, 'err');
+  }
+}
+
+async function savePassword() {
+  const pwd = document.getElementById('acc-pwd').value;
+  const pwd2 = document.getElementById('acc-pwd2').value;
+  if (!pwd || !pwd2) { toast('Veuillez remplir les deux champs.', 'err'); return; }
+  if (pwd !== pwd2) { toast('Les mots de passe ne correspondent pas.', 'err'); return; }
+  if (pwd.length < 8) { toast('Minimum 8 caractères.', 'err'); return; }
+  try {
+    await AUTH.updatePassword(pwd);
+    toast('Mot de passe modifié avec succès.', 'ok');
+    document.getElementById('acc-pwd').value = '';
+    document.getElementById('acc-pwd2').value = '';
+  } catch(e) {
+    toast('Erreur : ' + e.message, 'err');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════════════════════════════ */
+const _viewTitles = {
+  'v-dashboard': 'Tableau de bord',
+  'v-formations': 'Mes Formations',
+  'v-viewer': 'Visionneuse',
+  'v-history': 'Historique d\'achats',
+  'v-account': 'Mon Compte',
+};
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.getAttribute('onclick')?.includes(id));
+  });
+  document.getElementById('topbar-title').textContent = _viewTitles[id] || '';
+  _activeView = id;
+  closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.sidebar-overlay').style.display =
+    document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.querySelector('.sidebar-overlay').style.display = 'none';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   UTILS
+════════════════════════════════════════════════════════════════ */
+function esc(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function hideLoading() {
+  document.getElementById('loading-overlay').style.display = 'none';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════════════ */
+(async function init() {
+  try {
+    await AUTH.init();
+  } catch(e) {
+    console.error('[INIT] AUTH.init failed:', e);
+  }
+
+  const user = AUTH.user;
+
+  try {
+    if (user) {
+      await bootApp();
+    } else {
+      // Redirect to unified login page
+      window.location.href = 'connexion.html';
+      return;
+    }
+  } catch(e) {
+    console.error('[INIT] bootApp failed:', e);
+    window.location.href = 'connexion.html';
+  }
+
+  document.getElementById('login-email').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('reg-password').addEventListener('keydown', e => { if (e.key === 'Enter') doRegister(); });
+})();
+</script>
+</body>
+</html>

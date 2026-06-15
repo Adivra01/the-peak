@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/css/formation-detail.css">
+<!-- SEO-START -->
+<meta name="description" content="Découvrez le programme complet, les objectifs et les modalités de cette formation digitale proposée par Africademia.">
+<meta name="keywords" content="formation digitale Afrique, programme formation Africademia">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/formation-detail.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Détail Formation — Africademia">
+<meta property="og:description" content="Découvrez le programme complet, les objectifs et les modalités de cette formation digitale proposée par Africademia.">
+<meta property="og:url" content="https://africademia.com/formation-detail.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Détail Formation — Africademia">
+<meta name="twitter:description" content="Découvrez le programme complet, les objectifs et les modalités de cette formation digitale proposée par Africademia.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Africademia",
+  "url": "https://africademia.com",
+  "logo": "https://africademia.com/favicon.svg",
+  "description": "Agence digitale africaine spécialisée en création web, intelligence artificielle, marketing digital et formations numériques.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dakar",
+    "addressCountry": "SN"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+221 77 000 00 00",
+    "email": "contact@africademia.com",
+    "contactType": "customer service",
+    "availableLanguage": [
+      "French"
+    ]
+  },
+  "sameAs": [
+    "https://www.facebook.com/africademia",
+    "https://www.instagram.com/africademia",
+    "https://www.linkedin.com/company/africademia"
+  ],
+  "areaServed": {
+    "@type": "Place",
+    "name": "Afrique francophone"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Formations Africademia",
+  "description": "Découvrez le programme complet, les objectifs et les modalités de cette formation digitale proposée par Africademia.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Africademia",
+    "url": "https://africademia.com"
+  }
+}
+</script>
+<!-- SEO-END -->
+
+<title>Détail Formation — Africademia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()"><i class="ri-close-line"></i></button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<!-- MODAL PAIEMENT -->
+<div class="pay-overlay" id="payModal" onclick="if(event.target===this)closePayModal()">
+  <div class="pay-box">
+    <div class="pay-head">
+      <span class="pay-head-title">Accéder à la formation</span>
+      <button class="pay-close" onclick="closePayModal()"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="pay-body" id="payBody">
+      <!-- Rempli dynamiquement par openPayModal() -->
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="direction-afromodern.html" class="logo"><span class="mk"></span>Africa<b>demia</b></a>
+    <a href="formations.html" class="nav-back"><i class="ri-arrow-left-line"></i> Toutes les formations</a>
+    <div class="nav-right">
+      <a href="connexion.html" class="nav-login" id="nav-login-btn"><i class="ri-user-line"></i><span class="nl-txt"> Connexion</span></a>
+      <a href="direction-afromodern.html#contact" class="nav-cta">Nous contacter</a>
+      <a href="direction-afromodern.html" class="nav-burger-f" aria-label="Menu"><i class="ri-menu-line"></i></a>
+    </div>
+  </div>
+</nav>
+
+<div id="pageContent"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-logo"><div class="logo"><span class="mk"></span>Africa<b>demia</b></div></div>
+      <div class="foot-copy">© 2025 Africademia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="data/formations.js"></script>
+<script src="data/services.js"></script>
+<script src="js/db.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── helpers ──────────────────────────────────────────────────────────
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+const params = new URLSearchParams(location.search);
+const slug   = params.get('slug');
+const T      = params.get('t') || 'afro';
+const WA_NUM = (window.AF_CONFIG || {whatsapp:'22369656610'}).whatsapp;
+
+function fmt(n, d){ return (n||0).toLocaleString('fr-FR') + ' ' + (d||'FCFA'); }
+
+function isVideoUrl(url) {
+  return url && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
+}
+
+function paras(text) {
+  if (!text) return '';
+  return text.split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+}
+
+// ── Lightbox ─────────────────────────────────────────────────────────
+function openLightbox(src){
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target===this || e.target.tagName==='BUTTON') closeLightbox();
+});
+
+// ── Fullscreen ───────────────────────────────────────────────────────
+function toggleFullscreen(){
+  const el = document.getElementById('mainVideo') || document.getElementById('mainImg');
+  if(!el) return;
+  const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen;
+  if(req) req.call(el);
+}
+
+// ── Tabs ─────────────────────────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  const panel = document.getElementById('tab-' + name);
+  if(panel) panel.classList.add('active');
+}
+
+// ── Render ───────────────────────────────────────────────────────────
+async function render(){
+  let f, all;
+  try {
+    f   = await DB.getFormation(slug);
+    all = await DB.getFormations();
+  } catch(e) { f = null; all = []; }
+
+  if(!f){
+    document.getElementById('pageContent').innerHTML=`
+      <div style="text-align:center;padding:200px 20px">
+        <p style="font-family:var(--disp);font-size:18px;color:var(--muted)">Formation introuvable.</p>
+        <a href="formations.html" style="color:var(--gold);font-family:var(--disp);font-weight:700;margin-top:14px;display:inline-block">← Voir toutes les formations</a>
+      </div>`;
+    return;
+  }
+
+  document.title = f.titre + ' — Africademia';
+  _payFormation = f;
+
+  const related   = (all||[]).filter(x => x.slug !== f.slug && (x.categorie === f.categorie || x.format === f.format)).slice(0,3);
+  const hasMedia  = !!f.image_url;
+  const isVid     = isVideoUrl(f.image_url);
+  const waText    = encodeURIComponent('Bonjour Khadidja 👋 Je suis intéressé(e) par la formation : ' + f.titre);
+
+  // Services associés
+  const srvMap = {
+    web:        ['creation-site-web', 'ia-sites', 'hebergement'],
+    marketing:  ['marketing-digital', 'publicite'],
+    ia:         ['ia-sites', 'creation-site-web'],
+    business:   ['marketing-digital', 'publicite'],
+    ecommerce:  ['creation-site-web', 'marketing-digital'],
+    immobilier: ['marketing-digital', 'creation-site-web'],
+  };
+  const srvSlugs = srvMap[f.categorie] || ['creation-site-web', 'marketing-digital'];
+  const srvReco  = (window.AF_SERVICES || []).filter(sv => srvSlugs.includes(sv.slug)).slice(0,3);
+
+  // Hero background
+  const heroCover = hasMedia ? `
+    <div class="hero-cover">
+      ${isVid
+        ? `<video src="${f.image_url}" autoplay muted loop playsinline></video>`
+        : `<img src="${f.image_url}" alt="${f.titre}">`}
+    </div>` : '';
+
+  // Media section
+  const mediaSection = hasMedia ? `
+  <section class="media-section">
+    <div class="media-wrap">
+      <div class="media-player">
+        ${isVid ? `
+          <div class="media-play-overlay" id="playOverlay">
+            <div class="play-circle" onclick="startVideo()"><i class="ri-play-fill"></i></div>
+          </div>
+          <video id="mainVideo" controls preload="metadata" playsinline style="display:block"
+            onclick="document.getElementById('playOverlay').classList.add('hidden')">
+            <source src="${f.image_url}" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture vidéo.
+          </video>
+          <button class="fs-btn" onclick="toggleFullscreen()"><i class="ri-fullscreen-line"></i> Plein écran</button>
+        ` : `
+          <div class="media-img-wrap" onclick="openLightbox('${f.image_url}')">
+            <img id="mainImg" src="${f.image_url}" alt="${f.titre}">
+          </div>
+        `}
+      </div>
+    </div>
+  </section>` : '';
+
+  // Tabs bar
+  const tabsBar = `
+  <div class="tabs-bar" id="tabsBar">
+    <div class="tabs-inner">
+      <button class="tab-btn active" data-tab="description" onclick="switchTab('description')">Description</button>
+      <button class="tab-btn" data-tab="objectifs" onclick="switchTab('objectifs')">Ce que vous apprendrez</button>
+      <button class="tab-btn" data-tab="programme" onclick="switchTab('programme')">Programme</button>
+      <div class="tab-price-pill">${fmt(f.prix, f.devise)}</div>
+    </div>
+  </div>`;
+
+  // Description panel
+  const descPanel = `
+  <div class="tab-panel active" id="tab-description">
+    <h2 class="sec-h">À propos de cette formation</h2>
+    <div class="desc-text">${paras(f.description || f.description_courte || '')}</div>
+    ${f.description_longue ? `
+      <hr class="desc-divider">
+      <div class="desc-long">${paras(f.description_longue)}</div>
+    ` : ''}
+    ${f.recommande ? `<div class="highlight-box"><strong>⭐ Formation recommandée</strong> — Plébiscitée par nos apprenants, cette formation est l'une de nos meilleures vendeuses. Elle combine théorie actionnable et résultats concrets dès la première semaine.</div>` : ''}
+  </div>`;
+
+  // Objectifs panel
+  const objPanel = `
+  <div class="tab-panel" id="tab-objectifs">
+    <h2 class="sec-h">Ce que vous allez apprendre</h2>
+    <div class="obj-list">
+      ${(f.objectifs||[]).map(o => `
+        <div class="obj-item"><i class="ri-check-double-line obj-ic"></i>${o}</div>
+      `).join('')}
+    </div>
+  </div>`;
+
+  // Programme panel
+  const progPanel = `
+  <div class="tab-panel" id="tab-programme">
+    <h2 class="sec-h">Programme complet</h2>
+    <div class="prog-list">
+      ${(f.programme||[]).map(p => `
+        <div class="prog-item">
+          <div class="prog-num">${p.num||''}</div>
+          <div>
+            <div class="prog-ttl">${p.titre||''}</div>
+            <div class="prog-cont">${p.contenu||''}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+
+  // Sidebar
+  const sidebar = `
+  <div class="body-right">
+    <div class="side-card">
+      <div class="side-price-wrap">
+        ${f.ancien_prix ? `<div class="side-old">${fmt(f.ancien_prix, f.devise)}</div>` : ''}
+        <div class="side-price">${fmt(f.prix, f.devise)}</div>
+        <div class="side-devise">Accès immédiat dès le paiement</div>
+      </div>
+      <div class="side-h" style="margin-top:16px">Détails</div>
+      <div class="side-item"><i class="ri-time-line"></i><span>Durée : <b>${f.duree||'—'}</b></span></div>
+      <div class="side-item"><i class="ri-book-2-line"></i><span>Format : <b>${f.seances||f.format||'—'}</b></span></div>
+      <div class="side-item"><i class="ri-bar-chart-line"></i><span>Niveau : <b>${f.niveau||'—'}</b></span></div>
+      <div class="side-item"><i class="ri-translate-2"></i><span>Langue : <b>Français</b></span></div>
+      <div class="side-item"><i class="ri-smartphone-line"></i><span>Accès : <b>WhatsApp + Email</b></span></div>
+    </div>
+    <button class="side-cta" onclick="openPayModal()"><i class="ri-shopping-cart-2-line"></i>Démarrer maintenant</button>
+    <a href="https://wa.me/${WA_NUM}?text=${waText}" target="_blank" class="side-cta-ln"><i class="ri-whatsapp-line"></i>Question via WhatsApp</a>
+    <button class="side-cta-ln" onclick="location.href='formations.html'"><i class="ri-arrow-left-line"></i>Toutes les formations</button>
+  </div>`;
+
+  // Related
+  const relSection = related.length ? `
+  <section class="related">
+    <div class="wrap">
+      <div class="rel-ttl-sec">Vous aimerez aussi</div>
+      <div class="rel-grid">
+        ${related.map(r => `
+          <a href="formation-detail.html?slug=${r.slug}&t=${T}" class="rel-card">
+            ${r.image_url && !isVideoUrl(r.image_url) ? `<img class="rel-cover" src="${r.image_url}" alt="${r.titre}">` : `<div class="rel-icon"><i class="${r.icon||'ri-book-2-line'}"></i></div>`}
+            <div class="rel-name">${r.titre}</div>
+            <div class="rel-price">${fmt(r.prix, r.devise)}</div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  </section>` : '';
+
+  // Services complémentaires
+  const srvSection = srvReco.length ? `
+  <section class="related">
+    <div class="wrap">
+      <div class="rel-ttl-sec">Services complémentaires</div>
+      <div class="rel-grid">
+        ${srvReco.map(sv => `
+          <a href="service-detail.html?slug=${sv.slug}&t=${T}" class="rel-card">
+            <div class="rel-icon"><i class="${sv.icon||'ri-service-line'}"></i></div>
+            <div class="rel-name">${sv.titre}</div>
+            <div class="rel-price">À partir de ${sv.prix ? sv.prix.toLocaleString('fr-FR')+' FCFA' : 'Sur devis'}</div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  </section>` : '';
+
+  document.getElementById('pageContent').innerHTML = `
+    <!-- HERO -->
+    <header class="hero" id="hero">
+      ${heroCover}
+      <div class="hero-vignette"></div>
+      <div class="wrap hero-inner">
+        <div>
+          <div class="breadcrumb">
+            <a href="formations.html">Formations</a>
+            <i class="ri-arrow-right-s-line"></i>
+            <span>${(f.categorie||'').charAt(0).toUpperCase()+(f.categorie||'').slice(1)}</span>
+            <i class="ri-arrow-right-s-line"></i>
+            <span>${f.titre}</span>
+          </div>
+          <div class="hero-badges">
+            <span class="b-lvl">${f.niveau}</span>
+            <span class="b-fmt ${f.format||'pdf'}">${f.format==='live'?'● Live':(f.format||'PDF').toUpperCase()}</span>
+            ${f.tag ? `<span class="b-tag">${f.tag}</span>` : ''}
+          </div>
+          <h1 id="heroH1">${f.titre}</h1>
+          <p class="hero-sub">${f.soustitre||f.description_courte||''}</p>
+          <div class="hero-meta">
+            ${f.duree  ? `<div class="h-meta-item"><i class="ri-time-line"></i>${f.duree}</div>` : ''}
+            ${f.seances? `<div class="h-meta-item"><i class="ri-book-2-line"></i>${f.seances}</div>` : ''}
+            ${f.niveau ? `<div class="h-meta-item"><i class="ri-user-line"></i>${f.niveau}</div>` : ''}
+          </div>
+        </div>
+        <div class="cta-card" id="heroCtaCard">
+          <div class="cta-card-prix">
+            ${f.ancien_prix ? `<div class="cta-card-old">${fmt(f.ancien_prix, f.devise)}</div>` : ''}
+            <div class="cta-card-price">${fmt(f.prix, f.devise)}</div>
+            <div class="cta-card-dev">${f.devise} · Accès immédiat dès le paiement</div>
+          </div>
+          <button class="cta-main-btn" onclick="openPayModal()"><i class="ri-shopping-cart-2-line"></i> Accéder à la formation</button>
+          <a href="https://wa.me/${WA_NUM}?text=${waText}" target="_blank" class="cta-wpp-btn"><i class="ri-whatsapp-line"></i> Question via WhatsApp</a>
+          <div class="cta-perks">
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Accès immédiat après paiement</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Support inclus via WhatsApp</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Prix fixe, sans surprise</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Applicable dès la première lecture</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    ${mediaSection}
+    ${tabsBar}
+
+    <!-- MAIN CONTENT -->
+    <div class="wrap">
+      <div class="body-grid">
+        <main class="body-left">
+          ${descPanel}
+          ${objPanel}
+          ${progPanel}
+        </main>
+        ${sidebar}
+      </div>
+    </div>
+
+    ${relSection}
+    ${srvSection}
+  `;
+
+  // Adjust tabs-bar top offset based on nav height
+  const setTabsTop = () => {
+    const tb = document.getElementById('tabsBar');
+    if(tb) tb.style.top = nav.getBoundingClientRect().height + 'px';
+  };
+  setTabsTop();
+  new ResizeObserver(setTabsTop).observe(nav);
+
+  // Animations
+  gsap.from('#heroH1', {opacity:0,y:28,duration:.7,ease:'power3.out',delay:.15});
+  gsap.from('.hero-sub,.hero-badges,.breadcrumb,.hero-meta', {opacity:0,y:18,duration:.6,stagger:.09,ease:'power3.out',delay:.25});
+  gsap.from('#heroCtaCard', {opacity:0,x:36,duration:.75,ease:'power3.out',delay:.35});
+  if(hasMedia){
+    gsap.from('.media-player', {opacity:0,y:30,duration:.7,ease:'power3.out',delay:.1,
+      scrollTrigger:{trigger:'.media-section',start:'top 85%',once:true}});
+  }
+  gsap.from('.obj-item', {opacity:0,x:-18,duration:.5,stagger:.06,ease:'power3.out',
+    scrollTrigger:{trigger:'.obj-list',start:'top 82%',once:true}});
+  gsap.from('.prog-item', {opacity:0,y:16,duration:.5,stagger:.07,ease:'power3.out',
+    scrollTrigger:{trigger:'.prog-list',start:'top 82%',once:true}});
+  gsap.from('.rel-card', {opacity:0,y:20,duration:.5,stagger:.08,ease:'power3.out',
+    scrollTrigger:{trigger:'.rel-grid',start:'top 85%',once:true}});
+}
+
+// ── video: hide play overlay when video starts playing ───────────────
+function startVideo(){
+  const v = document.getElementById('mainVideo');
+  const o = document.getElementById('playOverlay');
+  if(v){ v.play(); }
+  if(o){ o.classList.add('hidden'); }
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// MODAL PAIEMENT MANUEL
+// ══════════════════════════════════════════════════════════════════════
+let _payFormation = null;
+let _payMethod    = 'wave';
+let _payFile      = null;
+const PAY_NUMBERS = {
+  wave:         { display: '+22369656610', wa: '22369656610' },
+  orange_money: { display: '+22375329164', wa: '22375329164' },
+  moov:         { display: '+22369656610', wa: '22369656610' },
+};
+const PAY_WA = '22369656610';
+
+function openPayModal(){
+  if(!_payFormation) return;
+  _payMethod = 'wave';
+  _payFile   = null;
+  _renderPayModal();
+  document.getElementById('payModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePayModal(){
+  document.getElementById('payModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function setPayMethod(m){
+  _payMethod = m;
+  document.querySelectorAll('.pm-btn').forEach(b => b.classList.toggle('active', b.dataset.m === m));
+  const numEl = document.getElementById('payNumberVal');
+  if(numEl) numEl.textContent = PAY_NUMBERS[m].display;
+}
+
+function copyPayNumber(){
+  const num = PAY_NUMBERS[_payMethod].display;
+  navigator.clipboard.writeText(num).then(() => {
+    const btn = document.getElementById('payCopyBtn');
+    if(btn){ btn.innerHTML='<i class="ri-check-line"></i> Copié !'; setTimeout(()=>{ btn.innerHTML='<i class="ri-file-copy-line"></i> Copier'; },2000); }
+  });
+}
+
+function _renderPayModal(){
+  const f   = _payFormation;
+  const fmt = n => (n||0).toLocaleString('fr-FR') + ' ' + (f.devise||'FCFA');
+  document.getElementById('payBody').innerHTML = `
+    <div class="pay-formation-info">
+      <i class="${f.icon||'ri-book-2-line'}"></i>
+      <div>
+        <div class="pay-formation-name">${f.titre}</div>
+        <div class="pay-formation-price">${fmt(f.prix)}</div>
+      </div>
+    </div>
+
+    <div class="pay-step-label">1 — Choisissez votre méthode de paiement</div>
+    <div class="pay-methods">
+      <button class="pm-btn active" data-m="wave" onclick="setPayMethod('wave')">
+        <i class="ri-send-plane-2-line"></i>Wave
+      </button>
+      <button class="pm-btn" data-m="orange_money" onclick="setPayMethod('orange_money')">
+        <i class="ri-smartphone-line"></i>Orange Money
+      </button>
+      <button class="pm-btn" data-m="moov" onclick="setPayMethod('moov')">
+        <i class="ri-sim-card-line"></i>Moov Money
+      </button>
+    </div>
+
+    <div class="pay-step-label">2 — Envoyez le montant à ce numéro</div>
+    <div class="pay-number-box">
+      <span class="pay-number-val" id="payNumberVal">${PAY_NUMBERS[_payMethod].display}</span>
+      <button class="pay-copy-btn" id="payCopyBtn" onclick="copyPayNumber()">
+        <i class="ri-file-copy-line"></i> Copier
+      </button>
+    </div>
+    <p class="pay-instruction">
+      Envoyez exactement <strong>${fmt(f.prix)}</strong> via la méthode sélectionnée,
+      puis renseignez vos informations et joignez la <strong>capture d'écran de confirmation</strong>.
+    </p>
+
+    <hr class="pay-divider">
+    <div class="pay-step-label">3 — Vos informations</div>
+    <div class="pay-field">
+      <input id="pay-nom" placeholder="Nom complet *" required autocomplete="name">
+    </div>
+    <div class="pay-fields-row">
+      <input id="pay-email" placeholder="Email *" type="email" autocomplete="email" style="background:rgba(246,240,226,.06);border:1.5px solid rgba(246,240,226,.1);border-radius:6px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--paper);outline:none;transition:border-color .25s">
+      <input id="pay-tel" placeholder="Téléphone" type="tel" autocomplete="tel" style="background:rgba(246,240,226,.06);border:1.5px solid rgba(246,240,226,.1);border-radius:6px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--paper);outline:none;transition:border-color .25s">
+    </div>
+
+    <div class="pay-step-label">4 — Joignez la preuve de paiement</div>
+    <div class="pay-upload-zone" id="payUploadZone" onclick="document.getElementById('payFileInput').click()">
+      <i class="ri-image-add-line"></i>
+      <div class="puz-title">Cliquer ou glisser la capture ici</div>
+      <div class="puz-sub">JPG, PNG, WEBP — max 10 Mo</div>
+      <img class="pay-preview-img" id="payPreviewImg" src="" alt="">
+      <button class="pay-preview-remove" id="payRemoveBtn" onclick="removePayFile(event)"><i class="ri-close-line"></i></button>
+    </div>
+    <input type="file" id="payFileInput" accept="image/*" style="display:none" onchange="handlePayFile(this)">
+
+    <button class="pay-submit-btn" id="paySubmitBtn" onclick="submitPaiement()">
+      <i class="ri-check-double-line"></i> Confirmer mon paiement
+    </button>
+    <p style="font-size:11.5px;color:rgba(246,240,226,.28);text-align:center;margin-top:10px;line-height:1.5">
+      Votre accès sera activé sous 24h après vérification manuelle par notre équipe.
+    </p>
+  `;
+  // Drag & drop
+  const zone = document.getElementById('payUploadZone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if(f && f.type.startsWith('image/')) _setPayFile(f);
+  });
+}
+
+function handlePayFile(input){
+  if(input.files[0]) _setPayFile(input.files[0]);
+}
+
+function _setPayFile(file){
+  _payFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('payPreviewImg');
+    const rm  = document.getElementById('payRemoveBtn');
+    const zone = document.getElementById('payUploadZone');
+    if(img){ img.src = e.target.result; img.style.display='block'; }
+    if(rm)  { rm.style.display='flex'; }
+    if(zone){ zone.querySelector('i').style.display='none'; zone.querySelector('.puz-title').style.display='none'; zone.querySelector('.puz-sub').style.display='none'; }
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePayFile(e){
+  e.stopPropagation();
+  _payFile = null;
+  const img  = document.getElementById('payPreviewImg');
+  const rm   = document.getElementById('payRemoveBtn');
+  const zone = document.getElementById('payUploadZone');
+  const inp  = document.getElementById('payFileInput');
+  if(img)  { img.src=''; img.style.display='none'; }
+  if(rm)   { rm.style.display='none'; }
+  if(zone) { zone.querySelector('i').style.display=''; zone.querySelector('.puz-title').style.display=''; zone.querySelector('.puz-sub').style.display=''; }
+  if(inp)  { inp.value=''; }
+}
+
+async function submitPaiement(){
+  const nom   = (document.getElementById('pay-nom')?.value||'').trim();
+  const email = (document.getElementById('pay-email')?.value||'').trim();
+  const tel   = (document.getElementById('pay-tel')?.value||'').trim();
+  if(!nom)   { alert('Veuillez renseigner votre nom.'); return; }
+  if(!email) { alert('Veuillez renseigner votre email.'); return; }
+  if(!_payFile){ alert('Veuillez joindre la capture de paiement.'); return; }
+
+  const btn = document.getElementById('paySubmitBtn');
+  btn.disabled = true; btn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(22,17,9,.3);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite"></span> Envoi en cours…';
+
+  try {
+    let preuve_url = null;
+
+    // Upload preuve dans Supabase Storage si disponible
+    if(window.DB && DB.client){
+      const ext  = _payFile.name.split('.').pop();
+      const path = `paiements/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+      const { data: upData, error: upErr } = await DB.client.storage.from('formations').upload(path, _payFile, { contentType: _payFile.type, upsert: false });
+      if(!upErr && upData){
+        const { data: urlData } = DB.client.storage.from('formations').getPublicUrl(path);
+        preuve_url = urlData?.publicUrl || null;
+      }
+    }
+
+    const f = _payFormation;
+    const payload = {
+      nom_payeur:    nom,
+      email_payeur:  email,
+      telephone_payeur: tel || null,
+      montant:       f.prix || 0,
+      devise:        f.devise || 'FCFA',
+      methode:       _payMethod,
+      statut:        'en_attente',
+      preuve_url,
+      notes:         'Formation: ' + f.titre,
+    };
+
+    // Lier à la formation si possible
+    if(window.DB && DB.client){
+      // Chercher l'ID de la formation dans la DB
+      try {
+        const { data: fd } = await DB.client.from('formations').select('id').eq('slug', f.slug).single();
+        if(fd?.id) payload.formation_id = fd.id;
+      } catch(e){}
+      await DB.client.from('paiements').insert([payload]);
+    }
+
+    // Afficher message de succès
+    const waText = encodeURIComponent(`Bonjour Africademia 👋 J'ai effectué le paiement pour la formation "${f.titre}" (${(f.prix||0).toLocaleString('fr-FR')} ${f.devise||'FCFA'}).\n\nNom : ${nom}\nEmail : ${email}${tel ? '\nTél : '+tel : ''}\n\nMerci de confirmer mon accès.`);
+    document.getElementById('payBody').innerHTML = `
+      <div class="pay-success">
+        <i class="ri-checkbox-circle-fill pay-success-icon"></i>
+        <div class="pay-success-title">Paiement reçu !</div>
+        <p class="pay-success-text">
+          Votre capture a bien été envoyée. Notre équipe va vérifier votre paiement et activer votre accès
+          <strong style="color:var(--gold)">sous 24 heures</strong>.<br><br>
+          Vous recevrez une confirmation à <strong style="color:var(--paper)">${email}</strong>.
+          Vous pouvez aussi nous contacter directement sur WhatsApp pour accélérer la validation.
+        </p>
+        <a href="https://wa.me/${PAY_WA}?text=${waText}" target="_blank" class="pay-wpp-btn">
+          <i class="ri-whatsapp-line"></i> Confirmer sur WhatsApp
+        </a>
+      </div>`;
+  } catch(err) {
+    btn.disabled = false; btn.innerHTML = '<i class="ri-check-double-line"></i> Confirmer mon paiement';
+    alert('Une erreur est survenue : ' + err.message);
+  }
+}
+
+render();
+</script>
+
+<!-- Auth state: update nav button -->
+<script>(function(){
+  try{
+    var s=localStorage.getItem('sb-wnvsrjsjjnyitxiexztq-auth-token');
+    if(!s)return;
+    var d=JSON.parse(s),u=d&&(d.user||(d.currentSession&&d.currentSession.user));
+    if(!u||!u.email)return;
+    var b=document.getElementById('nav-login-btn');
+    if(b){b.innerHTML='<i class="ri-user-line"></i><span class="nl-txt"> Mon espace</span>';b.href='espace-client.html';}
+  }catch(e){}
+})();</script>
+</body>
+</html>

@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/css/admin.css">
+<!-- SEO-START -->
+<meta name="description" content="Panneau d'administration Africademia.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/admin.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Administration — Africademia">
+<meta property="og:description" content="Panneau d'administration Africademia.">
+<meta property="og:url" content="https://africademia.com/admin.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Administration — Africademia">
+<meta name="twitter:description" content="Panneau d'administration Africademia.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SEO-END -->
+
+<title>Administration — Africademia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+</head>
+<body>
+
+<!-- LOGIN -->
+<!-- Redirecting spinner shown while AUTH.init() runs -->
+<div id="admin-loading" style="position:fixed;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:999">
+  <div style="text-align:center">
+    <div style="width:36px;height:36px;border:3px solid rgba(200,151,58,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 14px"></div>
+    <div style="font-family:var(--disp);font-size:13px;color:rgba(246,240,226,.3)">Vérification…</div>
+  </div>
+</div>
+
+<!-- ADMIN LAYOUT -->
+<div class="admin-layout hidden" id="admin-layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="s-logo">Africa<b>demia</b></div>
+    <div class="s-sub">Administration</div>
+    <div class="s-section">Principal</div>
+    <div class="s-link on" data-page="dashboard"><i class="ri-dashboard-2-line"></i> Tableau de bord</div>
+    <div class="s-link" data-page="compta"><i class="ri-money-euro-circle-line"></i> Comptabilité <span class="s-badge" id="badge-compta">0</span></div>
+    <div class="s-section">Contenu</div>
+    <div class="s-link" data-page="projets"><i class="ri-store-3-line"></i> Sites à vendre <span class="s-badge" id="badge-projets">0</span></div>
+    <div class="s-link" data-page="formations"><i class="ri-book-open-line"></i> Formations <span class="s-badge" id="badge-formations">0</span></div>
+    <div class="s-link" data-page="services"><i class="ri-service-line"></i> Services <span class="s-badge" id="badge-services">0</span></div>
+    <div class="s-section">Relations</div>
+    <div class="s-link" data-page="clients"><i class="ri-user-3-line"></i> Clients <span class="s-badge" id="badge-clients">0</span></div>
+    <div class="s-link" data-page="achats"><i class="ri-shopping-bag-3-line"></i> Achats <span class="s-badge" id="badge-achats">0</span></div>
+    <div class="s-link" data-page="contacts"><i class="ri-mail-line"></i> Messages <span class="s-badge red" id="badge-contacts">0</span></div>
+    <div class="s-section">Données</div>
+    <div class="s-link" data-page="analytics"><i class="ri-line-chart-line"></i> Analytics</div>
+    <div class="s-bottom">
+      <div class="s-user">
+        <div class="s-avatar" id="s-avatar">A</div>
+        <div>
+          <div class="s-user-name" id="s-name">Admin</div>
+          <div class="s-user-role">Administrateur</div>
+        </div>
+      </div>
+      <div class="s-logout" onclick="doLogout()"><i class="ri-logout-circle-r-line"></i> Se déconnecter</div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="page-title">Tableau de bord</div>
+      <div class="topbar-right" id="topbar-actions"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="page on" id="page-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon gold"><i class="ri-money-euro-circle-line"></i></div>
+          <div class="kpi-val" id="kpi-ca">—</div>
+          <div class="kpi-lbl">Chiffre d'affaires total</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon blue"><i class="ri-book-open-line"></i></div>
+          <div class="kpi-val" id="kpi-formations">—</div>
+          <div class="kpi-lbl">Formations actives</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon green"><i class="ri-user-3-line"></i></div>
+          <div class="kpi-val" id="kpi-clients">—</div>
+          <div class="kpi-lbl">Clients inscrits</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon red"><i class="ri-mail-unread-line"></i></div>
+          <div class="kpi-val" id="kpi-msgs">—</div>
+          <div class="kpi-lbl">Messages non lus</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Revenus — 6 derniers mois</span>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrap-lg"><canvas id="chart-revenue"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Activité récente</span></div>
+          <div class="card-body" id="feed-list">
+            <div class="page-loading"><span class="spin"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Derniers achats</span>
+          <button class="btn-sm btn-primary" onclick="showPage('achats')">Voir tout</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Client</th><th>Formation</th><th>Montant</th><th>Statut</th><th>Date</th>
+            </tr></thead>
+            <tbody id="dash-achats-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPTABILITÉ -->
+    <div class="page" id="page-compta">
+      <div class="compta-total-wrap">
+        <div class="compta-total-lbl">Chiffre d'affaires total confirmé</div>
+        <div class="compta-total-val" id="compta-total">0 FCFA</div>
+        <div class="compta-total-sub">Mis à jour en temps réel</div>
+      </div>
+      <div class="grid3" id="compta-kpis">
+        <div class="kpi-card">
+          <div class="kpi-icon gold"><i class="ri-check-double-line"></i></div>
+          <div class="kpi-val" id="c-confirme">—</div>
+          <div class="kpi-lbl">Confirmés</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon green"><i class="ri-calendar-check-line"></i></div>
+          <div class="kpi-val" id="c-mois">—</div>
+          <div class="kpi-lbl">Ce mois</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon red"><i class="ri-time-line"></i></div>
+          <div class="kpi-val" id="c-attente">—</div>
+          <div class="kpi-lbl">En attente</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head"><span class="card-title">Revenus sur 12 mois</span></div>
+          <div class="card-body">
+            <div class="chart-wrap-lg"><canvas id="chart-compta"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Répartition</span></div>
+          <div class="card-body">
+            <div id="compta-breakdown">
+              <div style="margin-bottom:20px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                  <span style="font-size:12.5px;font-weight:600">Formations</span>
+                  <span style="font-size:12.5px;font-weight:700;color:var(--gold)" id="bp-formations">0 FCFA</span>
+                </div>
+                <div class="stat-bar-wrap"><div class="stat-bar" id="bar-formations" style="width:0%"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                  <span style="font-size:12.5px;font-weight:600">Services</span>
+                  <span style="font-size:12.5px;font-weight:700;color:var(--gold)" id="bp-services">0 FCFA</span>
+                </div>
+                <div class="stat-bar-wrap"><div class="stat-bar" id="bar-services" style="width:0%;background:#29629B"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Toutes les transactions</span>
+          <button class="btn-sm btn-primary" onclick="exportComptaCSV()"><i class="ri-download-line"></i> Exporter CSV</button>
+        </div>
+        <div class="filter-bar" style="padding:16px 22px 0">
+          <input class="f-inp" type="text" placeholder="Rechercher..." id="f-compta-search" oninput="filterCompta()">
+          <select class="f-sel" id="f-compta-status" onchange="filterCompta()">
+            <option value="">Tous statuts</option>
+            <option value="confirme">Confirmés</option>
+            <option value="en_attente">En attente</option>
+            <option value="annule">Annulés</option>
+          </select>
+          <select class="f-sel" id="f-compta-type" onchange="filterCompta()">
+            <option value="">Tous types</option>
+            <option value="achat">Achats</option>
+            <option value="paiement">Paiements</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Date</th><th>Client</th><th>Article / Méthode</th><th>Type</th><th>Montant</th><th>Statut</th><th>Preuve</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="compta-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMATIONS -->
+    <div class="page" id="page-formations">
+      <div class="filter-bar">
+        <input class="f-inp" type="text" placeholder="Rechercher une formation..." id="f-form-search" oninput="filterFormations()" style="flex:1;max-width:300px">
+        <select class="f-sel" id="f-form-cat" onchange="filterFormations()">
+          <option value="">Toutes catégories</option>
+          <option value="ecommerce">E-commerce</option>
+          <option value="musique">Musique</option>
+          <option value="digital">Produits Digitaux</option>
+          <option value="web">Web & Tech</option>
+          <option value="immobilier">Immobilier</option>
+          <option value="ia">Intelligence Artificielle</option>
+          <option value="marketing">Marketing</option>
+        </select>
+        <select class="f-sel" id="f-form-status" onchange="filterFormations()">
+          <option value="">Tous statuts</option>
+          <option value="actif">Actifs</option>
+          <option value="inactif">Inactifs</option>
+        </select>
+        <div style="margin-left:auto">
+          <button class="btn-sm btn-gold" onclick="openFormModal()"><i class="ri-add-line"></i> Nouvelle formation</button>
+        </div>
+      </div>
+      <div class="form-grid" id="formations-grid"></div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="page" id="page-services">
+      <div class="filter-bar">
+        <input class="f-inp" type="text" placeholder="Rechercher un service..." id="f-srv-search" oninput="filterServices()" style="flex:1;max-width:300px">
+        <select class="f-sel" id="f-srv-cat" onchange="filterServices()">
+          <option value="">Toutes catégories</option>
+          <option value="web">Développement Web</option>
+          <option value="marketing">Marketing</option>
+          <option value="hebergement">Hébergement</option>
+          <option value="ia">IA & Automatisation</option>
+          <option value="publicite">Publicité</option>
+          <option value="formation">Formation</option>
+        </select>
+        <div style="margin-left:auto">
+          <button class="btn-sm btn-gold" onclick="openSrvModal()"><i class="ri-add-line"></i> Nouveau service</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Icône</th><th>Titre</th><th>Catégorie</th><th>Prix</th><th>Statut</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="services-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTS -->
+    <div class="page" id="page-clients">
+      <div class="filter-bar">
+        <input class="f-inp" type="text" placeholder="Rechercher un client..." id="f-cli-search" oninput="filterClients()" style="flex:1;max-width:300px">
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Client</th><th>Email</th><th>Inscrit le</th><th>Achats</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="clients-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACHATS -->
+    <div class="page" id="page-achats">
+      <div class="filter-bar">
+        <input class="f-inp" type="text" placeholder="Rechercher..." id="f-ach-search" oninput="filterAchats()" style="flex:1;max-width:300px">
+        <select class="f-sel" id="f-ach-status" onchange="filterAchats()">
+          <option value="">Tous statuts</option>
+          <option value="confirme">Confirmés</option>
+          <option value="en_attente">En attente</option>
+          <option value="annule">Annulés</option>
+        </select>
+        <div style="margin-left:auto">
+          <button class="btn-sm btn-primary" onclick="exportAchatsCSV()"><i class="ri-download-line"></i> Exporter CSV</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Date</th><th>Client</th><th>Formation</th><th>Montant</th><th>Statut</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="achats-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="page" id="page-contacts">
+      <div class="filter-bar">
+        <input class="f-inp" type="text" placeholder="Rechercher..." id="f-con-search" oninput="filterContacts()" style="flex:1;max-width:300px">
+        <select class="f-sel" id="f-con-status" onchange="filterContacts()">
+          <option value="">Tous statuts</option>
+          <option value="nouveau">Nouveaux</option>
+          <option value="lu">Lus</option>
+          <option value="traite">Traités</option>
+        </select>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Date</th><th>Nom</th><th>Email</th><th>Sujet</th><th>Statut</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="contacts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJETS À VENDRE -->
+    <div class="page" id="page-projets">
+      <div class="filter-bar">
+        <input class="f-inp" type="text" placeholder="Rechercher un projet..." id="f-proj-search" oninput="filterProjets()" style="flex:1;max-width:300px">
+        <select class="f-sel" id="f-proj-status" onchange="filterProjets()">
+          <option value="">Tous statuts</option>
+          <option value="disponible">Disponibles</option>
+          <option value="reserve">Réservés</option>
+          <option value="vendu">Vendus</option>
+        </select>
+        <div style="margin-left:auto">
+          <button class="btn-sm btn-gold" onclick="openProjModal()"><i class="ri-add-line"></i> Nouveau projet</button>
+        </div>
+      </div>
+      <div class="form-grid" id="projets-grid"></div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="page" id="page-analytics">
+      <div class="grid3">
+        <div class="card">
+          <div class="analytics-stat">
+            <div class="analytics-stat-val" id="a-visits">—</div>
+            <div class="analytics-stat-lbl">Visites ce mois</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="analytics-stat">
+            <div class="analytics-stat-val" id="a-pages">—</div>
+            <div class="analytics-stat-lbl">Pages vues</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="analytics-stat">
+            <div class="analytics-stat-val" id="a-today">—</div>
+            <div class="analytics-stat-lbl">Aujourd'hui</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head"><span class="card-title">Visites — 30 derniers jours</span></div>
+          <div class="card-body">
+            <div class="chart-wrap-lg"><canvas id="chart-analytics"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Pages les plus visitées</span></div>
+          <div class="card-body" id="top-pages"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /admin-layout -->
+
+<!-- MODAL FORMATION -->
+<div class="modal-overlay hidden" id="modal-form">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="mf-title">Nouvelle formation</span>
+      <button class="modal-close" onclick="closeModal('modal-form')"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mf-id">
+      <div class="form-row">
+        <label class="form-label">Titre *</label>
+        <input class="form-ctrl" id="mf-titre" placeholder="Ex: Print On Demand Africa">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Sous-titre / accroche</label>
+        <input class="form-ctrl" id="mf-soustitre" placeholder="Ex: Créez votre boutique et vendez partout en Afrique">
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Icône (emoji)</label>
+          <input class="form-ctrl" id="mf-icon" placeholder="📦">
+        </div>
+        <div>
+          <label class="form-label">Catégorie</label>
+          <select class="form-ctrl" id="mf-cat">
+            <option value="ecommerce">E-commerce</option>
+            <option value="musique">Musique</option>
+            <option value="digital">Produits Digitaux</option>
+            <option value="web">Web & Tech</option>
+            <option value="immobilier">Immobilier</option>
+            <option value="ia">Intelligence Artificielle</option>
+            <option value="marketing">Marketing</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Description courte</label>
+        <textarea class="form-ctrl textarea" id="mf-desc" placeholder="Description visible sur la carte..."></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Description complète</label>
+        <textarea class="form-ctrl textarea" id="mf-desc-long" placeholder="Description complète de la formation..." style="min-height:100px"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Objectifs (un par ligne) — onglet "Ce que vous apprendrez"</label>
+        <textarea class="form-ctrl textarea" id="mf-objectifs" placeholder="Créer votre première boutique en 48h&#10;Trouver des fournisseurs fiables&#10;Automatiser vos commandes" style="min-height:80px"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Programme — un module par ligne au format <code style="font-size:11px;background:rgba(22,17,9,.07);padding:1px 5px;border-radius:3px">01|Titre du module|Contenu détaillé</code></label>
+        <textarea class="form-ctrl textarea" id="mf-programme" placeholder="01|Introduction au Print On Demand|Vue d'ensemble du modèle, outils et premiers pas&#10;02|Choisir votre niche|Analyse du marché africain et critères de sélection" style="min-height:90px"></textarea>
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Prix (FCFA)</label>
+          <input class="form-ctrl" id="mf-prix" type="number" placeholder="50000">
+        </div>
+        <div>
+          <label class="form-label">Ancien prix barré (FCFA)</label>
+          <input class="form-ctrl" id="mf-ancien-prix" type="number" placeholder="75000">
+        </div>
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Format</label>
+          <select class="form-ctrl" id="mf-format">
+            <option value="video">Vidéo</option>
+            <option value="pdf">PDF</option>
+            <option value="mixte">Mixte</option>
+            <option value="live">Live</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Niveau</label>
+          <select class="form-ctrl" id="mf-niveau">
+            <option value="debutant">Débutant</option>
+            <option value="intermediaire">Intermédiaire</option>
+            <option value="avance">Avancé</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Durée</label>
+          <input class="form-ctrl" id="mf-duree" placeholder="Ex: 4 semaines">
+        </div>
+        <div>
+          <label class="form-label">Séances / modules</label>
+          <input class="form-ctrl" id="mf-seances" placeholder="Ex: 12 modules vidéo">
+        </div>
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Badge/Tag (affiché en doré)</label>
+          <input class="form-ctrl" id="mf-tag" placeholder="Ex: NOUVEAU, TOP VENTES, PROMO">
+        </div>
+        <div>
+          <label class="form-label">Formation recommandée ?</label>
+          <select class="form-ctrl" id="mf-recommande">
+            <option value="false">Non</option>
+            <option value="true">Oui — afficher highlight</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Image / Vidéo de couverture</label>
+        <div class="uz-sm" id="mf-img-drop" onclick="document.getElementById('mf-img-file').click()">
+          <div class="uz-sm-icon"><i class="ri-image-add-line"></i></div>
+          <div class="uz-sm-info">
+            <div class="uz-sm-title">Cliquer ou glisser un fichier</div>
+            <div class="uz-sm-sub">JPG, PNG, WebP, MP4 — max 50 Mo</div>
+          </div>
+        </div>
+        <input type="file" id="mf-img-file" accept="image/*,video/*" style="display:none" onchange="previewMfMedia(this)">
+        <div class="uz-sm-preview hidden" id="mf-img-preview">
+          <img id="mf-img-preview-el" src="" alt="" style="display:none">
+          <video id="mf-vid-preview-el" controls style="display:none;width:100%;max-height:140px"></video>
+          <button class="uz-sm-remove" onclick="clearMfMedia(event)" title="Supprimer"><i class="ri-close-line"></i></button>
+        </div>
+        <input type="hidden" id="mf-img-url" value="">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Statut</label>
+        <select class="form-ctrl" id="mf-actif">
+          <option value="true">Actif</option>
+          <option value="false">Inactif</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm btn-edit" onclick="closeModal('modal-form')">Annuler</button>
+      <button class="btn-sm btn-gold" id="mf-save-btn" onclick="saveFormation()"><i class="ri-save-line"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PROJET -->
+<div class="modal-overlay hidden" id="modal-proj">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-head">
+      <span class="modal-title" id="mp-title">Nouveau projet à vendre</span>
+      <button class="modal-close" onclick="closeModal('modal-proj')"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mp-id">
+      <div class="form-row">
+        <label class="form-label">Titre du projet *</label>
+        <input class="form-ctrl" id="mp-titre" placeholder="Ex: Site e-commerce prêt à l'emploi">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Description courte</label>
+        <input class="form-ctrl" id="mp-desc-court" placeholder="Résumé en une ligne...">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Description complète</label>
+        <textarea class="form-ctrl textarea" id="mp-desc" placeholder="Décrivez le projet, ses fonctionnalités, sa stack..." style="min-height:90px"></textarea>
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Prix (FCFA) *</label>
+          <input class="form-ctrl" id="mp-prix" type="number" placeholder="500000">
+        </div>
+        <div>
+          <label class="form-label">Statut</label>
+          <select class="form-ctrl" id="mp-statut">
+            <option value="disponible">Disponible</option>
+            <option value="reserve">Réservé</option>
+            <option value="vendu">Vendu</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Technologies (séparées par virgule)</label>
+        <input class="form-ctrl" id="mp-technos" placeholder="Next.js, Supabase, Tailwind...">
+      </div>
+      <div class="form-row">
+        <label class="form-label">URL de démonstration (lien externe)</label>
+        <input class="form-ctrl" id="mp-url-demo" placeholder="https://demo.monsite.com">
+      </div>
+
+      <!-- IMAGE UPLOAD -->
+      <div class="form-row">
+        <label class="form-label">Photo / Capture d'écran</label>
+        <div class="upload-zone" id="img-drop" onclick="document.getElementById('mp-img-file').click()">
+          <div class="upload-inner" id="img-inner">
+            <i class="ri-image-add-line" style="font-size:28px;color:var(--muted);margin-bottom:8px"></i>
+            <div style="font-size:13px;font-weight:600;color:var(--muted)">Cliquer pour choisir une image</div>
+            <div style="font-size:11.5px;color:rgba(22,17,9,.3);margin-top:4px">JPG, PNG, WEBP — max 10 MB</div>
+          </div>
+        </div>
+        <input type="file" id="mp-img-file" accept="image/*" style="display:none" onchange="previewImg(this)">
+        <div class="upload-preview hidden" id="img-preview">
+          <img id="img-preview-el" style="width:100%;height:160px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+          <button type="button" class="btn-sm btn-del" style="margin-top:6px" onclick="clearUpload('img')"><i class="ri-delete-bin-line"></i> Supprimer</button>
+        </div>
+        <div style="margin-top:6px;font-size:11.5px;color:var(--muted)">Ou coller une URL :</div>
+        <input class="form-ctrl" id="mp-img-url" placeholder="https://..." style="margin-top:6px" oninput="if(this.value)showImgFromUrl(this.value)">
+      </div>
+
+      <!-- VIDEO UPLOAD -->
+      <div class="form-row">
+        <label class="form-label">Vidéo de démonstration</label>
+        <div class="upload-zone" id="vid-drop" onclick="document.getElementById('mp-vid-file').click()">
+          <div class="upload-inner" id="vid-inner">
+            <i class="ri-video-add-line" style="font-size:28px;color:var(--muted);margin-bottom:8px"></i>
+            <div style="font-size:13px;font-weight:600;color:var(--muted)">Cliquer pour choisir une vidéo</div>
+            <div style="font-size:11.5px;color:rgba(22,17,9,.3);margin-top:4px">MP4, MOV, WEBM — max 100 MB</div>
+          </div>
+        </div>
+        <input type="file" id="mp-vid-file" accept="video/*" style="display:none" onchange="previewVid(this)">
+        <div class="upload-preview hidden" id="vid-preview">
+          <video id="vid-preview-el" controls style="width:100%;border-radius:6px;border:1px solid var(--border);max-height:200px"></video>
+          <button type="button" class="btn-sm btn-del" style="margin-top:6px" onclick="clearUpload('vid')"><i class="ri-delete-bin-line"></i> Supprimer</button>
+        </div>
+        <div style="margin-top:6px;font-size:11.5px;color:var(--muted)">Ou URL YouTube / Vimeo :</div>
+        <input class="form-ctrl" id="mp-vid-url" placeholder="https://youtube.com/..." style="margin-top:6px">
+      </div>
+
+      <!-- Upload progress -->
+      <div id="upload-progress" class="hidden" style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+          <span id="upload-label">Upload en cours…</span>
+          <span id="upload-pct">0%</span>
+        </div>
+        <div style="background:var(--border);border-radius:20px;height:6px">
+          <div id="upload-bar" style="height:6px;border-radius:20px;background:var(--gold);width:0%;transition:width .3s"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm btn-edit" onclick="closeModal('modal-proj')">Annuler</button>
+      <button class="btn-sm btn-gold" id="mp-save-btn" onclick="saveProjet()"><i class="ri-save-line"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SERVICE -->
+<div class="modal-overlay hidden" id="modal-srv">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="ms-title">Nouveau service</span>
+      <button class="modal-close" onclick="closeModal('modal-srv')"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ms-id">
+      <div class="form-row">
+        <label class="form-label">Titre *</label>
+        <input class="form-ctrl" id="ms-titre" placeholder="Ex: Création de site web">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Sous-titre / tagline</label>
+        <input class="form-ctrl" id="ms-sous-titre" placeholder="Ex: Sites web professionnels qui convertissent">
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Icône (emoji ou ri-class)</label>
+          <input class="form-ctrl" id="ms-icon" placeholder="🌐">
+        </div>
+        <div>
+          <label class="form-label">Catégorie</label>
+          <select class="form-ctrl" id="ms-cat">
+            <option value="web">Développement Web</option>
+            <option value="marketing">Marketing</option>
+            <option value="hebergement">Hébergement</option>
+            <option value="ia">IA & Automatisation</option>
+            <option value="publicite">Publicité</option>
+            <option value="formation">Formation</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Description courte</label>
+        <textarea class="form-ctrl textarea" id="ms-desc" placeholder="Description courte du service (1-2 phrases)..."></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Description complète</label>
+        <textarea class="form-ctrl textarea" id="ms-desc-long" placeholder="Description détaillée du service..." style="min-height:100px"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Points forts (un par ligne)</label>
+        <textarea class="form-ctrl textarea" id="ms-points" placeholder="Design sur-mesure à votre image&#10;Optimisé mobile & SEO&#10;Livré clé en main..." style="min-height:80px"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Ce qui est inclus (un par ligne)</label>
+        <textarea class="form-ctrl textarea" id="ms-inclus" placeholder="Maquette validée avant développement&#10;Jusqu'à 8 pages incluses&#10;..." style="min-height:80px"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Durée estimée (ex: 7–14 jours)</label>
+        <input class="form-ctrl" id="ms-duree" placeholder="Ex: 7–14 jours, Mensuel, 24–72 heures">
+      </div>
+      <div class="form-row2">
+        <div>
+          <label class="form-label">Prix à partir de (FCFA)</label>
+          <input class="form-ctrl" id="ms-prix" type="number" placeholder="100000">
+        </div>
+        <div>
+          <label class="form-label">Statut</label>
+          <select class="form-ctrl" id="ms-actif">
+            <option value="true">Actif</option>
+            <option value="false">Inactif</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Formations liées (slugs, un par ligne) — pour les recommandations</label>
+        <textarea class="form-ctrl textarea" id="ms-formations" placeholder="formation-web-vitrine&#10;marketing-digital-pro&#10;ia-business" style="min-height:70px"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Image / Vidéo du service</label>
+        <div class="uz-sm" id="ms-img-drop" onclick="document.getElementById('ms-img-file').click()">
+          <div class="uz-sm-icon"><i class="ri-image-add-line"></i></div>
+          <div class="uz-sm-info">
+            <div class="uz-sm-title">Cliquer ou glisser un fichier</div>
+            <div class="uz-sm-sub">JPG, PNG, WebP, MP4 — max 50 Mo</div>
+          </div>
+        </div>
+        <input type="file" id="ms-img-file" accept="image/*,video/*" style="display:none" onchange="previewMsMedia(this)">
+        <div class="uz-sm-preview hidden" id="ms-img-preview">
+          <img id="ms-img-preview-el" src="" alt="" style="display:none">
+          <video id="ms-vid-preview-el" controls style="display:none;width:100%;max-height:140px"></video>
+          <button class="uz-sm-remove" onclick="clearMsMedia(event)" title="Supprimer"><i class="ri-close-line"></i></button>
+        </div>
+        <input type="hidden" id="ms-img-url" value="">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm btn-edit" onclick="closeModal('modal-srv')">Annuler</button>
+      <button class="btn-sm btn-gold" id="ms-save-btn" onclick="saveService()"><i class="ri-save-line"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTACT DETAIL -->
+<div class="modal-overlay hidden" id="modal-contact">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">Détail du message</span>
+      <button class="modal-close" onclick="closeModal('modal-contact')"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body" id="modal-contact-body"></div>
+    <div class="modal-foot">
+      <button class="btn-sm btn-edit" onclick="closeModal('modal-contact')">Fermer</button>
+      <button class="btn-sm btn-primary" id="contact-status-btn"></button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CLIENT DETAIL -->
+<div class="modal-overlay hidden" id="modal-client">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">Détail client</span>
+      <button class="modal-close" onclick="closeModal('modal-client')"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body" id="modal-client-body"></div>
+    <div class="modal-foot">
+      <button class="btn-sm btn-edit" onclick="closeModal('modal-client')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="data/formations.js"></script>
+<script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script>
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let _formations = [];
+let _services   = [];
+let _clients    = [];
+let _achats     = [];
+let _contacts   = [];
+let _paiements  = [];
+let _analytics  = [];
+let _charts     = {};
+
+// Upload state for formations modal
+let _mfImgFile = null;
+let _mfImgExistingUrl = '';
+let _mfIsVideo = false;
+
+// Upload state for services modal
+let _msImgFile = null;
+let _msImgExistingUrl = '';
+let _msIsVideo = false;
+
+function _slugify(str) {
+  return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+    + '-' + Date.now().toString(36);
+}
+
+// ─────────────────────────────────────────────
+// CHARTS DEFAULTS
+// ─────────────────────────────────────────────
+Chart.defaults.font.family = "'Hanken Grotesk', sans-serif";
+Chart.defaults.color = 'rgba(22,17,9,.45)';
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+(async function init() {
+  try { await AUTH.init(); } catch(e) { console.error('[ADMIN] AUTH.init:', e); }
+
+  if (AUTH.user && AUTH.isAdmin()) {
+    bootAdmin();
+  } else if (AUTH.user) {
+    // Connecté mais pas admin
+    window.location.href = 'espace-client.html';
+  } else {
+    // Non connecté
+    window.location.href = 'connexion.html';
+  }
+})();
+
+async function bootAdmin() {
+  sessionStorage.removeItem('_cx_tries'); // Connexion admin confirmée — réinitialiser la protection
+  const loader = document.getElementById('admin-loading');
+  if (loader) loader.style.display = 'none';
+  document.getElementById('admin-layout').classList.remove('hidden');
+
+  // Update sidebar user info
+  const profile = AUTH.profile;
+  const user    = AUTH.user;
+  if (profile) {
+    document.getElementById('s-name').textContent = (profile.prenom || '') + ' ' + (profile.nom || '');
+    document.getElementById('s-avatar').textContent = ((profile.prenom || profile.email || 'A')[0]).toUpperCase();
+  } else if (user) {
+    document.getElementById('s-name').textContent = user.email;
+  }
+
+  // Init admin DB (use service_role key if available)
+  if (window.DB && typeof DB.initAdmin === 'function') {
+    try { DB.initAdmin(); } catch(e) {}
+  }
+
+  // Setup nav
+  document.querySelectorAll('.s-link[data-page]').forEach(el => {
+    el.addEventListener('click', () => showPage(el.dataset.page));
+  });
+
+  // Load all data
+  await Promise.all([
+    loadProjets(),
+    loadFormations(),
+    loadServices(),
+    loadClients(),
+    loadAchats(),
+    loadContacts(),
+    loadPaiements()
+  ]);
+  loadAnalytics();
+
+  buildDashboard();
+  buildCompta();
+}
+
+async function doLogout() {
+  await AUTH.logout();
+  location.reload();
+}
+
+// ─────────────────────────────────────────────
+// PAGE NAVIGATION
+// ─────────────────────────────────────────────
+const PAGE_TITLES = {
+  dashboard:  'Tableau de bord',
+  compta:     'Comptabilité',
+  projets:    'Sites à vendre',
+  formations: 'Formations',
+  services:   'Services',
+  clients:    'Clients',
+  achats:     'Achats',
+  contacts:   'Messages',
+  analytics:  'Analytics'
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.s-link').forEach(l => l.classList.remove('on'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('on');
+  const link = document.querySelector('.s-link[data-page="' + id + '"]');
+  if (link) link.classList.add('on');
+  document.getElementById('page-title').textContent = PAGE_TITLES[id] || id;
+  document.getElementById('topbar-actions').innerHTML = '';
+
+  if (id === 'projets') {
+    renderProjets();
+    setTopbarActions(`<button class="tb-btn gold" onclick="openProjModal()"><i class="ri-add-line"></i> Nouveau projet</button>`);
+  } else if (id === 'formations') {
+    renderFormations();
+    setTopbarActions(`<button class="tb-btn gold" onclick="openFormModal()"><i class="ri-add-line"></i> Nouvelle formation</button>`);
+  } else if (id === 'services') {
+    renderServices();
+    setTopbarActions(`<button class="tb-btn gold" onclick="openSrvModal()"><i class="ri-add-line"></i> Nouveau service</button>`);
+  } else if (id === 'clients') {
+    renderClients();
+  } else if (id === 'achats') {
+    renderAchats();
+    setTopbarActions(`<button class="tb-btn outline" onclick="exportAchatsCSV()"><i class="ri-download-line"></i> Exporter</button>`);
+  } else if (id === 'contacts') {
+    renderContacts();
+  } else if (id === 'compta') {
+    buildCompta();
+    setTopbarActions(`<button class="tb-btn outline" onclick="exportComptaCSV()"><i class="ri-download-line"></i> Exporter</button>`);
+  } else if (id === 'analytics') {
+    buildAnalytics();
+  }
+}
+
+function setTopbarActions(html) {
+  document.getElementById('topbar-actions').innerHTML = html;
+}
+
+// ─────────────────────────────────────────────
+// DATA LOADERS
+// ─────────────────────────────────────────────
+let _projets = [];
+
+async function loadProjets() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('projets_vente').select('*').order('created_at', { ascending: false });
+      if (!error && data) {
+        _projets = data;
+        updateBadge('projets', data.filter(p => p.statut === 'disponible').length);
+        return;
+      }
+    }
+  } catch(e) {}
+  _projets = [];
+  updateBadge('projets', 0);
+}
+
+async function loadFormations() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('formations').select('*').order('created_at', { ascending: false });
+      if (!error && data && data.length > 0) {
+        _formations = data;
+        updateBadge('formations', _formations.length);
+        return;
+      }
+    }
+  } catch(e) {}
+  // Fallback to local data
+  _formations = (window.AF_FORMATIONS_ALL || window.AF_FORMATIONS || []).map((f, i) => ({
+    id: f.id || ('local-' + i),
+    titre: f.titre || f.title || '',
+    description: f.description || f.desc || '',
+    description_longue: f.description_longue || '',
+    prix: f.prix || f.price || 0,
+    categorie: f.categorie || f.category || '',
+    format: f.format || 'video',
+    duree: f.duree || f.duration || '',
+    niveau: f.niveau || 'debutant',
+    image_url: f.image_url || f.image || '',
+    icon: f.icon || f.emoji || '📚',
+    actif: f.actif !== undefined ? f.actif : true,
+    created_at: f.created_at || new Date().toISOString()
+  }));
+  updateBadge('formations', _formations.length);
+}
+
+async function loadServices() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('services').select('*').order('created_at', { ascending: false });
+      if (!error && data && data.length > 0) {
+        _services = data;
+        updateBadge('services', _services.length);
+        return;
+      }
+    }
+  } catch(e) {}
+  // Default services
+  _services = [
+    { id: 'srv-1', titre: 'Création de site web', icon: '🌐', categorie: 'web', prix: 150000, description: 'Sites vitrines, e-commerce, landing pages.', actif: true },
+    { id: 'srv-2', titre: 'Marketing digital', icon: '📢', categorie: 'marketing', prix: 80000, description: 'Stratégie réseaux sociaux, campagnes, contenu.', actif: true },
+    { id: 'srv-3', titre: 'Hébergement web', icon: '🖥️', categorie: 'hebergement', prix: 30000, description: 'Hébergement sécurisé, domaine, maintenance.', actif: true },
+    { id: 'srv-4', titre: 'Automatisation IA', icon: '🤖', categorie: 'ia', prix: 200000, description: 'Chatbots, automatisation de workflows, IA.', actif: true },
+    { id: 'srv-5', titre: 'Publicité en ligne', icon: '📣', categorie: 'publicite', prix: 50000, description: 'Campagnes Google Ads, Meta Ads, TikTok.', actif: true },
+  ];
+  updateBadge('services', _services.length);
+}
+
+async function loadClients() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('profiles').select('*').order('created_at', { ascending: false });
+      if (!error && data) {
+        _clients = data.filter(p => p.role !== 'admin');
+        updateBadge('clients', _clients.length);
+        return;
+      }
+    }
+  } catch(e) {}
+  _clients = [];
+  updateBadge('clients', 0);
+}
+
+async function loadAchats() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('achats').select('*, profiles(email,nom,prenom), formations(titre,prix)').order('created_at', { ascending: false });
+      if (!error && data) {
+        _achats = data;
+        updateBadge('achats', _achats.length);
+        return;
+      }
+    }
+  } catch(e) {}
+  _achats = [];
+  updateBadge('achats', 0);
+}
+
+async function loadContacts() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('contacts').select('*').order('created_at', { ascending: false });
+      if (!error && data) {
+        _contacts = data;
+        const unread = data.filter(c => c.statut === 'nouveau' || !c.statut).length;
+        updateBadge('contacts', unread, true);
+        return;
+      }
+    }
+  } catch(e) {}
+  _contacts = [];
+  updateBadge('contacts', 0, true);
+}
+
+async function loadPaiements() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('paiements').select('*, contacts(nom,email), formations(id,titre), services(titre)').order('created_at', { ascending: false });
+      if (!error && data) { _paiements = data; return; }
+    }
+  } catch(e) {}
+  _paiements = [];
+}
+
+async function loadAnalytics() {
+  try {
+    if (window.DB && DB.client) {
+      const { data, error } = await DB.client.from('analytics_visites').select('*').order('date', { ascending: false }).limit(30);
+      if (!error && data) { _analytics = data.reverse(); buildAnalytics(); return; }
+    }
+  } catch(e) {}
+  _analytics = [];
+  buildAnalytics();
+}
+
+function updateBadge(key, count, isRed = false) {
+  const el = document.getElementById('badge-' + key);
+  if (!el) return;
+  el.textContent = count;
+  if (count === 0) el.classList.add('hidden');
+  else el.classList.remove('hidden');
+}
+
+// ─────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────
+function buildDashboard() {
+  // KPIs
+  const totalCA = _mergeTransactions().filter(t => t.statut === 'confirme').reduce((s, t) => s + (t.montant || 0), 0);
+  const activeF = _formations.filter(f => f.actif !== false).length;
+  const unread  = _contacts.filter(c => c.statut === 'nouveau' || !c.statut).length;
+  document.getElementById('kpi-ca').textContent = _fmtMoney(totalCA);
+  document.getElementById('kpi-formations').textContent = activeF;
+  document.getElementById('kpi-clients').textContent = _clients.length;
+  document.getElementById('kpi-msgs').textContent = unread;
+
+  // Revenue chart
+  _buildRevenueChart('chart-revenue', 6);
+
+  // Feed
+  _buildFeed();
+
+  // Recent achats
+  _renderDashAchats();
+}
+
+function _buildRevenueChart(canvasId, months) {
+  const labels = [];
+  const data   = [];
+  const now = new Date();
+  for (let i = months - 1; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    labels.push(d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }));
+    const sum = _mergeTransactions()
+      .filter(t => t.statut === 'confirme' && _sameMonth(t.created_at, d))
+      .reduce((s, t) => s + (t.montant || 0), 0);
+    data.push(sum);
+  }
+  const ctx = document.getElementById(canvasId);
+  if (!ctx) return;
+  if (_charts[canvasId]) _charts[canvasId].destroy();
+  _charts[canvasId] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ label: 'Revenus (FCFA)', data, backgroundColor: 'rgba(200,151,58,.75)', borderRadius: 5, borderSkipped: false }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(22,17,9,.06)' }, ticks: { callback: v => _fmtMoneyShort(v) } }, x: { grid: { display: false } } } }
+  });
+}
+
+function _buildFeed() {
+  const items = [];
+  _achats.slice(0, 5).forEach(a => {
+    const name = a.profiles?.prenom ? (a.profiles.prenom + ' ' + (a.profiles.nom || '')) : (a.profiles?.email || 'Client');
+    items.push({ dot: 'gold', text: `<b>${name}</b> a acheté <b>${a.formations?.titre || 'une formation'}</b>`, time: a.created_at });
+  });
+  _contacts.filter(c => c.statut === 'nouveau' || !c.statut).slice(0, 3).forEach(c => {
+    items.push({ dot: 'red', text: `Nouveau message de <b>${c.nom || c.email || 'Inconnu'}</b> — ${c.sujet || ''}`, time: c.created_at });
+  });
+  items.sort((a, b) => new Date(b.time) - new Date(a.time));
+  const el = document.getElementById('feed-list');
+  if (!items.length) {
+    el.innerHTML = '<div class="empty"><i class="ri-pulse-line"></i><p>Aucune activité récente</p></div>';
+    return;
+  }
+  el.innerHTML = items.slice(0, 8).map(it => `
+    <div class="feed-item">
+      <div class="feed-dot ${it.dot}"></div>
+      <div><div class="feed-text">${it.text}</div><div class="feed-time">${_fmtDate(it.time)}</div></div>
+    </div>`).join('');
+}
+
+function _renderDashAchats() {
+  const tbody = document.getElementById('dash-achats-tbody');
+  if (!_achats.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">Aucun achat</td></tr>';
+    return;
+  }
+  tbody.innerHTML = _achats.slice(0, 8).map(a => {
+    const name = a.profiles?.prenom ? (a.profiles.prenom + ' ' + (a.profiles.nom || '')) : (a.profiles?.email || '—');
+    return `<tr>
+      <td><div style="font-weight:600;font-size:13px">${name}</div><div style="font-size:11px;color:var(--muted)">${a.profiles?.email || ''}</div></td>
+      <td>${a.formations?.titre || '—'}</td>
+      <td style="font-family:var(--disp);font-weight:700;color:var(--gold)">${_fmtMoney(a.montant || 0)}</td>
+      <td>${_statusBadge(a.statut)}</td>
+      <td style="font-size:12px;color:var(--muted)">${_fmtDate(a.created_at)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// COMPTABILITÉ
+// ─────────────────────────────────────────────
+function buildCompta() {
+  const txns = _mergeTransactions();
+  const confirmes  = txns.filter(t => t.statut === 'confirme');
+  const enAttente  = txns.filter(t => t.statut === 'en_attente' || !t.statut);
+  const now = new Date();
+  const thisMonth  = txns.filter(t => t.statut === 'confirme' && _sameMonth(t.created_at, now));
+
+  const totalConf  = confirmes.reduce((s, t) => s + (t.montant || 0), 0);
+  const totalMois  = thisMonth.reduce((s, t) => s + (t.montant || 0), 0);
+  const totalAtt   = enAttente.reduce((s, t) => s + (t.montant || 0), 0);
+
+  document.getElementById('compta-total').textContent = _fmtMoney(totalConf);
+  document.getElementById('c-confirme').textContent = _fmtMoney(totalConf);
+  document.getElementById('c-mois').textContent = _fmtMoney(totalMois);
+  document.getElementById('c-attente').textContent = _fmtMoney(totalAtt);
+
+  // Breakdown
+  const fromAchats   = confirmes.filter(t => t._type === 'achat').reduce((s, t) => s + (t.montant || 0), 0);
+  const fromServices = confirmes.filter(t => t._type === 'paiement').reduce((s, t) => s + (t.montant || 0), 0);
+  const total = fromAchats + fromServices || 1;
+  document.getElementById('bp-formations').textContent = _fmtMoney(fromAchats);
+  document.getElementById('bp-services').textContent = _fmtMoney(fromServices);
+  document.getElementById('bar-formations').style.width = Math.round(fromAchats / total * 100) + '%';
+  document.getElementById('bar-services').style.width = Math.round(fromServices / total * 100) + '%';
+
+  // 12-month chart
+  _buildRevenueChart('chart-compta', 12);
+
+  // Table
+  renderComptaTable(txns);
+}
+
+function _mergeTransactions() {
+  const achats = _achats.map(a => ({
+    ...a,
+    _type: 'achat',
+    article: a.formations?.titre || '—',
+    client_nom: a.profiles?.prenom ? (a.profiles.prenom + ' ' + (a.profiles.nom || '')) : (a.profiles?.email || '—'),
+    client_email: a.profiles?.email || '—',
+  }));
+  const pays = _paiements.map(p => ({
+    ...p,
+    _type: 'paiement',
+    article: p.formations?.titre || p.services?.titre || p.notes || '—',
+    client_nom:   p.nom_payeur   || p.contacts?.nom   || '—',
+    client_email: p.email_payeur || p.contacts?.email  || '—',
+    formation_id: p.formation_id || p.formations?.id   || '',
+  }));
+  return [...achats, ...pays].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+}
+
+function renderComptaTable(txns) {
+  const search = (document.getElementById('f-compta-search')?.value || '').toLowerCase();
+  const status = document.getElementById('f-compta-status')?.value || '';
+  const type   = document.getElementById('f-compta-type')?.value || '';
+  let list = txns;
+  if (search) list = list.filter(t => (t.client_nom + t.article + t.client_email).toLowerCase().includes(search));
+  if (status) list = list.filter(t => (t.statut || '') === status);
+  if (type)   list = list.filter(t => t._type === type);
+  const tbody = document.getElementById('compta-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px">Aucune transaction</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(t => {
+    const clientNom   = t.nom_payeur   || t.client_nom   || '—';
+    const clientEmail = t.email_payeur || t.client_email || '—';
+    const clientTel   = t.telephone_payeur ? `<div style="font-size:11px;color:var(--muted)">${t.telephone_payeur}</div>` : '';
+    const methodeIcon = { wave:'ri-send-plane-2-line', orange_money:'ri-smartphone-line', moov:'ri-sim-card-line' }[t.methode] || 'ri-bank-card-line';
+    const preuveHtml  = t.preuve_url
+      ? `<a href="${t.preuve_url}" target="_blank" title="Voir la preuve"><img src="${t.preuve_url}" style="width:38px;height:38px;object-fit:cover;border-radius:4px;border:1px solid var(--border);display:block" alt="preuve"></a>`
+      : `<span style="font-size:11px;color:var(--muted)">—</span>`;
+    return `<tr${t.statut === 'en_attente' && t._type === 'paiement' ? ' class="unread-row"' : ''}>
+    <td style="font-size:12px;white-space:nowrap">${_fmtDate(t.created_at)}</td>
+    <td>
+      <div style="font-weight:600">${clientNom}</div>
+      <div style="font-size:11px;color:var(--muted)">${clientEmail}</div>
+      ${clientTel}
+    </td>
+    <td>
+      <div>${t.article}</div>
+      ${t.methode ? `<div style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-top:2px"><i class="${methodeIcon}" style="font-size:12px"></i>${t.methode.replace('_',' ')}</div>` : ''}
+    </td>
+    <td><span class="badge ${t._type === 'achat' ? 'badge-ok' : 'badge-warn'}">${t._type === 'achat' ? 'Achat' : 'Paiement'}</span></td>
+    <td style="font-family:var(--disp);font-weight:700;color:var(--gold)">${_fmtMoney(t.montant || 0)}</td>
+    <td>${_statusBadge(t.statut)}</td>
+    <td>${preuveHtml}</td>
+    <td>
+      <div class="tbl-actions">
+        ${(t.statut === 'en_attente' || !t.statut) ? `<button class="icon-btn ok" title="Confirmer & donner accès" onclick="confirmTxn('${t.id}','${t._type}','${t.formation_id||''}','${clientEmail}')"><i class="ri-check-line"></i></button>` : ''}
+        ${t.statut === 'en_attente' && t._type === 'paiement' ? `<button class="icon-btn del" title="Rejeter" onclick="rejectTxn('${t.id}')"><i class="ri-close-line"></i></button>` : ''}
+      </div>
+    </td>
+  </tr>`;
+  }).join('');
+}
+
+function filterCompta() {
+  renderComptaTable(_mergeTransactions());
+}
+
+async function confirmTxn(id, type, formationId, emailPayeur) {
+  if(!confirm('Confirmer ce paiement et activer l\'accès ?')) return;
+  try {
+    if (window.DB && DB.client) {
+      const table = type === 'achat' ? 'achats' : 'paiements';
+      await DB.client.from(table).update({ statut: 'confirme' }).eq('id', id);
+
+      // Si c'est un paiement lié à une formation → créer un achat avec accès
+      if (type === 'paiement' && formationId && formationId !== 'null' && formationId !== '') {
+        try {
+          // Chercher le profil client par email pour obtenir son user_id
+          const paiement = _paiements.find(x => x.id == id);
+          const { data: profileData } = await DB.client
+            .from('profiles').select('id').eq('email', emailPayeur).single();
+          if (profileData?.id) {
+            await DB.client.from('achats').insert([{
+              user_id:      profileData.id,
+              formation_id: formationId,
+              montant:      paiement?.montant || 0,
+              devise:       paiement?.devise || 'FCFA',
+              methode:      paiement?.methode || 'autre',
+              statut:       'confirme',
+              acces_actif:  true,
+            }]).onConflict('reference').ignore();
+          }
+        } catch(e2) {
+          console.warn('[Admin] Impossible de créer l\'achat automatiquement:', e2.message);
+        }
+      }
+    }
+    // Mise à jour locale
+    if (type === 'achat') {
+      const a = _achats.find(x => x.id == id);
+      if (a) a.statut = 'confirme';
+    } else {
+      const p = _paiements.find(x => x.id == id);
+      if (p) p.statut = 'confirme';
+    }
+    buildCompta();
+    buildDashboard();
+    showToast('Paiement confirmé — accès activé ✓', 'ok');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  }
+}
+
+async function rejectTxn(id) {
+  if(!confirm('Rejeter ce paiement ?')) return;
+  try {
+    if (window.DB && DB.client) {
+      await DB.client.from('paiements').update({ statut: 'litige', notes: 'Rejeté par l\'admin.' }).eq('id', id);
+    }
+    const p = _paiements.find(x => x.id == id);
+    if (p) p.statut = 'litige';
+    buildCompta();
+    showToast('Paiement rejeté', 'err');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  }
+}
+
+function exportComptaCSV() {
+  const txns = _mergeTransactions();
+  const rows = [['Date','Client','Email','Article','Type','Montant','Statut']];
+  txns.forEach(t => rows.push([_fmtDate(t.created_at), t.client_nom, t.client_email, t.article, t._type, t.montant || 0, t.statut || '']));
+  _downloadCSV('comptabilite.csv', rows);
+}
+
+// ─────────────────────────────────────────────
+// PROJETS À VENDRE
+// ─────────────────────────────────────────────
+function renderProjets() {
+  const search = (document.getElementById('f-proj-search')?.value || '').toLowerCase();
+  const status = document.getElementById('f-proj-status')?.value || '';
+  let list = _projets;
+  if (search) list = list.filter(p => (p.titre + (p.description || '')).toLowerCase().includes(search));
+  if (status) list = list.filter(p => (p.statut || 'disponible') === status);
+  const grid = document.getElementById('projets-grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><i class="ri-store-3-line"></i><p>Aucun projet à vendre</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const statusMap = { disponible: ['badge-ok','Disponible'], reserve: ['badge-warn','Réservé'], vendu: ['badge-err','Vendu'] };
+    const [cls, lbl] = statusMap[p.statut || 'disponible'] || ['badge-gray', p.statut];
+    const technos = (p.technos || '').split(',').map(t => t.trim()).filter(Boolean);
+    return `
+    <div class="form-card">
+      <div style="position:relative;height:160px;background:rgba(22,17,9,.05);overflow:hidden">
+        ${p.image_url ? `<img src="${p.image_url}" style="width:100%;height:100%;object-fit:cover">` :
+          `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(22,17,9,.15)"><i class="ri-image-line" style="font-size:40px"></i></div>`}
+        <span class="badge ${cls}" style="position:absolute;top:10px;right:10px">${lbl}</span>
+        ${p.video_url ? `<div style="position:absolute;top:10px;left:10px;background:rgba(22,17,9,.6);color:#fff;border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;display:flex;align-items:center;gap:4px"><i class="ri-play-fill"></i> Vidéo</div>` : ''}
+      </div>
+      <div class="form-card-body">
+        <div class="form-card-head" style="border:none;padding:0 0 10px 0">
+          <div class="form-card-title">${p.titre}</div>
+          <div class="form-cat">${technos.slice(0,3).join(' · ')}</div>
+        </div>
+        <div class="form-meta">
+          <span class="form-price">${_fmtMoney(p.prix || 0)}</span>
+          ${p.url_demo ? `<a href="${p.url_demo}" target="_blank" class="btn-sm btn-edit" style="text-decoration:none;font-size:10.5px"><i class="ri-external-link-line"></i> Démo</a>` : ''}
+        </div>
+        ${p.description_courte ? `<div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.4">${p.description_courte.slice(0,80)}${p.description_courte.length > 80 ? '…' : ''}</div>` : ''}
+        <div class="form-actions">
+          <button class="btn-sm btn-edit" onclick="openProjModal('${p.id}')"><i class="ri-edit-line"></i> Modifier</button>
+          <button class="btn-sm btn-del" onclick="deleteProjet('${p.id}')"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterProjets() { renderProjets(); }
+
+// Upload state
+let _imgFile = null, _vidFile = null;
+let _imgExistingUrl = '', _vidExistingUrl = '';
+
+function openProjModal(id) {
+  const p = id ? _projets.find(x => String(x.id) === String(id)) : null;
+  _imgFile = null; _vidFile = null;
+  document.getElementById('mp-id').value             = p?.id || '';
+  document.getElementById('mp-titre').value          = p?.titre || '';
+  document.getElementById('mp-desc-court').value     = p?.description_courte || '';
+  document.getElementById('mp-desc').value           = p?.description || '';
+  document.getElementById('mp-prix').value           = p?.prix || '';
+  document.getElementById('mp-statut').value         = p?.statut || 'disponible';
+  document.getElementById('mp-technos').value        = p?.technos || '';
+  document.getElementById('mp-url-demo').value       = p?.url_demo || '';
+  document.getElementById('mp-img-url').value        = p?.image_url || '';
+  document.getElementById('mp-vid-url').value        = p?.video_url || '';
+  document.getElementById('mp-img-file').value       = '';
+  document.getElementById('mp-vid-file').value       = '';
+  _imgExistingUrl = p?.image_url || '';
+  _vidExistingUrl = p?.video_url || '';
+  // Reset previews
+  document.getElementById('img-preview').classList.add('hidden');
+  document.getElementById('img-inner').style.display = 'flex';
+  document.getElementById('vid-preview').classList.add('hidden');
+  document.getElementById('vid-inner').style.display = 'flex';
+  // Show existing image if any
+  if (p?.image_url) showImgFromUrl(p.image_url);
+  document.getElementById('mp-title').textContent = p ? 'Modifier le projet' : 'Nouveau projet à vendre';
+  openModal('modal-proj');
+}
+
+function previewImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  _imgFile = file;
+  const url = URL.createObjectURL(file);
+  document.getElementById('img-preview-el').src = url;
+  document.getElementById('img-preview').classList.remove('hidden');
+  document.getElementById('img-inner').style.display = 'none';
+  document.getElementById('mp-img-url').value = '';
+}
+
+function previewVid(input) {
+  const file = input.files[0];
+  if (!file) return;
+  _vidFile = file;
+  const url = URL.createObjectURL(file);
+  document.getElementById('vid-preview-el').src = url;
+  document.getElementById('vid-preview').classList.remove('hidden');
+  document.getElementById('vid-inner').style.display = 'none';
+}
+
+function showImgFromUrl(url) {
+  if (!url) return;
+  document.getElementById('img-preview-el').src = url;
+  document.getElementById('img-preview').classList.remove('hidden');
+  document.getElementById('img-inner').style.display = 'none';
+  _imgFile = null;
+}
+
+function clearUpload(type) {
+  if (type === 'img') {
+    _imgFile = null;
+    document.getElementById('mp-img-file').value = '';
+    document.getElementById('mp-img-url').value = '';
+    document.getElementById('img-preview').classList.add('hidden');
+    document.getElementById('img-inner').style.display = 'flex';
+    _imgExistingUrl = '';
+  } else {
+    _vidFile = null;
+    document.getElementById('mp-vid-file').value = '';
+    document.getElementById('vid-preview').classList.add('hidden');
+    document.getElementById('vid-inner').style.display = 'flex';
+    _vidExistingUrl = '';
+  }
+}
+
+// ─────────────────────────────────────────────
+// MEDIA UPLOAD — FORMATIONS
+// ─────────────────────────────────────────────
+function previewMfMedia(input) {
+  const file = input.files[0];
+  if (!file) return;
+  _mfImgFile = file;
+  _mfIsVideo = file.type.startsWith('video/');
+  const preview = document.getElementById('mf-img-preview');
+  const img     = document.getElementById('mf-img-preview-el');
+  const vid     = document.getElementById('mf-vid-preview-el');
+  preview.classList.remove('hidden');
+  if (_mfIsVideo) {
+    img.style.display = 'none';
+    vid.style.display = 'block';
+    vid.src = URL.createObjectURL(file);
+  } else {
+    vid.style.display = 'none';
+    img.style.display = 'block';
+    img.src = URL.createObjectURL(file);
+  }
+  document.getElementById('mf-img-drop').style.display = 'none';
+}
+
+function clearMfMedia(e) {
+  e.stopPropagation();
+  _mfImgFile = null; _mfImgExistingUrl = '';
+  document.getElementById('mf-img-file').value = '';
+  document.getElementById('mf-img-url').value = '';
+  document.getElementById('mf-img-preview').classList.add('hidden');
+  document.getElementById('mf-img-preview-el').src = '';
+  document.getElementById('mf-vid-preview-el').src = '';
+  document.getElementById('mf-img-drop').style.display = 'flex';
+}
+
+function _mfShowExisting(url) {
+  if (!url) return;
+  _mfImgExistingUrl = url;
+  const isVid = /\.(mp4|webm|ogg)(\?|$)/i.test(url);
+  const preview = document.getElementById('mf-img-preview');
+  const img     = document.getElementById('mf-img-preview-el');
+  const vid     = document.getElementById('mf-vid-preview-el');
+  preview.classList.remove('hidden');
+  if (isVid) { vid.style.display='block'; vid.src=url; img.style.display='none'; }
+  else        { img.style.display='block'; img.src=url; vid.style.display='none'; }
+  document.getElementById('mf-img-drop').style.display = 'none';
+}
+
+// ─────────────────────────────────────────────
+// MEDIA UPLOAD — SERVICES
+// ─────────────────────────────────────────────
+function previewMsMedia(input) {
+  const file = input.files[0];
+  if (!file) return;
+  _msImgFile = file;
+  _msIsVideo = file.type.startsWith('video/');
+  const preview = document.getElementById('ms-img-preview');
+  const img     = document.getElementById('ms-img-preview-el');
+  const vid     = document.getElementById('ms-vid-preview-el');
+  preview.classList.remove('hidden');
+  if (_msIsVideo) {
+    img.style.display = 'none';
+    vid.style.display = 'block';
+    vid.src = URL.createObjectURL(file);
+  } else {
+    vid.style.display = 'none';
+    img.style.display = 'block';
+    img.src = URL.createObjectURL(file);
+  }
+  document.getElementById('ms-img-drop').style.display = 'none';
+}
+
+function clearMsMedia(e) {
+  e.stopPropagation();
+  _msImgFile = null; _msImgExistingUrl = '';
+  document.getElementById('ms-img-file').value = '';
+  document.getElementById('ms-img-url').value = '';
+  document.getElementById('ms-img-preview').classList.add('hidden');
+  document.getElementById('ms-img-preview-el').src = '';
+  document.getElementById('ms-vid-preview-el').src = '';
+  document.getElementById('ms-img-drop').style.display = 'flex';
+}
+
+function _msShowExisting(url) {
+  if (!url) return;
+  _msImgExistingUrl = url;
+  const isVid = /\.(mp4|webm|ogg)(\?|$)/i.test(url);
+  const preview = document.getElementById('ms-img-preview');
+  const img     = document.getElementById('ms-img-preview-el');
+  const vid     = document.getElementById('ms-vid-preview-el');
+  preview.classList.remove('hidden');
+  if (isVid) { vid.style.display='block'; vid.src=url; img.style.display='none'; }
+  else        { img.style.display='block'; img.src=url; vid.style.display='none'; }
+  document.getElementById('ms-img-drop').style.display = 'none';
+}
+
+async function _uploadFile(file, bucket, folder) {
+  if (!window.DB || !DB.client) throw new Error('Supabase non disponible');
+  const ext  = file.name.split('.').pop();
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { data, error } = await DB.client.storage.from(bucket).upload(path, file, { upsert: false });
+  if (error) throw error;
+  const { data: urlData } = DB.client.storage.from(bucket).getPublicUrl(path);
+  return urlData.publicUrl;
+}
+
+function _setProgress(label, pct) {
+  const wrap = document.getElementById('upload-progress');
+  wrap.classList.toggle('hidden', pct < 0);
+  if (pct >= 0) {
+    document.getElementById('upload-label').textContent = label;
+    document.getElementById('upload-pct').textContent = pct + '%';
+    document.getElementById('upload-bar').style.width = pct + '%';
+  }
+}
+
+async function saveProjet() {
+  const id = document.getElementById('mp-id').value;
+  const titre = document.getElementById('mp-titre').value.trim();
+  if (!titre) { showToast('Le titre est requis', 'err'); return; }
+
+  const btn = document.getElementById('mp-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+
+  try {
+    let image_url = document.getElementById('mp-img-url').value.trim() || _imgExistingUrl;
+    let video_url = document.getElementById('mp-vid-url').value.trim() || _vidExistingUrl;
+
+    // Upload image if new file selected
+    if (_imgFile) {
+      _setProgress('Upload image…', 20);
+      image_url = await _uploadFile(_imgFile, 'projets', 'images');
+      _setProgress('Image OK', 50);
+    }
+
+    // Upload video if new file selected
+    if (_vidFile) {
+      _setProgress('Upload vidéo…', 60);
+      video_url = await _uploadFile(_vidFile, 'projets', 'videos');
+      _setProgress('Vidéo OK', 95);
+    }
+
+    _setProgress('Enregistrement…', 98);
+
+    const payload = {
+      titre,
+      description_courte: document.getElementById('mp-desc-court').value.trim(),
+      description:        document.getElementById('mp-desc').value.trim(),
+      prix:               parseFloat(document.getElementById('mp-prix').value) || 0,
+      statut:             document.getElementById('mp-statut').value,
+      technos:            document.getElementById('mp-technos').value.trim(),
+      url_demo:           document.getElementById('mp-url-demo').value.trim(),
+      image_url,
+      video_url,
+    };
+
+    if (id) {
+      if (window.DB && DB.client) {
+        const { data, error } = await DB.client.from('projets_vente').update(payload).eq('id', id).select().single();
+        if (error) throw error;
+        const idx = _projets.findIndex(p => String(p.id) === id);
+        if (idx >= 0) _projets[idx] = data;
+      } else {
+        const idx = _projets.findIndex(p => String(p.id) === id);
+        if (idx >= 0) _projets[idx] = { ..._projets[idx], ...payload };
+      }
+    } else {
+      if (window.DB && DB.client) {
+        const { data, error } = await DB.client.from('projets_vente').insert(payload).select().single();
+        if (error) throw error;
+        _projets.unshift(data);
+      } else {
+        _projets.unshift({ id: 'local-' + Date.now(), ...payload, created_at: new Date().toISOString() });
+      }
+    }
+
+    _setProgress('', -1);
+    closeModal('modal-proj');
+    renderProjets();
+    updateBadge('projets', _projets.filter(p => p.statut === 'disponible').length);
+    showToast('Projet enregistré ✓', 'ok');
+  } catch(e) {
+    _setProgress('', -1);
+    showToast('Erreur: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ri-save-line"></i> Enregistrer';
+  }
+}
+
+async function deleteProjet(id) {
+  if (!confirm('Supprimer ce projet définitivement ?')) return;
+  try {
+    if (window.DB && DB.client && !String(id).startsWith('local-')) {
+      const { error } = await DB.client.from('projets_vente').delete().eq('id', id);
+      if (error) throw error;
+    }
+    _projets = _projets.filter(p => String(p.id) !== String(id));
+    renderProjets();
+    updateBadge('projets', _projets.filter(p => p.statut === 'disponible').length);
+    showToast('Projet supprimé', 'ok');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  }
+}
+
+// Drag & drop on upload zones
+document.addEventListener('DOMContentLoaded', () => {
+  ['img-drop','vid-drop'].forEach(zoneId => {
+    const zone = document.getElementById(zoneId);
+    if (!zone) return;
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.classList.remove('drag');
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      if (zoneId === 'img-drop') { const dt = new DataTransfer(); dt.items.add(file); document.getElementById('mp-img-file').files = dt.files; previewImg(document.getElementById('mp-img-file')); }
+      else { const dt = new DataTransfer(); dt.items.add(file); document.getElementById('mp-vid-file').files = dt.files; previewVid(document.getElementById('mp-vid-file')); }
+    });
+  });
+
+  // Drag & drop — formations image
+  const mfDrop = document.getElementById('mf-img-drop');
+  if (mfDrop) {
+    mfDrop.addEventListener('dragover', e => { e.preventDefault(); mfDrop.classList.add('drag'); });
+    mfDrop.addEventListener('dragleave', () => mfDrop.classList.remove('drag'));
+    mfDrop.addEventListener('drop', e => {
+      e.preventDefault(); mfDrop.classList.remove('drag');
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      const dt = new DataTransfer(); dt.items.add(file);
+      const inp = document.getElementById('mf-img-file');
+      inp.files = dt.files; previewMfMedia(inp);
+    });
+  }
+
+  // Drag & drop — services image
+  const msDrop = document.getElementById('ms-img-drop');
+  if (msDrop) {
+    msDrop.addEventListener('dragover', e => { e.preventDefault(); msDrop.classList.add('drag'); });
+    msDrop.addEventListener('dragleave', () => msDrop.classList.remove('drag'));
+    msDrop.addEventListener('drop', e => {
+      e.preventDefault(); msDrop.classList.remove('drag');
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      const dt = new DataTransfer(); dt.items.add(file);
+      const inp = document.getElementById('ms-img-file');
+      inp.files = dt.files; previewMsMedia(inp);
+    });
+  }
+});
+
+// ─────────────────────────────────────────────
+// FORMATIONS
+// ─────────────────────────────────────────────
+function renderFormations() {
+  const search = (document.getElementById('f-form-search')?.value || '').toLowerCase();
+  const cat    = document.getElementById('f-form-cat')?.value || '';
+  const status = document.getElementById('f-form-status')?.value || '';
+  let list = _formations;
+  if (search) list = list.filter(f => (f.titre + (f.description || '')).toLowerCase().includes(search));
+  if (cat)    list = list.filter(f => f.categorie === cat);
+  if (status === 'actif')   list = list.filter(f => f.actif !== false);
+  if (status === 'inactif') list = list.filter(f => f.actif === false);
+  const grid = document.getElementById('formations-grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><i class="ri-book-open-line"></i><p>Aucune formation trouvée</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(f => `
+    <div class="form-card">
+      <div class="form-card-head">
+        <div class="form-icon">${f.icon || '📚'}</div>
+        <div class="form-card-title">${f.titre}</div>
+        <div class="form-cat">${f.categorie || ''} · ${f.format || ''}</div>
+      </div>
+      <div class="form-card-body">
+        <div class="form-meta">
+          ${f.prix ? `<span class="form-price">${_fmtMoney(f.prix)}</span>` : `<span style="font-size:11px;color:var(--muted);font-style:italic;font-weight:500">Prix à définir</span>`}
+          ${_statusBadge(f.actif !== false ? 'actif' : 'inactif')}
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.4">${f.description ? f.description.slice(0, 80) + (f.description.length > 80 ? '…' : '') : ''}</div>
+        <div class="form-actions">
+          <button class="btn-sm btn-edit" onclick="openFormModal('${f.id}')"><i class="ri-edit-line"></i> Modifier</button>
+          <button class="btn-sm btn-del" onclick="deleteFormation('${f.id}')"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterFormations() { renderFormations(); }
+
+function openFormModal(id) {
+  const f = id ? _formations.find(x => String(x.id) === String(id)) : null;
+  document.getElementById('mf-id').value    = f?.id || '';
+  document.getElementById('mf-titre').value      = f?.titre || '';
+  document.getElementById('mf-soustitre').value  = f?.soustitre || '';
+  document.getElementById('mf-icon').value       = f?.icon || '';
+  document.getElementById('mf-cat').value        = f?.categorie || 'ecommerce';
+  document.getElementById('mf-desc').value       = f?.description || f?.description_courte || '';
+  document.getElementById('mf-desc-long').value  = f?.description_longue || '';
+  document.getElementById('mf-objectifs').value  = (f?.objectifs || []).join('\n');
+  document.getElementById('mf-programme').value  = (f?.programme || []).map(p => `${p.num||''}|${p.titre||''}|${p.contenu||''}`).join('\n');
+  document.getElementById('mf-prix').value       = f?.prix || '';
+  document.getElementById('mf-ancien-prix').value = f?.ancien_prix || '';
+  document.getElementById('mf-format').value     = f?.format || 'video';
+  document.getElementById('mf-duree').value      = f?.duree || '';
+  document.getElementById('mf-seances').value    = f?.seances || '';
+  document.getElementById('mf-niveau').value     = f?.niveau || 'debutant';
+  document.getElementById('mf-tag').value        = f?.tag || '';
+  document.getElementById('mf-recommande').value = f?.recommande ? 'true' : 'false';
+  document.getElementById('mf-actif').value      = f?.actif === false ? 'false' : 'true';
+  document.getElementById('mf-title').textContent = f ? 'Modifier la formation' : 'Nouvelle formation';
+  // Reset upload state
+  _mfImgFile = null; _mfImgExistingUrl = '';
+  document.getElementById('mf-img-file').value = '';
+  document.getElementById('mf-img-url').value = f?.image_url || '';
+  document.getElementById('mf-img-preview').classList.add('hidden');
+  document.getElementById('mf-img-preview-el').src = '';
+  document.getElementById('mf-vid-preview-el').src = '';
+  document.getElementById('mf-img-drop').style.display = 'flex';
+  if (f?.image_url) _mfShowExisting(f.image_url);
+  openModal('modal-form');
+}
+
+async function saveFormation() {
+  const id    = document.getElementById('mf-id').value;
+  const titre = document.getElementById('mf-titre').value.trim();
+  if (!titre) { showToast('Le titre est requis', 'err'); return; }
+  const btn = document.getElementById('mf-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Enregistrement…';
+  try {
+    // Upload image/vidéo si nouveau fichier sélectionné
+    let image_url = _mfImgExistingUrl || document.getElementById('mf-img-url').value.trim();
+    if (_mfImgFile) {
+      const folder = _mfIsVideo ? 'videos' : 'images';
+      image_url = await _uploadFile(_mfImgFile, 'formations', folder);
+    }
+
+    const payload = {
+      titre,
+      soustitre:        document.getElementById('mf-soustitre').value.trim(),
+      icon:             document.getElementById('mf-icon').value.trim() || '📚',
+      categorie:        document.getElementById('mf-cat').value,
+      description:      document.getElementById('mf-desc').value.trim(),
+      description_courte: document.getElementById('mf-desc').value.trim(),
+      description_longue: document.getElementById('mf-desc-long').value.trim(),
+      objectifs:        document.getElementById('mf-objectifs').value.split('\n').map(l=>l.trim()).filter(Boolean),
+      programme:        document.getElementById('mf-programme').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const [num,titre,contenu]=l.split('|'); return {num:num||'',titre:titre||'',contenu:contenu||''}; }),
+      prix:             parseFloat(document.getElementById('mf-prix').value) || 0,
+      ancien_prix:      parseFloat(document.getElementById('mf-ancien-prix').value) || null,
+      format:           document.getElementById('mf-format').value,
+      duree:            document.getElementById('mf-duree').value.trim(),
+      seances:          document.getElementById('mf-seances').value.trim(),
+      niveau:           document.getElementById('mf-niveau').value,
+      tag:              document.getElementById('mf-tag').value.trim(),
+      recommande:       document.getElementById('mf-recommande').value === 'true',
+      image_url,
+      actif:            document.getElementById('mf-actif').value === 'true',
+    };
+
+    if (id && !id.startsWith('local-')) {
+      if (window.DB && DB.client) {
+        const { data, error } = await DB.client.from('formations').update(payload).eq('id', id).select();
+        if (error) throw error;
+        const row = data?.[0] || { ...(_formations.find(f=>String(f.id)===id)||{}), ...payload };
+        const idx = _formations.findIndex(f => String(f.id) === String(id));
+        if (idx >= 0) _formations[idx] = row;
+      } else {
+        const idx = _formations.findIndex(f => String(f.id) === String(id));
+        if (idx >= 0) _formations[idx] = { ..._formations[idx], ...payload };
+      }
+    } else {
+      if (window.DB && DB.client) {
+        // slug auto-généré si nécessaire
+        const insert = { ...payload, slug: _slugify(titre) };
+        const { data, error } = await DB.client.from('formations').insert(insert).select();
+        if (error) throw error;
+        _formations.unshift(data?.[0] || { id: 'local-' + Date.now(), ...insert, created_at: new Date().toISOString() });
+      } else {
+        _formations.unshift({ id: 'local-' + Date.now(), slug: _slugify(titre), ...payload, created_at: new Date().toISOString() });
+      }
+    }
+    closeModal('modal-form');
+    renderFormations();
+    updateBadge('formations', _formations.length);
+    showToast('Formation enregistrée ✓', 'ok');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="ri-save-line"></i> Enregistrer';
+  }
+}
+
+async function deleteFormation(id) {
+  if (!confirm('Supprimer cette formation ?')) return;
+  try {
+    if (window.DB && DB.client && !String(id).startsWith('local-')) {
+      const { error } = await DB.client.from('formations').update({ actif: false }).eq('id', id);
+      if (error) throw error;
+    }
+    const f = _formations.find(x => String(x.id) === String(id));
+    if (f) f.actif = false;
+    renderFormations();
+    showToast('Formation désactivée', 'ok');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  }
+}
+
+// ─────────────────────────────────────────────
+// SERVICES
+// ─────────────────────────────────────────────
+function renderServices() {
+  const search = (document.getElementById('f-srv-search')?.value || '').toLowerCase();
+  const cat    = document.getElementById('f-srv-cat')?.value || '';
+  let list = _services;
+  if (search) list = list.filter(s => (s.titre + (s.description || '')).toLowerCase().includes(search));
+  if (cat)    list = list.filter(s => s.categorie === cat);
+  const tbody = document.getElementById('services-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px">Aucun service</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(s => `<tr>
+    <td style="font-size:22px">${s.icon || '🔧'}</td>
+    <td><div style="font-weight:600;font-size:13.5px">${s.titre}</div><div style="font-size:11.5px;color:var(--muted)">${s.description ? s.description.slice(0,60) + '…' : ''}</div></td>
+    <td><span class="badge badge-gray">${s.categorie || '—'}</span></td>
+    <td style="font-family:var(--disp);font-weight:700;color:var(--gold)">${_fmtMoney(s.prix || 0)}</td>
+    <td>${_statusBadge(s.actif !== false ? 'actif' : 'inactif')}</td>
+    <td>
+      <div class="tbl-actions">
+        <button class="icon-btn edit" onclick="openSrvModal('${s.id}')"><i class="ri-edit-line"></i></button>
+        <button class="icon-btn del" onclick="deleteService('${s.id}')"><i class="ri-delete-bin-line"></i></button>
+      </div>
+    </td>
+  </tr>`).join('');
+}
+
+function filterServices() { renderServices(); }
+
+function openSrvModal(id) {
+  const s = id ? _services.find(x => String(x.id) === String(id)) : null;
+  document.getElementById('ms-id').value         = s?.id || '';
+  document.getElementById('ms-titre').value      = s?.titre || '';
+  document.getElementById('ms-sous-titre').value = s?.sous_titre || '';
+  document.getElementById('ms-icon').value       = s?.icon || '';
+  document.getElementById('ms-cat').value        = s?.categorie || 'web';
+  document.getElementById('ms-desc').value       = s?.description || s?.description_courte || '';
+  document.getElementById('ms-desc-long').value  = s?.description_longue || '';
+  document.getElementById('ms-points').value     = (s?.points_forts || []).join('\n');
+  document.getElementById('ms-inclus').value     = (s?.inclus || []).join('\n');
+  document.getElementById('ms-formations').value = (s?.formations_liees || []).join('\n');
+  document.getElementById('ms-duree').value      = s?.duree_estimee || '';
+  document.getElementById('ms-prix').value       = s?.prix || '';
+  document.getElementById('ms-actif').value      = s?.actif === false ? 'false' : 'true';
+  document.getElementById('ms-title').textContent = s ? 'Modifier le service' : 'Nouveau service';
+  // Reset upload state
+  _msImgFile = null; _msImgExistingUrl = '';
+  document.getElementById('ms-img-file').value = '';
+  document.getElementById('ms-img-url').value = s?.image_url || '';
+  document.getElementById('ms-img-preview').classList.add('hidden');
+  document.getElementById('ms-img-preview-el').src = '';
+  document.getElementById('ms-vid-preview-el').src = '';
+  document.getElementById('ms-img-drop').style.display = 'flex';
+  if (s?.image_url) _msShowExisting(s.image_url);
+  openModal('modal-srv');
+}
+
+async function saveService() {
+  const id    = document.getElementById('ms-id').value;
+  const titre = document.getElementById('ms-titre').value.trim();
+  if (!titre) { showToast('Le titre est requis', 'err'); return; }
+  const btn = document.getElementById('ms-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Enregistrement…';
+  try {
+    // Upload image/vidéo si nouveau fichier sélectionné
+    let image_url = _msImgExistingUrl || document.getElementById('ms-img-url').value.trim();
+    if (_msImgFile) {
+      const folder = _msIsVideo ? 'videos' : 'images';
+      image_url = await _uploadFile(_msImgFile, 'formations', folder);
+    }
+
+    const payload = {
+      titre,
+      sous_titre:        document.getElementById('ms-sous-titre').value.trim(),
+      icon:              document.getElementById('ms-icon').value.trim() || '🔧',
+      categorie:         document.getElementById('ms-cat').value,
+      description:       document.getElementById('ms-desc').value.trim(),
+      description_courte: document.getElementById('ms-desc').value.trim(),
+      description_longue: document.getElementById('ms-desc-long').value.trim(),
+      points_forts:      document.getElementById('ms-points').value.split('\n').map(l=>l.trim()).filter(Boolean),
+      inclus:            document.getElementById('ms-inclus').value.split('\n').map(l=>l.trim()).filter(Boolean),
+      formations_liees:  document.getElementById('ms-formations').value.split('\n').map(l=>l.trim()).filter(Boolean),
+      duree_estimee:     document.getElementById('ms-duree').value.trim(),
+      prix:              parseFloat(document.getElementById('ms-prix').value) || 0,
+      image_url,
+      actif:             document.getElementById('ms-actif').value === 'true',
+    };
+
+    if (id && !String(id).startsWith('srv-')) {
+      if (window.DB && DB.client) {
+        const { data, error } = await DB.client.from('services').update(payload).eq('id', id).select();
+        if (error) throw error;
+        const row = data?.[0] || { ...(_services.find(s=>String(s.id)===id)||{}), ...payload };
+        const idx = _services.findIndex(s => String(s.id) === String(id));
+        if (idx >= 0) _services[idx] = row;
+      } else {
+        const idx = _services.findIndex(s => String(s.id) === String(id));
+        if (idx >= 0) _services[idx] = { ..._services[idx], ...payload };
+      }
+    } else if (id) {
+      const idx = _services.findIndex(s => String(s.id) === String(id));
+      if (idx >= 0) _services[idx] = { ..._services[idx], ...payload };
+      if (window.DB && DB.client) {
+        try { await DB.client.from('services').upsert({ ...payload, id: undefined }); } catch(e2) {}
+      }
+    } else {
+      if (window.DB && DB.client) {
+        const { data, error } = await DB.client.from('services').insert(payload).select();
+        if (error) throw error;
+        _services.unshift(data?.[0] || { id: 'srv-' + Date.now(), ...payload, created_at: new Date().toISOString() });
+      } else {
+        _services.unshift({ id: 'srv-' + Date.now(), ...payload, created_at: new Date().toISOString() });
+      }
+    }
+    closeModal('modal-srv');
+    renderServices();
+    updateBadge('services', _services.length);
+    showToast('Service enregistré ✓', 'ok');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="ri-save-line"></i> Enregistrer';
+  }
+}
+
+async function deleteService(id) {
+  if (!confirm('Supprimer ce service ?')) return;
+  try {
+    if (window.DB && DB.client && !String(id).startsWith('srv-')) {
+      await DB.client.from('services').update({ actif: false }).eq('id', id);
+    }
+    const s = _services.find(x => String(x.id) === String(id));
+    if (s) s.actif = false;
+    renderServices();
+    showToast('Service désactivé', 'ok');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, 'err');
+  }
+}
+
+// ─────────────────────────────────────────────
+// CLIENTS
+// ─────────────────────────────────────────────
+function renderClients() {
+  const search = (document.getElementById('f-cli-search')?.value || '').toLowerCase();
+  let list = _clients;
+  if (search) list = list.filter(c => (c.email + (c.nom || '') + (c.prenom || '')).toLowerCase().includes(search));
+  const tbody = document.getElementById('clients-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px">Aucun client</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(c => {
+    const name   = (c.prenom || '') + ' ' + (c.nom || '');
+    const initil = (c.prenom || c.email || 'C')[0].toUpperCase();
+    const nbAchats = _achats.filter(a => a.user_id === c.id || a.profiles?.id === c.id).length;
+    return `<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(200,151,58,.12);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:14px;color:var(--gold);flex-shrink:0">${initil}</div>
+          <div><div style="font-weight:600">${name.trim() || '—'}</div><div style="font-size:11px;color:var(--muted)">${c.role || 'client'}</div></div>
+        </div>
+      </td>
+      <td style="font-size:13px">${c.email || '—'}</td>
+      <td style="font-size:12px;color:var(--muted)">${_fmtDate(c.created_at)}</td>
+      <td><span class="badge badge-ok">${nbAchats} achat${nbAchats !== 1 ? 's' : ''}</span></td>
+      <td>
+        <div class="tbl-actions">
+          <button class="icon-btn edit" onclick="openClientModal('${c.id}')"><i class="ri-eye-line"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterClients() { renderClients(); }
+
+function openClientModal(id) {
+  const c = _clients.find(x => String(x.id) === String(id));
+  if (!c) return;
+  const name   = ((c.prenom || '') + ' ' + (c.nom || '')).trim() || c.email;
+  const achats = _achats.filter(a => a.user_id === c.id || a.profiles?.id === c.id);
+  const totalSpent = achats.filter(a => a.statut === 'confirme').reduce((s, a) => s + (a.montant || 0), 0);
+  document.getElementById('modal-client-body').innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:20px;background:var(--bg);border-radius:8px">
+      <div style="width:52px;height:52px;border-radius:50%;background:rgba(200,151,58,.15);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:22px;color:var(--gold)">${name[0].toUpperCase()}</div>
+      <div>
+        <div style="font-family:var(--disp);font-weight:800;font-size:17px">${name}</div>
+        <div style="font-size:12.5px;color:var(--muted)">${c.email}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">Inscrit le ${_fmtDate(c.created_at)}</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-family:var(--disp);font-weight:800;font-size:22px;color:var(--gold)">${_fmtMoney(totalSpent)}</div>
+        <div style="font-size:11px;color:var(--muted)">Dépensé (confirmé)</div>
+      </div>
+    </div>
+    <div style="font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Historique achats</div>
+    ${achats.length ? `<div class="tbl-wrap"><table>
+      <thead><tr><th>Formation</th><th>Montant</th><th>Statut</th><th>Date</th></tr></thead>
+      <tbody>${achats.map(a => `<tr>
+        <td style="font-weight:600">${a.formations?.titre || '—'}</td>
+        <td style="font-family:var(--disp);font-weight:700;color:var(--gold)">${_fmtMoney(a.montant||0)}</td>
+        <td>${_statusBadge(a.statut)}</td>
+        <td style="font-size:12px;color:var(--muted)">${_fmtDate(a.created_at)}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>` : '<p style="color:var(--muted);font-size:13px;text-align:center;padding:20px">Aucun achat</p>'}
+  `;
+  openModal('modal-client');
+}
+
+// ─────────────────────────────────────────────
+// ACHATS
+// ─────────────────────────────────────────────
+function renderAchats() {
+  const search = (document.getElementById('f-ach-search')?.value || '').toLowerCase();
+  const status = document.getElementById('f-ach-status')?.value || '';
+  let list = _achats;
+  if (search) list = list.filter(a => {
+    const name = a.profiles?.email || '';
+    const form = a.formations?.titre || '';
+    return (name + form).toLowerCase().includes(search);
+  });
+  if (status) list = list.filter(a => (a.statut || '') === status);
+  const tbody = document.getElementById('achats-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px">Aucun achat</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(a => {
+    const name = a.profiles?.prenom ? (a.profiles.prenom + ' ' + (a.profiles.nom || '')) : (a.profiles?.email || '—');
+    return `<tr>
+      <td style="font-size:12px;white-space:nowrap">${_fmtDate(a.created_at)}</td>
+      <td><div style="font-weight:600">${name}</div><div style="font-size:11px;color:var(--muted)">${a.profiles?.email || ''}</div></td>
+      <td>${a.formations?.titre || '—'}</td>
+      <td style="font-family:var(--disp);font-weight:700;color:var(--gold)">${_fmtMoney(a.montant || 0)}</td>
+      <td>${_statusBadge(a.statut)}</td>
+      <td>
+        <div class="tbl-actions">
+          ${(a.statut === 'en_attente' || !a.statut) ? `<button class="icon-btn ok" title="Confirmer" onclick="confirmAchat('${a.id}')"><i class="ri-check-line"></i></button>` : ''}
+          <button class="icon-btn del" title="Annuler" onclick="cancelAchat('${a.id}')"><i class="ri-close-line"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterAchats() { renderAchats(); }
+
+async function confirmAchat(id) {
+  try {
+    if (window.DB && DB.client) {
+      const { error } = await DB.client.from('achats').update({ statut: 'confirme' }).eq('id', id);
+      if (error) throw error;
+    }
+    const a = _achats.find(x => x.id == id);
+    if (a) a.statut = 'confirme';
+    renderAchats();
+    buildCompta();
+    buildDashboard();
+    showToast('Achat confirmé', 'ok');
+  } catch(e) { showToast('Erreur: ' + e.message, 'err'); }
+}
+
+async function cancelAchat(id) {
+  if (!confirm('Annuler cet achat ?')) return;
+  try {
+    if (window.DB && DB.client) {
+      const { error } = await DB.client.from('achats').update({ statut: 'annule' }).eq('id', id);
+      if (error) throw error;
+    }
+    const a = _achats.find(x => x.id == id);
+    if (a) a.statut = 'annule';
+    renderAchats();
+    buildCompta();
+    showToast('Achat annulé', 'ok');
+  } catch(e) { showToast('Erreur: ' + e.message, 'err'); }
+}
+
+function exportAchatsCSV() {
+  const rows = [['Date','Client','Email','Formation','Montant','Statut']];
+  _achats.forEach(a => {
+    const name = a.profiles?.prenom ? (a.profiles.prenom + ' ' + (a.profiles.nom || '')) : (a.profiles?.email || '—');
+    rows.push([_fmtDate(a.created_at), name, a.profiles?.email || '', a.formations?.titre || '', a.montant || 0, a.statut || '']);
+  });
+  _downloadCSV('achats.csv', rows);
+}
+
+// ─────────────────────────────────────────────
+// CONTACTS
+// ─────────────────────────────────────────────
+function renderContacts() {
+  const search = (document.getElementById('f-con-search')?.value || '').toLowerCase();
+  const status = document.getElementById('f-con-status')?.value || '';
+  let list = _contacts;
+  if (search) list = list.filter(c => (c.nom + c.email + (c.sujet || '')).toLowerCase().includes(search));
+  if (status) list = list.filter(c => (c.statut || 'nouveau') === status);
+  const tbody = document.getElementById('contacts-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px">Aucun message</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(c => {
+    const isNew = !c.statut || c.statut === 'nouveau';
+    return `<tr class="${isNew ? 'unread-row' : ''}">
+      <td style="font-size:12px;white-space:nowrap">${_fmtDate(c.created_at)}</td>
+      <td><div style="font-weight:${isNew ? '700' : '600'}">${c.nom || '—'}</div></td>
+      <td style="font-size:13px">${c.email || '—'}</td>
+      <td style="font-size:13px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.sujet || c.service || '—'}</td>
+      <td>${_statusBadge(c.statut || 'nouveau')}</td>
+      <td>
+        <div class="tbl-actions">
+          <button class="icon-btn edit" onclick="openContactModal('${c.id}')"><i class="ri-eye-line"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterContacts() { renderContacts(); }
+
+let _currentContactId = null;
+function openContactModal(id) {
+  const c = _contacts.find(x => String(x.id) === String(id));
+  if (!c) return;
+  _currentContactId = id;
+  document.getElementById('modal-contact-body').innerHTML = `
+    <div style="margin-bottom:20px">
+      <div style="font-family:var(--disp);font-weight:800;font-size:16px;margin-bottom:2px">${c.nom || '—'}</div>
+      <div style="font-size:13px;color:var(--muted)">${c.email || ''} ${c.telephone ? '· ' + c.telephone : ''}</div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:4px">${_fmtDate(c.created_at)}</div>
+    </div>
+    ${c.sujet || c.service ? `<div style="font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Sujet</div>
+    <div style="font-weight:600;margin-bottom:16px">${c.sujet || c.service}</div>` : ''}
+    <div style="font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Message</div>
+    <div style="background:var(--bg);border-radius:6px;padding:16px;font-size:13.5px;line-height:1.6;white-space:pre-wrap">${c.message || '—'}</div>
+    <div style="margin-top:16px">Statut actuel : ${_statusBadge(c.statut || 'nouveau')}</div>
+  `;
+  const btn = document.getElementById('contact-status-btn');
+  const nextStatus = (c.statut === 'traite') ? 'lu' : (c.statut === 'lu' ? 'traite' : 'lu');
+  const nextLabel  = (c.statut === 'traite') ? 'Marquer comme lu' : (c.statut === 'lu' ? 'Marquer traité' : 'Marquer comme lu');
+  btn.textContent = nextLabel;
+  btn.onclick = () => updateContactStatus(id, nextStatus);
+  // Auto-mark as read
+  if (!c.statut || c.statut === 'nouveau') updateContactStatus(id, 'lu', true);
+  openModal('modal-contact');
+}
+
+async function updateContactStatus(id, newStatus, silent = false) {
+  try {
+    if (window.DB && DB.client) {
+      await DB.client.from('contacts').update({ statut: newStatus }).eq('id', id);
+    }
+    const c = _contacts.find(x => String(x.id) === String(id));
+    if (c) c.statut = newStatus;
+    const unread = _contacts.filter(c => c.statut === 'nouveau' || !c.statut).length;
+    updateBadge('contacts', unread, true);
+    renderContacts();
+    if (!silent) { closeModal('modal-contact'); showToast('Statut mis à jour', 'ok'); }
+    else {
+      // Refresh modal status display
+      const btn = document.getElementById('contact-status-btn');
+      if (btn) {
+        const nextStatus = newStatus === 'traite' ? 'lu' : 'traite';
+        const nextLabel  = newStatus === 'traite' ? 'Marquer comme lu' : 'Marquer traité';
+        btn.textContent  = nextLabel;
+        btn.onclick = () => updateContactStatus(id, nextStatus);
+      }
+    }
+  } catch(e) { if (!silent) showToast('Erreur: ' + e.message, 'err'); }
+}
+
+// ─────────────────────────────────────────────
+// ANALYTICS
+// ─────────────────────────────────────────────
+function buildAnalytics() {
+  // Real-time counts from analytics_visites
+  const totalVisits = _analytics.reduce((s, d) => s + (d.visites || d.count || 0), 0);
+  const totalPages  = _analytics.reduce((s, d) => s + (d.pages_vues || d.page_views || 0), 0);
+  const today = new Date().toISOString().slice(0, 10);
+  const todayData = _analytics.find(d => (d.date || '').slice(0, 10) === today);
+  document.getElementById('a-visits').textContent = totalVisits || '—';
+  document.getElementById('a-pages').textContent  = totalPages  || '—';
+  document.getElementById('a-today').textContent  = todayData ? (todayData.visites || todayData.count || 0) : '—';
+
+  // Chart
+  const ctx = document.getElementById('chart-analytics');
+  if (ctx) {
+    if (_charts['analytics']) _charts['analytics'].destroy();
+    const labels = _analytics.map(d => {
+      const dt = new Date(d.date);
+      return dt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    });
+    const data = _analytics.map(d => d.visites || d.count || 0);
+    _charts['analytics'] = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels.length ? labels : ['Aucune donnée'],
+        datasets: [{
+          label: 'Visites',
+          data: data.length ? data : [0],
+          borderColor: 'rgba(200,151,58,.9)',
+          backgroundColor: 'rgba(200,151,58,.08)',
+          borderWidth: 2,
+          fill: true,
+          tension: .4,
+          pointRadius: 3,
+          pointBackgroundColor: 'var(--gold)'
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(22,17,9,.06)' } }, x: { grid: { display: false } } } }
+    });
+  }
+
+  // Top pages (static or from tracker data)
+  const topPages = [
+    { page: 'index.html (Accueil)', visits: Math.round(totalVisits * 0.45) || 12 },
+    { page: 'formations.html', visits: Math.round(totalVisits * 0.22) || 6 },
+    { page: 'espace-client.html', visits: Math.round(totalVisits * 0.14) || 4 },
+    { page: 'service-web.html', visits: Math.round(totalVisits * 0.11) || 3 },
+    { page: 'contact / RDV', visits: Math.round(totalVisits * 0.08) || 2 },
+  ];
+  const maxV = topPages[0].visits || 1;
+  document.getElementById('top-pages').innerHTML = topPages.map(p => `
+    <div class="page-row">
+      <div style="font-size:12.5px;min-width:160px">${p.page}</div>
+      <div class="page-row-bar"><div class="stat-bar-wrap"><div class="stat-bar" style="width:${Math.round(p.visits/maxV*100)}%"></div></div></div>
+      <div style="font-family:var(--disp);font-weight:700;font-size:12.5px;min-width:30px;text-align:right">${p.visits}</div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// MODAL HELPERS
+// ─────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+  document.body.style.overflow = '';
+}
+// Close on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+});
+
+// ─────────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────────
+let _toastTimer;
+function showToast(msg, type = 'ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function _fmtMoney(n) {
+  if (!n && n !== 0) return '—';
+  return new Intl.NumberFormat('fr-FR').format(n) + ' FCFA';
+}
+function _fmtMoneyShort(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(0) + 'k';
+  return n;
+}
+function _fmtDate(dt) {
+  if (!dt) return '—';
+  return new Date(dt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+function _sameMonth(dateStr, refDate) {
+  const d = new Date(dateStr);
+  return d.getMonth() === refDate.getMonth() && d.getFullYear() === refDate.getFullYear();
+}
+function _statusBadge(status) {
+  const map = {
+    confirme:  ['badge-ok',   '<i class="ri-check-line"></i> Confirmé'],
+    actif:     ['badge-ok',   '<i class="ri-check-line"></i> Actif'],
+    en_attente:['badge-warn', '<i class="ri-time-line"></i> En attente'],
+    annule:    ['badge-err',  '<i class="ri-close-line"></i> Annulé'],
+    inactif:   ['badge-gray', 'Inactif'],
+    nouveau:   ['badge-err',  '<i class="ri-mail-line"></i> Nouveau'],
+    lu:        ['badge-warn', '<i class="ri-eye-line"></i> Lu'],
+    traite:    ['badge-ok',   '<i class="ri-check-double-line"></i> Traité'],
+  };
+  const [cls, label] = map[status] || ['badge-gray', status || '—'];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+function _downloadCSV(filename, rows) {
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(m => closeModal(m.id));
+  }
+  // (login screen removed — handled by connexion.html)
+});
+</script>
+</body>
+</html>

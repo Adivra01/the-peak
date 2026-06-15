@@ -1,0 +1,754 @@
+{
+  "config": {
+    "configFile": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/playwright.config.js",
+    "rootDir": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 15000
+      },
+      {
+        "outputDir": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 15000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "africademia-full.spec.js",
+      "file": "africademia-full.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "1. Chargement pages",
+          "file": "africademia-full.spec.js",
+          "line": 64,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HTTP 200 — Connexion",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1327,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:16.105Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-3527aa6cc2b3e2522dc7",
+              "file": "africademia-full.spec.js",
+              "line": 66,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "3. Navigation desktop",
+          "file": "africademia-full.spec.js",
+          "line": 161,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Bouton Connexion nav desktop visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 890,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:17.745Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-37f9ff05c1010c82e0d7",
+              "file": "africademia-full.spec.js",
+              "line": 189,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "15. Page Connexion",
+          "file": "africademia-full.spec.js",
+          "line": 809,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Champs email et password présents",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3182,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeAttached\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('input[type=\"email\"]')\nExpected: attached\nError: strict mode violation: locator('input[type=\"email\"]') resolved to 2 elements:\n    1) <input class=\"finp\" type=\"email\" id=\"l-email\" autocomplete=\"username\" placeholder=\"votre@email.com\"/> aka getByRole('textbox', { name: 'votre@email.com' })\n    2) <input class=\"finp\" type=\"email\" id=\"r-email\" autocomplete=\"email\" placeholder=\"votre@email.com\"/> aka locator('#r-email')\n\nCall log:\n\u001b[2m  - Expect \"toBeAttached\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('input[type=\"email\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeAttached\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('input[type=\"email\"]')\nExpected: attached\nError: strict mode violation: locator('input[type=\"email\"]') resolved to 2 elements:\n    1) <input class=\"finp\" type=\"email\" id=\"l-email\" autocomplete=\"username\" placeholder=\"votre@email.com\"/> aka getByRole('textbox', { name: 'votre@email.com' })\n    2) <input class=\"finp\" type=\"email\" id=\"r-email\" autocomplete=\"email\" placeholder=\"votre@email.com\"/> aka locator('#r-email')\n\nCall log:\n\u001b[2m  - Expect \"toBeAttached\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('input[type=\"email\"]')\u001b[22m\n\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:812:55",
+                        "location": {
+                          "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                          "column": 55,
+                          "line": 812
+                        },
+                        "snippet": "  810 |   test('Champs email et password présents', async ({ page }) => {\n  811 |     await page.goto('/connexion.html', { waitUntil: 'networkidle' });\n> 812 |     await expect(page.locator('input[type=\"email\"]')).toBeAttached();\n      |                                                       ^\n  813 |     await expect(page.locator('input[type=\"password\"]')).toBeAttached();\n  814 |   });\n  815 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                            "column": 55,
+                            "line": 812
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeAttached\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('input[type=\"email\"]')\nExpected: attached\nError: strict mode violation: locator('input[type=\"email\"]') resolved to 2 elements:\n    1) <input class=\"finp\" type=\"email\" id=\"l-email\" autocomplete=\"username\" placeholder=\"votre@email.com\"/> aka getByRole('textbox', { name: 'votre@email.com' })\n    2) <input class=\"finp\" type=\"email\" id=\"r-email\" autocomplete=\"email\" placeholder=\"votre@email.com\"/> aka locator('#r-email')\n\nCall log:\n\u001b[2m  - Expect \"toBeAttached\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('input[type=\"email\"]')\u001b[22m\n\n\n  810 |   test('Champs email et password présents', async ({ page }) => {\n  811 |     await page.goto('/connexion.html', { waitUntil: 'networkidle' });\n> 812 |     await expect(page.locator('input[type=\"email\"]')).toBeAttached();\n      |                                                       ^\n  813 |     await expect(page.locator('input[type=\"password\"]')).toBeAttached();\n  814 |   });\n  815 |\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:812:55"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:18.641Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results/africademia-full-15-Page-C-c346f--email-et-password-présents-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                        "column": 55,
+                        "line": 812
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-deda794cc5ea9dee3bf8",
+              "file": "africademia-full.spec.js",
+              "line": 810,
+              "column": 3
+            },
+            {
+              "title": "Bouton submit présent",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 7371,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeAttached\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button[type=\"submit\"], input[type=\"submit\"]').first()\nExpected: attached\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeAttached\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('button[type=\"submit\"], input[type=\"submit\"]').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeAttached\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button[type=\"submit\"], input[type=\"submit\"]').first()\nExpected: attached\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeAttached\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('button[type=\"submit\"], input[type=\"submit\"]').first()\u001b[22m\n\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:819:26",
+                        "location": {
+                          "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                          "column": 26,
+                          "line": 819
+                        },
+                        "snippet": "  817 |     await page.goto('/connexion.html', { waitUntil: 'networkidle' });\n  818 |     const submit = page.locator('button[type=\"submit\"], input[type=\"submit\"]').first();\n> 819 |     await expect(submit).toBeAttached();\n      |                          ^\n  820 |   });\n  821 |\n  822 |   test('Lien retour accueil dans connexion', async ({ page }) => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                            "column": 26,
+                            "line": 819
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeAttached\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button[type=\"submit\"], input[type=\"submit\"]').first()\nExpected: attached\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeAttached\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('button[type=\"submit\"], input[type=\"submit\"]').first()\u001b[22m\n\n\n  817 |     await page.goto('/connexion.html', { waitUntil: 'networkidle' });\n  818 |     const submit = page.locator('button[type=\"submit\"], input[type=\"submit\"]').first();\n> 819 |     await expect(submit).toBeAttached();\n      |                          ^\n  820 |   });\n  821 |\n  822 |   test('Lien retour accueil dans connexion', async ({ page }) => {\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:819:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:22.098Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results/africademia-full-15-Page-Connexion-Bouton-submit-présent-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                        "column": 26,
+                        "line": 819
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-c0c7e9efedecb0c3db81",
+              "file": "africademia-full.spec.js",
+              "line": 816,
+              "column": 3
+            },
+            {
+              "title": "Lien retour accueil dans connexion",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1066,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:29.861Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-71d0f2b06852935ae894",
+              "file": "africademia-full.spec.js",
+              "line": 822,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "18. Erreurs JavaScript",
+          "file": "africademia-full.spec.js",
+          "line": 926,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Pas d'erreur JS — Accueil",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4803,
+                      "error": {
+                        "message": "Error: Erreurs JS sur Accueil : console.error: Failed to load resource: the server responded with a status of 500 (); console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m2\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\", \"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m",
+                        "stack": "Error: Erreurs JS sur Accueil : console.error: Failed to load resource: the server responded with a status of 500 (); console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m2\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\", \"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:932:69",
+                        "location": {
+                          "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                          "column": 69,
+                          "line": 932
+                        },
+                        "snippet": "  930 |       await page.goto(p.url, { waitUntil: 'networkidle' });\n  931 |       await page.waitForTimeout(1500);\n> 932 |       expect(errs, `Erreurs JS sur ${p.name} : ${errs.join('; ')}`).toHaveLength(0);\n      |                                                                     ^\n  933 |     });\n  934 |   }\n  935 | });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                            "column": 69,
+                            "line": 932
+                          },
+                          "message": "Error: Erreurs JS sur Accueil : console.error: Failed to load resource: the server responded with a status of 500 (); console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m2\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\", \"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m\n\n  930 |       await page.goto(p.url, { waitUntil: 'networkidle' });\n  931 |       await page.waitForTimeout(1500);\n> 932 |       expect(errs, `Erreurs JS sur ${p.name} : ${errs.join('; ')}`).toHaveLength(0);\n      |                                                                     ^\n  933 |     });\n  934 |   }\n  935 | });\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:932:69"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:31.044Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results/africademia-full-18-Erreur-0352d-t-Pas-d-erreur-JS-—-Accueil-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                        "column": 69,
+                        "line": 932
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-38efdf20055b35bcaf9d",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Formations",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3650,
+                      "error": {
+                        "message": "Error: Erreurs JS sur Formations : console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m",
+                        "stack": "Error: Erreurs JS sur Formations : console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:932:69",
+                        "location": {
+                          "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                          "column": 69,
+                          "line": 932
+                        },
+                        "snippet": "  930 |       await page.goto(p.url, { waitUntil: 'networkidle' });\n  931 |       await page.waitForTimeout(1500);\n> 932 |       expect(errs, `Erreurs JS sur ${p.name} : ${errs.join('; ')}`).toHaveLength(0);\n      |                                                                     ^\n  933 |     });\n  934 |   }\n  935 | });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                            "column": 69,
+                            "line": 932
+                          },
+                          "message": "Error: Erreurs JS sur Formations : console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m\n\n  930 |       await page.goto(p.url, { waitUntil: 'networkidle' });\n  931 |       await page.waitForTimeout(1500);\n> 932 |       expect(errs, `Erreurs JS sur ${p.name} : ${errs.join('; ')}`).toHaveLength(0);\n      |                                                                     ^\n  933 |     });\n  934 |   }\n  935 | });\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:932:69"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:36.114Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results/africademia-full-18-Erreur-0c66b-as-d-erreur-JS-—-Formations-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                        "column": 69,
+                        "line": 932
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-c4f40deb7da7446e810f",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Notre Histoire",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3617,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:40.139Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-f0567a7a4cffbb9e4cd4",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Service Web",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4194,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:43.870Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-b97379ec00d6836926e3",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Service IA",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4723,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:48.072Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-3651449bf39d1b8abee0",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Service Marketing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3657,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:52.806Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-f3bae0d8545a0d7c46d2",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Service Publicité",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10083,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:15:56.475Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-6e860220262a5dd68f8e",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Service Hébergement",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3827,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:16:06.570Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-cfd725c1b86e4dded030",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            },
+            {
+              "title": "Pas d'erreur JS — Service Detail",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3860,
+                      "error": {
+                        "message": "Error: Erreurs JS sur Service Detail : console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m",
+                        "stack": "Error: Erreurs JS sur Service Detail : console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:932:69",
+                        "location": {
+                          "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                          "column": 69,
+                          "line": 932
+                        },
+                        "snippet": "  930 |       await page.goto(p.url, { waitUntil: 'networkidle' });\n  931 |       await page.waitForTimeout(1500);\n> 932 |       expect(errs, `Erreurs JS sur ${p.name} : ${errs.join('; ')}`).toHaveLength(0);\n      |                                                                     ^\n  933 |     });\n  934 |   }\n  935 | });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                            "column": 69,
+                            "line": 932
+                          },
+                          "message": "Error: Erreurs JS sur Service Detail : console.error: Failed to load resource: the server responded with a status of 500 ()\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"console.error: Failed to load resource: the server responded with a status of 500 ()\"]\u001b[39m\n\n  930 |       await page.goto(p.url, { waitUntil: 'networkidle' });\n  931 |       await page.waitForTimeout(1500);\n> 932 |       expect(errs, `Erreurs JS sur ${p.name} : ${errs.join('; ')}`).toHaveLength(0);\n      |                                                                     ^\n  933 |     });\n  934 |   }\n  935 | });\n    at /Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js:932:69"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-15T19:16:10.405Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/test-results/africademia-full-18-Erreur-4ac79--erreur-JS-—-Service-Detail-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/adiaratoutoure/Desktop/VSCODE/CLAUDE/Africademia/tests/africademia-full.spec.js",
+                        "column": 69,
+                        "line": 932
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3cf420dac0f2cfb6011c-35175ccb53a2d1666b9f",
+              "file": "africademia-full.spec.js",
+              "line": 928,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-06-15T19:15:15.808Z",
+    "duration": 58489.722,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

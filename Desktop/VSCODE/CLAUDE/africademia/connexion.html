@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/css/connexion.css">
+<!-- SEO-START -->
+<meta name="description" content="Connectez-vous à votre espace personnel Africademia pour accéder à vos formations et ressources.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/connexion.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Connexion — Africademia">
+<meta property="og:description" content="Connectez-vous à votre espace personnel Africademia pour accéder à vos formations et ressources.">
+<meta property="og:url" content="https://africademia.com/connexion.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Connexion — Africademia">
+<meta name="twitter:description" content="Connectez-vous à votre espace personnel Africademia pour accéder à vos formations et ressources.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SEO-END -->
+
+<title>Connexion — Africademia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="scene">
+
+  <!-- ─── LEFT ─── -->
+  <div class="left">
+    <canvas id="bg-canvas"></canvas>
+    <div class="left-grad"></div>
+
+    <div class="left-inner">
+      <!-- Top bar -->
+      <div class="brand-bar">
+        <div class="brand">Africa<b>demia</b></div>
+        <a href="index.html" class="back-btn"><i class="ri-arrow-left-line"></i> Accueil</a>
+      </div>
+
+      <!-- Hero -->
+      <div class="hero-body">
+        <div class="hero-tag"><span class="hero-tag-line"></span>Votre espace personnel</div>
+        <h1 class="hero-h">Transformez<br>votre <em>avenir</em><br>digital.</h1>
+        <p class="hero-p">Accédez à vos formations, suivez votre progression et gérez tout depuis un seul espace sécurisé.</p>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-n" id="cnt-clients">0+</div><div class="stat-l">Clients actifs</div></div>
+          <div class="stat"><div class="stat-n" id="cnt-forms">0</div><div class="stat-l">Formations</div></div>
+          <div class="stat"><div class="stat-n">100%</div><div class="stat-l">En ligne</div></div>
+        </div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="float-strip" id="float-strip">
+        <div class="fcard"><div class="fcard-ico">📦</div><div><div class="fcard-t">Print On Demand</div><div class="fcard-s">Accès immédiat</div></div></div>
+        <div class="fcard"><div class="fcard-ico">🎵</div><div><div class="fcard-t">Musique & IA</div><div class="fcard-s">Nouvelle formation</div></div></div>
+        <div class="fcard"><div class="fcard-ico">🏠</div><div><div class="fcard-t">Immobilier Locatif</div><div class="fcard-s">Disponible</div></div></div>
+      </div>
+
+      <div class="left-foot"><div class="left-foot-dot"></div>Plateforme sécurisée · Données protégées</div>
+    </div>
+  </div>
+
+  <!-- ─── RIGHT ─── -->
+  <div class="right">
+    <div class="form-box" id="form-box">
+
+      <div class="form-hd">
+        <div class="form-title" id="form-title">Bon retour 👋</div>
+        <div class="form-subtitle" id="form-sub">Connectez-vous pour accéder à votre espace.</div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab on" id="tab-l" onclick="switchTab('l')">Connexion</button>
+        <button class="tab" id="tab-r" onclick="switchTab('r')">Créer un compte</button>
+      </div>
+
+      <div class="msg err" id="msg-err"><i class="ri-error-warning-line"></i><span id="msg-err-txt"></span></div>
+      <div class="msg ok"  id="msg-ok"><i class="ri-checkbox-circle-line"></i><span id="msg-ok-txt"></span></div>
+
+      <!-- LOGIN -->
+      <div class="tp on" id="tp-l">
+        <div class="field">
+          <label class="flabel">Email</label>
+          <div class="fwrap"><i class="ri-mail-line fico"></i>
+            <input class="finp" type="email" id="l-email" placeholder="votre@email.com" autocomplete="username">
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel">Mot de passe</label>
+          <div class="fwrap"><i class="ri-lock-line fico"></i>
+            <input class="finp" type="password" id="l-pwd" placeholder="••••••••" autocomplete="current-password" style="padding-right:40px">
+            <button class="pwd-eye" onclick="toggleEye('l-pwd',this)" type="button"><i class="ri-eye-off-line"></i></button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:18px">
+          <a href="#" style="font-size:12px;color:rgba(22,17,9,.38);font-weight:600;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(22,17,9,.38)'">Mot de passe oublié ?</a>
+        </div>
+        <button class="sbtn" id="l-btn" type="submit" onclick="doLogin()">
+          <span id="l-txt">Se connecter <i class="ri-arrow-right-line"></i></span>
+          <div class="sbtn-spin" id="l-spin"></div>
+        </button>
+        <div class="or">ou</div>
+        <a href="#" class="wa-btn" onclick="openWA(event)"><i class="ri-whatsapp-line"></i> Aide via WhatsApp</a>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="tp" id="tp-r">
+        <div class="f2">
+          <div class="field" style="margin-bottom:0">
+            <label class="flabel">Prénom</label>
+            <div class="fwrap"><i class="ri-user-line fico"></i>
+              <input class="finp" type="text" id="r-prenom" placeholder="Khadidja" autocomplete="given-name">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label class="flabel">Nom</label>
+            <div class="fwrap"><i class="ri-user-line fico"></i>
+              <input class="finp" type="text" id="r-nom" placeholder="Diallo" autocomplete="family-name">
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel">Email</label>
+          <div class="fwrap"><i class="ri-mail-line fico"></i>
+            <input class="finp" type="email" id="r-email" placeholder="votre@email.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel">Mot de passe</label>
+          <div class="fwrap"><i class="ri-lock-line fico"></i>
+            <input class="finp" type="password" id="r-pwd" placeholder="Minimum 8 caractères" autocomplete="new-password" style="padding-right:40px">
+            <button class="pwd-eye" onclick="toggleEye('r-pwd',this)" type="button"><i class="ri-eye-off-line"></i></button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel">Confirmer</label>
+          <div class="fwrap"><i class="ri-lock-2-line fico"></i>
+            <input class="finp" type="password" id="r-pwd2" placeholder="Répétez votre mot de passe" autocomplete="new-password">
+          </div>
+        </div>
+        <button class="sbtn" id="r-btn" type="submit" onclick="doRegister()">
+          <span id="r-txt">Créer mon compte <i class="ri-arrow-right-line"></i></span>
+          <div class="sbtn-spin" id="r-spin"></div>
+        </button>
+        <p class="fnote" style="margin-top:12px">En créant un compte, vous acceptez nos <a href="#">conditions d'utilisation</a>.</p>
+      </div>
+
+      <p class="fnote">Problème ? <a href="mailto:contact@africademia.com">Contactez-nous</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+// ─── CANVAS BACKGROUND ────────────────────────────────────
+(function initCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles = [], frame = 0;
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Orbs
+  const orbs = [
+    { x:.18, y:.25, r:.38, c:'200,151,58', speed:.0007 },
+    { x:.72, y:.70, r:.32, c:'140,90,25',  speed:.0009 },
+    { x:.50, y:.50, r:.22, c:'200,151,58', speed:.0013 },
+    { x:.85, y:.15, r:.18, c:'160,110,40', speed:.0011 },
+  ];
+
+  // Particles
+  function mkParticle() {
+    return { x: Math.random()*W, y: H+10, vy: -(0.3+Math.random()*0.6), vx: (Math.random()-.5)*0.3, alpha: Math.random()*.6+.2, r: Math.random()*2.5+.5, life:0, maxLife:180+Math.random()*200 };
+  }
+  for (let i=0;i<28;i++) { const p=mkParticle(); p.y=Math.random()*H; p.life=Math.random()*p.maxLife; particles.push(p); }
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+
+    // Background
+    const bg = ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0e0b07');
+    bg.addColorStop(.6,'#161109');
+    bg.addColorStop(1,'#1a1208');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0,0,W,H);
+
+    // Animated orbs
+    const t = Date.now();
+    orbs.forEach((o,i) => {
+      const ox = W*(o.x + Math.sin(t*o.speed + i)*0.08);
+      const oy = H*(o.y + Math.cos(t*o.speed*1.3 + i)*0.07);
+      const gr = ctx.createRadialGradient(ox,oy,0,ox,oy,Math.min(W,H)*o.r);
+      gr.addColorStop(0,`rgba(${o.c},.28)`);
+      gr.addColorStop(.5,`rgba(${o.c},.08)`);
+      gr.addColorStop(1,'transparent');
+      ctx.fillStyle = gr;
+      ctx.fillRect(0,0,W,H);
+    });
+
+    // Grid
+    ctx.strokeStyle = 'rgba(200,151,58,.05)';
+    ctx.lineWidth = 1;
+    const gs = 64;
+    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+
+    // Particles
+    particles.forEach((p,i) => {
+      p.x+=p.vx; p.y+=p.vy; p.life++;
+      const prog = p.life/p.maxLife;
+      const a = p.alpha * Math.sin(prog*Math.PI);
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(200,151,58,${a})`;
+      ctx.fill();
+      if(p.life>=p.maxLife) particles[i]=mkParticle();
+    });
+
+    // Connecting lines between nearby particles
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<90){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(200,151,58,${.12*(1-d/90)})`;
+          ctx.lineWidth=.8;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── GSAP ENTRANCE ────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+  tl.to('.hero-tag',    { opacity:1, y:0, duration:.7, delay:.15 }, 0)
+    .from('.hero-tag',  { y:20 }, '<')
+    .to('.hero-h',      { opacity:1, y:0, duration:.85 }, .25)
+    .from('.hero-h',    { y:36 }, '<')
+    .to('.hero-p',      { opacity:1, y:0, duration:.75 }, .4)
+    .from('.hero-p',    { y:24 }, '<')
+    .to('.stats-row',   { opacity:1, y:0, duration:.75 }, .55)
+    .from('.stats-row', { y:20 }, '<')
+    .to('#float-strip', { opacity:1, x:0, duration:.8 }, .7)
+    .from('#float-strip',{ x:30 }, '<')
+    .to('#form-box',    { opacity:1, y:0, duration:.7 }, .3)
+    .from('#form-box',  { y:28 }, '<');
+
+  // Stagger float cards
+  gsap.to('.fcard', { y:0, duration:3, yoyo:true, repeat:-1, ease:'sine.inOut', stagger:{ each:.8, from:'start' }, yPercent:0 });
+  gsap.from('.fcard',{ y:8, stagger:.8, ease:'sine.inOut', yoyo:true, repeat:-1, duration:3 });
+
+  // Counter animation
+  animCount('cnt-clients', 500, '+', 1600);
+  animCount('cnt-forms', 5, '', 1200);
+});
+
+function animCount(id, target, suf, dur) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts-start)/dur, 1);
+    const ease = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.floor(ease*target) + suf;
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target + suf;
+  }
+  setTimeout(()=>requestAnimationFrame(step), 500);
+}
+
+// ─── AUTH INIT ────────────────────────────────────────────
+(async function init() {
+  try { await AUTH.init(); } catch(e) {}
+
+  if (AUTH.user) {
+    // Protection anti-boucle : on ne tente qu'une seule redirection automatique.
+    // Si on revient ici après une tentative, on affiche le formulaire proprement.
+    const KEY = '_cx_tries';
+    const tries = parseInt(sessionStorage.getItem(KEY) || '0');
+    if (tries < 1) {
+      sessionStorage.setItem(KEY, '1');
+      redirectUser();
+      return;
+    }
+    // Retour de boucle : nettoyer et afficher le formulaire
+    sessionStorage.removeItem(KEY);
+  } else {
+    sessionStorage.removeItem('_cx_tries');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    if (document.getElementById('tp-l').classList.contains('on')) doLogin();
+    else doRegister();
+  });
+})();
+
+function redirectUser() {
+  if (AUTH.isAdmin()) window.location.href = 'admin.html';
+  else window.location.href = 'espace-client.html';
+}
+
+// ─── LOGIN ────────────────────────────────────────────────
+async function doLogin() {
+  const email = g('l-email'), pwd = g('l-pwd');
+  if (!email || !pwd) { showMsg('err','Veuillez remplir tous les champs.'); return; }
+  setLoad('l-btn','l-txt','l-spin', true);
+  clearMsg();
+  try {
+    await AUTH.login(email, pwd);
+    showMsg('ok', AUTH.isAdmin() ? 'Bienvenue administrateur ! Redirection…' : 'Connexion réussie ! Redirection…');
+    setTimeout(redirectUser, 700);
+  } catch(e) {
+    showMsg('err', authErr(e));
+    setLoad('l-btn','l-txt','l-spin', false, 'Se connecter <i class="ri-arrow-right-line"></i>');
+  }
+}
+
+// ─── REGISTER ─────────────────────────────────────────────
+async function doRegister() {
+  const email = g('r-email'), pwd = g('r-pwd'), pwd2 = g('r-pwd2');
+  const prenom = g('r-prenom'), nom = g('r-nom');
+  if (!email || !pwd) { showMsg('err','Email et mot de passe requis.'); return; }
+  if (pwd !== pwd2)   { showMsg('err','Les mots de passe ne correspondent pas.'); return; }
+  if (pwd.length < 8) { showMsg('err','Au moins 8 caractères pour le mot de passe.'); return; }
+  setLoad('r-btn','r-txt','r-spin', true);
+  clearMsg();
+  try {
+    await AUTH.register(email, pwd, { prenom, nom });
+    showMsg('ok','Compte créé ! Vérifiez votre email, puis connectez-vous.');
+    setLoad('r-btn','r-txt','r-spin', false, 'Créer mon compte <i class="ri-arrow-right-line"></i>');
+    setTimeout(() => switchTab('l'), 2400);
+  } catch(e) {
+    showMsg('err', authErr(e));
+    setLoad('r-btn','r-txt','r-spin', false, 'Créer mon compte <i class="ri-arrow-right-line"></i>');
+  }
+}
+
+// ─── HELPERS ──────────────────────────────────────────────
+function g(id) { return (document.getElementById(id)?.value||'').trim(); }
+
+function showMsg(type, txt) {
+  const el = document.getElementById('msg-'+type);
+  document.getElementById('msg-'+type+'-txt').innerHTML = txt;
+  el.classList.add('show');
+}
+function clearMsg() {
+  document.getElementById('msg-err').classList.remove('show');
+  document.getElementById('msg-ok').classList.remove('show');
+}
+
+function setLoad(btnId, txtId, spinId, on, label='') {
+  const btn=document.getElementById(btnId), txt=document.getElementById(txtId), spin=document.getElementById(spinId);
+  btn.disabled=on; txt.style.display=on?'none':''; spin.style.display=on?'block':'none';
+  if(!on && label) txt.innerHTML=label;
+}
+
+function switchTab(t) {
+  const isL = t==='l';
+  document.getElementById('tab-l').classList.toggle('on', isL);
+  document.getElementById('tab-r').classList.toggle('on', !isL);
+  document.getElementById('tp-l').classList.toggle('on', isL);
+  document.getElementById('tp-r').classList.toggle('on', !isL);
+  document.getElementById('form-title').textContent = isL ? 'Bon retour 👋' : 'Rejoignez-nous ✨';
+  document.getElementById('form-sub').textContent   = isL
+    ? 'Connectez-vous pour accéder à votre espace.'
+    : 'Créez votre compte gratuitement en 30 secondes.';
+  clearMsg();
+  // Animate panel
+  gsap.fromTo(isL?'#tp-l':'#tp-r', {opacity:0,y:12},{opacity:1,y:0,duration:.35,ease:'power2.out'});
+}
+
+function toggleEye(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type  = inp.type==='text' ? 'password' : 'text';
+  btn.querySelector('i').className = inp.type==='text' ? 'ri-eye-line' : 'ri-eye-off-line';
+}
+
+function openWA(e) {
+  e.preventDefault();
+  const num = (window.AF_CONFIG?.whatsapp||'22500000000').replace(/\D/g,'');
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent("Bonjour, j'ai besoin d'aide pour me connecter à Africademia.")}`, '_blank');
+}
+
+function authErr(e) {
+  const m = (e?.message||'').toLowerCase();
+  if (m.includes('invalid login')||m.includes('invalid_credentials')||m.includes('incorrect')) return 'Email ou mot de passe incorrect.';
+  if (m.includes('email not confirmed')||m.includes('email_not_confirmed')) return 'Email non confirmé. Vérifiez votre boîte mail.';
+  if (m.includes('user not found')) return 'Aucun compte avec cet email.';
+  if (m.includes('already registered')||m.includes('user_already_exists')) return 'Compte existant — connectez-vous.';
+  if (m.includes('too many')) return 'Trop de tentatives. Attendez quelques minutes.';
+  return e?.message || 'Erreur inattendue. Réessayez.';
+}
+</script>
+</body>
+</html>

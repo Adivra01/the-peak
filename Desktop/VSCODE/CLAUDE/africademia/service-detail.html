@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/css/service-detail.css">
+<!-- SEO-START -->
+<meta name="description" content="Découvrez en détail ce service digital proposé par Africademia pour les entrepreneurs et entreprises africaines.">
+<meta name="keywords" content="service digital Afrique, Africademia service">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/service-detail.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Détail Service — Africademia">
+<meta property="og:description" content="Découvrez en détail ce service digital proposé par Africademia pour les entrepreneurs et entreprises africaines.">
+<meta property="og:url" content="https://africademia.com/service-detail.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Détail Service — Africademia">
+<meta name="twitter:description" content="Découvrez en détail ce service digital proposé par Africademia pour les entrepreneurs et entreprises africaines.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SEO-END -->
+
+<title>Détail Service — Africademia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()"><i class="ri-close-line"></i></button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="direction-afromodern.html" class="logo"><span class="mk"></span>Africa<b>demia</b></a>
+    <a href="direction-afromodern.html#services" class="nav-back"><i class="ri-arrow-left-line"></i> Tous les services</a>
+    <div class="nav-right">
+      <a href="connexion.html" class="nav-login" id="nav-login-btn"><i class="ri-user-line"></i><span class="nl-txt"> Connexion</span></a>
+      <a href="direction-afromodern.html#contact" class="nav-cta">Nous contacter</a>
+      <a href="direction-afromodern.html" class="nav-burger-s" aria-label="Menu"><i class="ri-menu-line"></i></a>
+    </div>
+  </div>
+</nav>
+
+<div id="pageContent"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-logo"><div class="logo"><span class="mk"></span>Africa<b>demia</b></div></div>
+      <div class="foot-copy">© 2025 Africademia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="data/formations.js"></script>
+<script src="data/services.js"></script>
+<script src="js/db.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── helpers ──────────────────────────────────────────────────────────
+const nav = document.getElementById('nav');
+addEventListener('scroll', function(){ nav.classList.toggle('scrolled', scrollY > 40); }, {passive:true});
+
+const params = new URLSearchParams(location.search);
+const slug   = params.get('slug');
+const T      = params.get('t') || 'afro';
+const WA_NUM = (window.AF_CONFIG || {whatsapp:'22369656610'}).whatsapp;
+
+function fmt(n, d){ return (n||0).toLocaleString('fr-FR') + ' ' + (d||'FCFA'); }
+
+function isVideoUrl(url) {
+  return url && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
+}
+
+function paras(text) {
+  if (!text) return '';
+  return text.split(/\n{2,}/).map(function(p){ return '<p>' + p.replace(/\n/g,'<br>') + '</p>'; }).join('');
+}
+
+// ── Lightbox ─────────────────────────────────────────────────────────
+function openLightbox(src){
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target===this || e.target.tagName==='BUTTON') closeLightbox();
+});
+
+// ── Fullscreen ───────────────────────────────────────────────────────
+function toggleFullscreen(){
+  var el = document.getElementById('mainSrvVideo') || document.getElementById('mainSrvImg');
+  if(!el) return;
+  var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen;
+  if(req) req.call(el);
+}
+
+// ── Tabs ─────────────────────────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.tab === name); });
+  var panel = document.getElementById('tab-' + name);
+  if(panel) panel.classList.add('active');
+}
+
+// ── Video play ───────────────────────────────────────────────────────
+function startSrvVideo(){
+  var v = document.getElementById('mainSrvVideo');
+  var o = document.getElementById('srvPlayOverlay');
+  if(v){ v.play(); }
+  if(o){ o.classList.add('hidden'); }
+}
+
+// ── Fetch service ────────────────────────────────────────────────────
+async function getServiceBySlug(slug){
+  try {
+    if(window.DB && DB.getService) {
+      var s = await DB.getService(slug);
+      if(s) return s;
+    }
+  } catch(e) {}
+  return (window.AF_SERVICES || []).find(function(s){ return s.slug === slug; }) || null;
+}
+
+// ── Fetch formations by slugs ─────────────────────────────────────────
+async function getFormationsBySlug(slugs){
+  var all = [];
+  try {
+    if(window.DB && DB.getFormations) {
+      all = await DB.getFormations();
+    }
+  } catch(e) {}
+  if(!all || !all.length) all = window.AF_FORMATIONS || [];
+  return all.filter(function(f){ return slugs.includes(f.slug); });
+}
+
+// ── Render ───────────────────────────────────────────────────────────
+async function render(){
+  var s;
+  try { s = await getServiceBySlug(slug); } catch(e){ s = null; }
+
+  if(!s){
+    document.getElementById('pageContent').innerHTML = `
+      <div style="text-align:center;padding:200px 20px">
+        <p style="font-family:var(--disp);font-size:18px;color:var(--muted)">Service introuvable.</p>
+        <a href="direction-afromodern.html#services" style="color:var(--gold);font-family:var(--disp);font-weight:700;margin-top:14px;display:inline-block">← Voir tous les services</a>
+      </div>`;
+    return;
+  }
+
+  document.title = s.titre + ' — Africademia';
+
+  var hasMedia = !!s.image_url;
+  var isVid    = isVideoUrl(s.image_url);
+  var waDevisText = encodeURIComponent('Bonjour Africademia 👋 Je suis intéressé(e) par votre service : ' + s.titre + '. Pouvez-vous me faire un devis ?');
+  var waText      = waDevisText;
+
+  // ── Formations liées ──
+  var liees = s.formations_liees || [];
+  var formsReco = [];
+  try {
+    formsReco = await getFormationsBySlug(liees);
+  } catch(e) {
+    formsReco = (window.AF_FORMATIONS || []).filter(function(f){ return liees.includes(f.slug); });
+  }
+  // Compléter si pas assez
+  if(formsReco.length < 2){
+    var catMap = {
+      web: ['web','ia'],
+      marketing: ['marketing','business'],
+      ia: ['ia','business'],
+      publicite: ['marketing'],
+      hebergement: ['web']
+    };
+    var cats = catMap[s.categorie] || [];
+    var extraForms = (window.AF_FORMATIONS || []).filter(function(f){
+      return cats.includes(f.categorie) && !liees.includes(f.slug);
+    });
+    formsReco = formsReco.concat(extraForms.slice(0, 3 - formsReco.length));
+  }
+  formsReco = formsReco.slice(0, 3);
+
+  // ── Autres services ──
+  var autresSrv = (window.AF_SERVICES || []).filter(function(sv){ return sv.slug !== s.slug; }).slice(0, 3);
+
+  // Hero background
+  var heroCover = hasMedia ? `
+    <div class="hero-cover">
+      ${isVid
+        ? `<video src="${s.image_url}" autoplay muted loop playsinline></video>`
+        : `<img src="${s.image_url}" alt="${s.titre}">`}
+    </div>` : '';
+
+  // Media section
+  var mediaSection = hasMedia ? `
+  <section class="media-section">
+    <div class="media-wrap">
+      <div class="media-player">
+        ${isVid ? `
+          <div class="media-play-overlay" id="srvPlayOverlay">
+            <div class="play-circle" onclick="startSrvVideo()"><i class="ri-play-fill"></i></div>
+          </div>
+          <video id="mainSrvVideo" controls preload="metadata" playsinline style="display:block"
+            onclick="document.getElementById('srvPlayOverlay').classList.add('hidden')">
+            <source src="${s.image_url}" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture vidéo.
+          </video>
+          <button class="fs-btn" onclick="toggleFullscreen()"><i class="ri-fullscreen-line"></i> Plein écran</button>
+        ` : `
+          <div class="media-img-wrap" onclick="openLightbox('${s.image_url}')">
+            <img id="mainSrvImg" src="${s.image_url}" alt="${s.titre}">
+          </div>
+        `}
+      </div>
+    </div>
+  </section>` : '';
+
+  // Tabs bar
+  var tabsBar = `
+  <div class="tabs-bar" id="tabsBar">
+    <div class="tabs-inner">
+      <button class="tab-btn active" data-tab="description" onclick="switchTab('description')">Description</button>
+      <button class="tab-btn" data-tab="points" onclick="switchTab('points')">Points forts</button>
+      <button class="tab-btn" data-tab="inclus" onclick="switchTab('inclus')">Ce qui est inclus</button>
+      <div class="tab-price-pill">Sur devis</div>
+    </div>
+  </div>`;
+
+  // Description panel
+  var descPanel = `
+  <div class="tab-panel active" id="tab-description">
+    <h2 class="sec-h">À propos de ce service</h2>
+    <div class="desc-text">${paras(s.description || s.description_courte || '')}</div>
+    ${s.description_longue ? `
+      <hr class="desc-divider">
+      <div class="desc-long">${paras(s.description_longue)}</div>
+    ` : ''}
+  </div>`;
+
+  // Points forts panel
+  var pointsPanel = `
+  <div class="tab-panel" id="tab-points">
+    <h2 class="sec-h">Points forts</h2>
+    <div class="points-list">
+      ${(s.points_forts || []).map(function(p){ return `
+        <div class="point-item"><i class="ri-check-double-line point-ic"></i>${p}</div>
+      `; }).join('')}
+    </div>
+  </div>`;
+
+  // Inclus panel
+  var inclusPanel = `
+  <div class="tab-panel" id="tab-inclus">
+    <h2 class="sec-h">Ce qui est inclus</h2>
+    <div class="inclus-list">
+      ${(s.inclus || []).map(function(item){ return `
+        <div class="inclus-item"><i class="ri-checkbox-circle-line inclus-ic"></i>${item}</div>
+      `; }).join('')}
+    </div>
+  </div>`;
+
+  // Sidebar
+  var sidebar = `
+  <div class="body-right">
+    <div class="side-card">
+      <div class="side-price-wrap">
+        <div class="side-from">Tarification</div>
+        <div class="side-price" style="font-size:24px">Sur devis</div>
+        <div class="side-devise">Devis gratuit sous 24h</div>
+      </div>
+      <div class="side-h" style="margin-top:16px">Détails</div>
+      ${s.duree_estimee ? `<div class="side-item"><i class="ri-time-line"></i><span>Durée : <b>${s.duree_estimee}</b></span></div>` : ''}
+      <div class="side-item"><i class="ri-map-pin-2-line"></i><span>Zone : <b>Afrique & diaspora</b></span></div>
+      <div class="side-item"><i class="ri-translate-2"></i><span>Langue : <b>Français</b></span></div>
+      <div class="side-item"><i class="ri-customer-service-2-line"></i><span>Support : <b>WhatsApp + Email</b></span></div>
+    </div>
+    <a href="https://wa.me/${WA_NUM}?text=${waDevisText}" target="_blank" class="side-cta"><i class="ri-whatsapp-line"></i>Demander un devis</a>
+    <a href="https://wa.me/${WA_NUM}?text=${waText}" target="_blank" class="side-cta-ln"><i class="ri-chat-1-line"></i>Question via WhatsApp</a>
+    <button class="side-cta-ln" onclick="location.href='direction-afromodern.html#services'"><i class="ri-arrow-left-line"></i>Tous les services</button>
+  </div>`;
+
+  // Formations recommandées
+  var formsSection = formsReco.length ? `
+  <section class="reco-section">
+    <div class="wrap">
+      <div class="reco-ttl">Formations associées</div>
+      <div class="reco-grid">
+        ${formsReco.map(function(f){ return `
+          <a href="formation-detail.html?slug=${f.slug}&t=${T}" class="reco-card">
+            ${f.image_url && !isVideoUrl(f.image_url) ? `<img class="rel-cover" src="${f.image_url}" alt="${f.titre}">` : `<div class="rel-icon"><i class="${f.icon || 'ri-book-2-line'}"></i></div>`}
+            <div class="rel-name">${f.titre}</div>
+            <div class="rel-price">${fmt(f.prix, f.devise)}</div>
+          </a>
+        `; }).join('')}
+      </div>
+    </div>
+  </section>` : '';
+
+  // Autres services
+  var autresSection = autresSrv.length ? `
+  <section class="reco-section" style="background:transparent;border-top:1px solid rgba(22,17,9,.07)">
+    <div class="wrap">
+      <div class="reco-ttl">Autres services</div>
+      <div class="reco-grid">
+        ${autresSrv.map(function(sv){ return `
+          <a href="service-detail.html?slug=${sv.slug}&t=${T}" class="srv-other-card">
+            <div class="srv-other-icon"><i class="${sv.icon || 'ri-service-line'}"></i></div>
+            <div class="srv-other-name">${sv.titre}</div>
+            <div class="srv-other-price">Sur devis</div>
+            <div class="srv-other-desc">${sv.description_courte || ''}</div>
+          </a>
+        `; }).join('')}
+      </div>
+    </div>
+  </section>` : '';
+
+  document.getElementById('pageContent').innerHTML = `
+    <!-- HERO -->
+    <header class="hero" id="hero">
+      ${heroCover}
+      <div class="hero-vignette"></div>
+      <div class="wrap hero-inner">
+        <div>
+          <div class="breadcrumb">
+            <a href="direction-afromodern.html">Accueil</a>
+            <i class="ri-arrow-right-s-line"></i>
+            <a href="direction-afromodern.html#services">Services</a>
+            <i class="ri-arrow-right-s-line"></i>
+            <span>${s.titre}</span>
+          </div>
+          <div class="hero-badges">
+            <span class="b-cat">${(s.categorie || '').toUpperCase()}</span>
+            ${s.duree_estimee ? `<span class="b-duree"><i class="ri-time-line" style="font-size:9px"></i> ${s.duree_estimee}</span>` : ''}
+          </div>
+          ${!hasMedia ? `<i class="${s.icon || 'ri-service-line'} hero-icon-big"></i>` : ''}
+          <h1 id="srvHeroH1">${s.titre}</h1>
+          <p class="hero-sub">${s.sous_titre || s.description_courte || ''}</p>
+        </div>
+        <div class="cta-card" id="srvCtaCard">
+          <div class="cta-card-prix">
+            <div class="cta-card-from">Tarification</div>
+            <div class="cta-card-price" style="font-size:26px">Sur devis</div>
+            <div class="cta-card-dev">${s.duree_estimee ? s.duree_estimee + ' · ' : ''}Devis gratuit sous 24h</div>
+          </div>
+          <a href="https://wa.me/${WA_NUM}?text=${waDevisText}" target="_blank" class="cta-main-btn"><i class="ri-whatsapp-line"></i> Demander un devis</a>
+          <a href="https://wa.me/${WA_NUM}?text=${waText}" target="_blank" class="cta-wpp-btn"><i class="ri-chat-1-line"></i> Question via WhatsApp</a>
+          <div class="cta-perks">
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Devis gratuit & sans engagement</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Réponse sous 24h</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Support inclus</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    ${mediaSection}
+    ${tabsBar}
+
+    <!-- MAIN CONTENT -->
+    <div class="wrap">
+      <div class="body-grid">
+        <main class="body-left">
+          ${descPanel}
+          ${pointsPanel}
+          ${inclusPanel}
+        </main>
+        ${sidebar}
+      </div>
+    </div>
+
+    ${formsSection}
+    ${autresSection}
+  `;
+
+  // Adjust tabs-bar top offset based on nav height
+  function setTabsTop(){
+    var tb = document.getElementById('tabsBar');
+    if(tb) tb.style.top = nav.getBoundingClientRect().height + 'px';
+  }
+  setTabsTop();
+  new ResizeObserver(setTabsTop).observe(nav);
+
+  // Animations
+  gsap.from('#srvHeroH1', {opacity:0,y:28,duration:.7,ease:'power3.out',delay:.15});
+  gsap.from('.hero-sub,.hero-badges,.breadcrumb,.hero-icon-big', {opacity:0,y:18,duration:.6,stagger:.09,ease:'power3.out',delay:.25});
+  gsap.from('#srvCtaCard', {opacity:0,x:36,duration:.75,ease:'power3.out',delay:.35});
+  if(hasMedia){
+    gsap.from('.media-player', {opacity:0,y:30,duration:.7,ease:'power3.out',delay:.1,
+      scrollTrigger:{trigger:'.media-section',start:'top 85%',once:true}});
+  }
+  gsap.from('.point-item', {opacity:0,x:-18,duration:.5,stagger:.06,ease:'power3.out',
+    scrollTrigger:{trigger:'.points-list',start:'top 82%',once:true}});
+  gsap.from('.inclus-item', {opacity:0,y:16,duration:.5,stagger:.05,ease:'power3.out',
+    scrollTrigger:{trigger:'.inclus-list',start:'top 82%',once:true}});
+  gsap.from('.reco-card,.srv-other-card', {opacity:0,y:20,duration:.5,stagger:.08,ease:'power3.out',
+    scrollTrigger:{trigger:'.reco-section',start:'top 85%',once:true}});
+}
+
+render();
+</script>
+
+<!-- Auth state: update nav button -->
+<script>(function(){
+  try{
+    var s=localStorage.getItem('sb-wnvsrjsjjnyitxiexztq-auth-token');
+    if(!s)return;
+    var d=JSON.parse(s),u=d&&(d.user||(d.currentSession&&d.currentSession.user));
+    if(!u||!u.email)return;
+    var b=document.getElementById('nav-login-btn');
+    if(b){b.innerHTML='<i class="ri-user-line"></i><span class="nl-txt"> Mon espace</span>';b.href='espace-client.html';}
+  }catch(e){}
+})();</script>
+</body>
+</html>

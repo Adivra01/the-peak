@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/css/projet-detail.css">
+<!-- SEO-START -->
+<meta name="description" content="Acquérez ce projet digital clé en main. Africademia vous propose des projets web prêts à l'emploi pour accélérer votre démarrage.">
+<meta name="keywords" content="projet digital vente Afrique, site web clé en main Sénégal">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/projet-detail.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Projet Digital à Vendre — Africademia">
+<meta property="og:description" content="Acquérez ce projet digital clé en main. Africademia vous propose des projets web prêts à l'emploi pour accélérer votre démarrage.">
+<meta property="og:url" content="https://africademia.com/projet-detail.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Projet Digital à Vendre — Africademia">
+<meta name="twitter:description" content="Acquérez ce projet digital clé en main. Africademia vous propose des projets web prêts à l'emploi pour accélérer votre démarrage.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SEO-END -->
+
+<title>Projet Digital à Vendre — Africademia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()"><i class="ri-close-line"></i></button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="direction-afromodern.html" class="logo"><span class="mk"></span>Africa<b>demia</b></a>
+    <a href="direction-afromodern.html#vente" class="nav-back"><i class="ri-arrow-left-line"></i> Retour aux sites</a>
+    <div class="nav-right">
+      <a href="connexion.html" class="nav-login" id="nav-login-btn"><i class="ri-user-line"></i><span class="nl-txt"> Connexion</span></a>
+      <a href="direction-afromodern.html#contact" class="nav-cta">Nous contacter</a>
+    </div>
+  </div>
+</nav>
+
+<div id="pageContent"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-logo"><div class="logo"><span class="mk"></span>Africa<b>demia</b></div></div>
+      <div class="foot-copy">© 2025 Africademia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+gsap.registerPlugin(ScrollTrigger);
+
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+const params  = new URLSearchParams(location.search);
+const projId  = params.get('id');
+const WA_NUM  = (window.AF_CONFIG || {whatsapp:'22369656610'}).whatsapp;
+
+function fmtP(n){ return n ? n.toLocaleString('fr-FR') + ' FCFA' : 'Sur demande'; }
+function paras(t){ if(!t) return ''; return t.split(/\n{2,}/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join(''); }
+function isVidUrl(u){ return u && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(u); }
+
+// Lightbox
+function openLb(src){ document.getElementById('lbImg').src=src; document.getElementById('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeLb()  { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; }
+window.closeLb = closeLb;
+document.getElementById('lightbox').addEventListener('click', e=>{ if(e.target===e.currentTarget||e.target.tagName==='BUTTON') closeLb(); });
+
+// Fullscreen
+function goFullscreen(){ const v=document.getElementById('mainVideo'); if(!v) return; (v.requestFullscreen||v.webkitRequestFullscreen||v.mozRequestFullScreen||function(){}).call(v); }
+window.goFullscreen = goFullscreen;
+
+// Play video
+function playVideo(){ const v=document.getElementById('mainVideo'); const o=document.getElementById('playOverlay'); if(v){ v.play(); } if(o){ o.classList.add('gone'); } }
+window.playVideo = playVideo;
+
+async function render(){
+  let proj = null, allProjets = [];
+
+  if(window.DB && DB.client){
+    try{
+      // Fetch this project
+      if(projId){
+        const { data, error } = await DB.client.from('projets_vente').select('*').eq('id', projId).single();
+        if(!error && data) proj = data;
+      }
+      // Fetch all available for related section
+      const { data:allData } = await DB.client.from('projets_vente').select('*').eq('statut','disponible').order('created_at',{ascending:false}).limit(10);
+      allProjets = allData || [];
+    }catch(e){}
+  }
+
+  if(!proj){
+    document.getElementById('pageContent').innerHTML=`
+      <div style="text-align:center;padding:200px 20px">
+        <p style="font-family:var(--disp);font-size:18px;color:var(--muted)">Projet introuvable.</p>
+        <a href="direction-afromodern.html#vente" style="color:var(--gold);font-family:var(--disp);font-weight:700;margin-top:14px;display:inline-block">← Retour aux sites</a>
+      </div>`;
+    return;
+  }
+
+  document.title = proj.titre + ' — Africademia';
+
+  const statusLabel = { disponible:'Disponible', reserve:'Réservé', vendu:'Vendu' };
+  const statusCls   = { disponible:'dispo', reserve:'reserve', vendu:'vendu' };
+  const technos = (proj.technos||'').split(',').map(t=>t.trim()).filter(Boolean);
+  const waText  = encodeURIComponent(`Bonjour 👋 Je suis intéressé par le site "${proj.titre}" disponible à ${fmtP(proj.prix)}. Pouvez-vous m'en dire plus ?`);
+  const hasVid  = isVidUrl(proj.video_url);
+  const hasImg  = !!proj.image_url;
+  const hasDemo = !!proj.url_demo;
+
+  // Media section (video if available, else image)
+  let mediaHtml = '';
+  if(hasVid){
+    mediaHtml = `
+    <section class="media-section">
+      <div class="media-wrap">
+        <div class="media-player">
+          <div class="play-overlay" id="playOverlay">
+            <div class="play-ring" onclick="playVideo()"><i class="ri-play-fill"></i></div>
+          </div>
+          <video id="mainVideo" controls preload="metadata" playsinline
+            poster="${hasImg ? proj.image_url : ''}"
+            onclick="document.getElementById('playOverlay').classList.add('gone')">
+            <source src="${proj.video_url}" type="video/mp4">
+          </video>
+        </div>
+        <div class="media-controls">
+          <div class="mc-left">
+            <span class="mc-label"><i class="ri-play-circle-line" style="color:var(--gold);margin-right:4px"></i> Vidéo de démonstration</span>
+          </div>
+          <div style="display:flex;gap:10px">
+            ${hasDemo ? `<a href="${proj.url_demo}" target="_blank" rel="noopener" class="mc-demo"><i class="ri-external-link-line"></i> Voir le site en direct</a>` : ''}
+            <button class="mc-fs" onclick="goFullscreen()"><i class="ri-fullscreen-line"></i> Plein écran</button>
+          </div>
+        </div>
+      </div>
+    </section>`;
+  } else if(hasImg){
+    mediaHtml = `
+    <section class="media-section">
+      <div class="media-wrap">
+        <div class="media-player">
+          <img id="mainImg" src="${proj.image_url}" alt="${proj.titre}" onclick="openLb('${proj.image_url}')">
+        </div>
+        <div class="media-controls">
+          <div class="mc-left">
+            <span class="mc-label"><i class="ri-image-line" style="color:var(--gold);margin-right:4px"></i> Aperçu du site</span>
+          </div>
+          ${hasDemo ? `<a href="${proj.url_demo}" target="_blank" rel="noopener" class="mc-demo"><i class="ri-external-link-line"></i> Voir le site en direct</a>` : ''}
+        </div>
+      </div>
+    </section>`;
+  }
+
+  const related = allProjets.filter(p => p.id !== proj.id).slice(0,3);
+
+  document.getElementById('pageContent').innerHTML = `
+    <!-- HERO -->
+    <header class="hero" id="hero">
+      ${hasImg ? `<div class="hero-cover"><img src="${proj.image_url}" alt="${proj.titre}"></div>` : ''}
+      <div class="hero-vignette"></div>
+      <div class="wrap hero-inner">
+        <div>
+          <div class="breadcrumb">
+            <a href="direction-afromodern.html">Accueil</a>
+            <i class="ri-arrow-right-s-line"></i>
+            <a href="direction-afromodern.html#vente">Sites à vendre</a>
+            <i class="ri-arrow-right-s-line"></i>
+            <span>${proj.titre}</span>
+          </div>
+          <div class="hero-badges">
+            <span class="b-status ${statusCls[proj.statut]||'dispo'}">${statusLabel[proj.statut]||proj.statut}</span>
+          </div>
+          <h1 id="heroH1">${proj.titre}</h1>
+          <p class="hero-sub">${proj.description_courte||''}</p>
+          ${technos.length ? `<div class="tech-row">${technos.map(t=>`<span class="tech-pill">${t}</span>`).join('')}</div>` : ''}
+        </div>
+        <div class="cta-card">
+          <div class="cta-price">${fmtP(proj.prix)}</div>
+          <div class="cta-price-dev">Prix de cession · Hébergement offert 1 an</div>
+          ${hasDemo ? `<a href="${proj.url_demo}" target="_blank" rel="noopener" class="btn-demo"><i class="ri-external-link-line"></i> Voir le site en direct</a>` : ''}
+          <a href="https://wa.me/${WA_NUM.replace(/\D/g,'')}?text=${waText}" target="_blank" class="btn-wpp"><i class="ri-whatsapp-line"></i> Je suis intéressé</a>
+          <div class="cta-perks">
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Site hébergé par Africademia</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Code source livré</div>
+            <div class="cta-perk"><i class="ri-checkbox-circle-line"></i>Formation incluse pour la prise en main</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    ${mediaHtml}
+
+    <!-- CONTENT -->
+    <div class="wrap">
+      <div class="content-grid">
+        <main>
+          <h2 class="sec-h">À propos de ce site</h2>
+          <div class="desc-text">
+            ${paras(proj.description || proj.description_courte || 'Description complète à venir.')}
+          </div>
+
+          ${technos.length ? `
+          <div class="tech-section">
+            <h2 class="sec-h" style="margin-top:40px">Technologies utilisées</h2>
+            <div class="tech-grid">${technos.map(t=>`<span class="tech-badge">${t}</span>`).join('')}</div>
+          </div>` : ''}
+
+          <h2 class="sec-h" style="margin-top:40px">Ce que vous obtenez</h2>
+          <div class="feature-list">
+            <div class="feature-item"><i class="ri-code-s-slash-line"></i>Code source complet livré à la cession</div>
+            <div class="feature-item"><i class="ri-server-line"></i>Hébergement Africademia inclus — site déjà en ligne</div>
+            <div class="feature-item"><i class="ri-global-line"></i>Nom de domaine transférable à votre convenance</div>
+            <div class="feature-item"><i class="ri-customer-service-2-line"></i>Accompagnement technique pour la prise en main</div>
+            <div class="feature-item"><i class="ri-paint-brush-line"></i>Personnalisation des couleurs, textes et images incluse</div>
+          </div>
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+          <div class="side-card">
+            <div class="side-price-wrap">
+              <div class="side-price">${fmtP(proj.prix)}</div>
+              <div class="side-devise">Prix de cession unique</div>
+            </div>
+            <div class="side-h" style="margin-top:16px">Inclus dans l'offre</div>
+            <div class="side-item"><i class="ri-code-s-slash-line"></i><span><b>Code source</b></span></div>
+            <div class="side-item"><i class="ri-server-line"></i><span><b>Hébergement 1 an</b></span></div>
+            <div class="side-item"><i class="ri-global-line"></i><span><b>Nom de domaine</b></span></div>
+            <div class="side-item"><i class="ri-tools-line"></i><span><b>Support technique</b></span></div>
+          </div>
+          ${hasDemo ? `<a href="${proj.url_demo}" target="_blank" rel="noopener" class="side-demo-btn"><i class="ri-external-link-line"></i> Voir le site en direct</a>` : ''}
+          <a href="https://wa.me/${WA_NUM.replace(/\D/g,'')}?text=${waText}" target="_blank" class="side-wpp-btn"><i class="ri-whatsapp-line"></i> Je suis intéressé</a>
+          <div class="hosted-badge">
+            <i class="ri-shield-check-line"></i>
+            <span>Ce site est <strong>hébergé et maintenu</strong> par Africademia — il est déjà en ligne.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- RELATED -->
+    ${related.length ? `
+    <section class="related">
+      <div class="wrap">
+        <div class="rel-ttl">D'autres sites disponibles</div>
+        <div class="rel-grid">
+          ${related.map(r=>`
+            <a href="projet-detail.html?id=${r.id}" class="rel-card">
+              <div class="rel-thumb">
+                ${r.image_url ? `<img src="${r.image_url}" alt="${r.titre}">` : `<div class="rel-thumb-ph"><i class="ri-global-line"></i></div>`}
+              </div>
+              <div class="rel-body">
+                <div class="rel-name">${r.titre}</div>
+                <div class="rel-price">${fmtP(r.prix)}</div>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </section>` : ''}
+  `;
+
+  // Animations
+  gsap.from('#heroH1,.hero-sub,.hero-badges,.breadcrumb,.tech-row', {opacity:0,y:22,duration:.65,stagger:.08,ease:'power3.out',delay:.15});
+  gsap.from('.cta-card', {opacity:0,x:32,duration:.7,ease:'power3.out',delay:.3});
+  if(hasVid||hasImg){
+    gsap.from('.media-section', {opacity:0,y:28,duration:.6,ease:'power3.out',delay:.1,
+      scrollTrigger:{trigger:'.media-section',start:'top 88%',once:true}});
+  }
+  gsap.from('.feature-item', {opacity:0,x:-16,duration:.5,stagger:.06,ease:'power3.out',
+    scrollTrigger:{trigger:'.feature-list',start:'top 82%',once:true}});
+  gsap.from('.rel-card', {opacity:0,y:20,duration:.5,stagger:.08,ease:'power3.out',
+    scrollTrigger:{trigger:'.rel-grid',start:'top 85%',once:true}});
+}
+
+render();
+})();
+</script>
+<script>(function(){try{var s=localStorage.getItem('sb-wnvsrjsjjnyitxiexztq-auth-token');if(!s)return;var d=JSON.parse(s),u=d&&(d.user||(d.currentSession&&d.currentSession.user));if(!u||!u.email)return;var b=document.getElementById('nav-login-btn');if(b){b.innerHTML='<i class="ri-user-line"></i><span class="nl-txt"> Mon espace</span>';b.href='espace-client.html';}}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-formations.html
+Disallow: /espace-client.html
+Disallow: /connexion.html
+
+Sitemap: https://africademia.com/sitemap.xml

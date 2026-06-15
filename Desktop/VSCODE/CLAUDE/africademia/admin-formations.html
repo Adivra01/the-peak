@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/css/admin-formations.css">
+<!-- SEO-START -->
+<meta name="description" content="Administration des formations Africademia.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="Africademia">
+<link rel="canonical" href="https://africademia.com/admin-formations.html">
+<!-- Open Graph -->
+<meta property="og:type" content="webpage">
+<meta property="og:site_name" content="Africademia">
+<meta property="og:title" content="Gestion Formations — Africademia">
+<meta property="og:description" content="Administration des formations Africademia.">
+<meta property="og:url" content="https://africademia.com/admin-formations.html">
+<meta property="og:image" content="https://africademia.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_SN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@africademia">
+<meta name="twitter:title" content="Gestion Formations — Africademia">
+<meta name="twitter:description" content="Administration des formations Africademia.">
+<meta name="twitter:image" content="https://africademia.com/og-image.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SEO-END -->
+
+<title>Gestion Formations — Africademia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Africa<b>demia</b></div>
+    <div class="login-sub">Admin · Formations</div>
+    <input type="password" class="login-inp" id="pwdInput" placeholder="Mot de passe" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Accéder au tableau de bord</button>
+    <div class="login-err" id="loginErr">Mot de passe incorrect</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin" id="adminPanel">
+  <div class="sidebar">
+    <div class="s-logo">Africa<b>demia</b></div>
+    <div class="s-sub">Admin Panel</div>
+    <div class="s-nav">
+      <div class="s-link on" onclick="showView('formations')" id="lnk-formations"><i class="ri-graduation-cap-line"></i>Formations</div>
+      <div class="s-link" onclick="showView('contacts')" id="lnk-contacts"><i class="ri-contacts-line"></i>Contacts</div>
+      <div class="s-link" onclick="showView('export')" id="lnk-export"><i class="ri-download-cloud-line"></i>Exporter JSON</div>
+    </div>
+    <div class="s-bottom">
+      <a href="formations.html" target="_blank">← Voir le site</a><br><br>
+      <span onclick="doLogout()" style="cursor:pointer;color:rgba(246,240,226,.28);transition:color .3s" onmouseover="this.style.color='#E07A5F'" onmouseout="this.style.color='rgba(246,240,226,.28)'">Déconnexion</span>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- VIEW: FORMATIONS -->
+    <div class="view on" id="view-formations">
+      <div class="topbar">
+        <div class="page-title">Formations</div>
+        <div class="topbar-actions">
+          <button class="btn btn-outline" onclick="refreshList()"><i class="ri-refresh-line"></i>Actualiser</button>
+          <button class="btn btn-gold" onclick="openModal()"><i class="ri-add-line"></i>Nouvelle formation</button>
+        </div>
+      </div>
+
+      <div class="stats-row" id="statsRow"></div>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <div></div><div>Formation</div><div>Format</div><div>Prix</div><div>Statut</div><div>Actions</div>
+        </div>
+        <div id="tableBody"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: CONTACTS -->
+    <div class="view" id="view-contacts">
+      <div class="topbar">
+        <div class="page-title">Contacts & Leads</div>
+        <div class="topbar-actions">
+          <button class="btn btn-outline" onclick="renderContacts()"><i class="ri-refresh-line"></i>Actualiser</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-head" style="grid-template-columns:1fr 180px 120px 100px 120px">
+          <div>Contact</div><div>Sujet</div><div>Source</div><div>Statut</div><div>Date</div>
+        </div>
+        <div id="contactsBody"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: EXPORT -->
+    <div class="view" id="view-export">
+      <div class="topbar">
+        <div class="page-title">Exporter le JSON</div>
+        <div class="topbar-actions">
+          <button class="btn btn-gold" onclick="copyJson()"><i class="ri-clipboard-line"></i>Copier le JSON</button>
+        </div>
+      </div>
+      <p style="color:rgba(22,17,9,.5);line-height:1.7;max-width:60ch;margin-bottom:16px">
+        Copiez ce JSON et collez-le dans <code style="background:rgba(22,17,9,.07);padding:2px 6px;border-radius:2px;font-size:12px">data/formations.js</code> pour rendre les formations permanentes sur votre hébergeur.
+      </p>
+      <div class="json-box" id="jsonBox"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL ADD/EDIT -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">Nouvelle formation</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="fId">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Titre *</label>
+          <input type="text" class="form-control" id="fTitre" placeholder="Ex: Marketing Digital Essentiel">
+        </div>
+        <div class="form-group full">
+          <label>Sous-titre</label>
+          <input type="text" class="form-control" id="fSoustitre" placeholder="Ex: Attirer, convertir, fidéliser">
+        </div>
+        <div class="form-group">
+          <label>Catégorie *</label>
+          <select class="form-control" id="fCategorie">
+            <option value="web">Web</option>
+            <option value="marketing">Marketing</option>
+            <option value="ia">IA</option>
+            <option value="business">Business</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Format *</label>
+          <select class="form-control" id="fFormat">
+            <option value="pdf">PDF</option>
+            <option value="live">Live</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Niveau</label>
+          <select class="form-control" id="fNiveau">
+            <option>Débutant</option>
+            <option>Intermédiaire</option>
+            <option>Avancé</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Durée</label>
+          <input type="text" class="form-control" id="fDuree" placeholder="Ex: 2 semaines">
+        </div>
+        <div class="form-group">
+          <label>Séances / Modules</label>
+          <input type="text" class="form-control" id="fSeances" placeholder="Ex: 4 modules PDF">
+        </div>
+        <div class="form-group">
+          <label>Prix (FCFA) *</label>
+          <input type="number" class="form-control" id="fPrix" placeholder="25000">
+        </div>
+        <div class="form-group">
+          <label>Ancien prix (optionnel)</label>
+          <input type="number" class="form-control" id="fAncienPrix" placeholder="Laisser vide si aucun">
+        </div>
+        <div class="form-group">
+          <label>Icône Remix Icon</label>
+          <input type="text" class="form-control" id="fIcon" placeholder="ri-star-line">
+          <span class="form-hint">Cherchez sur <a href="https://remixicon.com" target="_blank" style="color:var(--gold)">remixicon.com</a></span>
+        </div>
+        <div class="form-group">
+          <label>Badge tag (optionnel)</label>
+          <input type="text" class="form-control" id="fTag" placeholder="Ex: Nouveau / Populaire">
+        </div>
+        <div class="form-group full">
+          <label>Description courte *</label>
+          <input type="text" class="form-control" id="fDescCourte" placeholder="1 phrase percutante sur la formation">
+        </div>
+        <div class="form-group full">
+          <label>Description complète</label>
+          <textarea class="form-control" id="fDesc" placeholder="Décrivez en détail ce que contient la formation…"></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Objectifs (un par ligne) *</label>
+          <textarea class="form-control" id="fObjectifs" placeholder="Maîtriser les outils IA&#10;Créer son premier site&#10;…"></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Programme JSON (tableau d'objets {num, titre, contenu})</label>
+          <textarea class="form-control" id="fProgramme" placeholder='[{"num":"01","titre":"Intro","contenu":"Bases et fondamentaux."}]' style="min-height:110px;font-family:monospace;font-size:12px"></textarea>
+          <span class="form-hint">Format : [{"num":"01","titre":"…","contenu":"…"}, …]</span>
+        </div>
+        <div class="form-group">
+          <label>Recommandé ?</label>
+          <select class="form-control" id="fRecomm">
+            <option value="false">Non</option>
+            <option value="true">Oui</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Active ?</label>
+          <select class="form-control" id="fActive">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-gold" onclick="saveFormation()"><i class="ri-save-line"></i>Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="data/formations.js"></script>
+<script src="js/db.js"></script>
+<script>
+/* ── Auth ── */
+const PWD = 'africademia2025'; /* Change ici votre mot de passe */
+let authed = sessionStorage.getItem('AF_AUTH') === '1';
+
+function doLogin(){
+  const v = document.getElementById('pwdInput').value;
+  if(v===PWD){
+    sessionStorage.setItem('AF_AUTH','1');
+    authed=true;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminPanel').style.display='flex';
+    init();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+document.getElementById('pwdInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+function doLogout(){sessionStorage.removeItem('AF_AUTH');location.reload();}
+
+if(authed){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminPanel').style.display='flex';
+}
+
+/* ── Views ── */
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.s-link').forEach(l=>l.classList.remove('on'));
+  document.getElementById('view-'+name).classList.add('on');
+  document.getElementById('lnk-'+name).classList.add('on');
+  if(name==='export') renderJson();
+  if(name==='contacts') renderContacts();
+}
+
+/* ── Data helpers ── */
+function _localAllData(){
+  const base = window.AF_FORMATIONS_ALL||window.AF_FORMATIONS_BASE||[];
+  const extra = JSON.parse(localStorage.getItem('AF_EXTRA')||'[]');
+  const over = JSON.parse(localStorage.getItem('AF_OVERRIDES')||'{}');
+  return base.map(f=>({...f,...(over[String(f.id)]||{})})).concat(extra);
+}
+function saveExtra(arr){localStorage.setItem('AF_EXTRA',JSON.stringify(arr));}
+function saveOverrides(obj){localStorage.setItem('AF_OVERRIDES',JSON.stringify(obj));}
+function fmt(n){return n?n.toLocaleString('fr-FR')+' FCFA':'—'}
+function nextId(all){return all.length?Math.max(...all.map(f=>+(f.id||0)))+1:100;}
+
+async function getAllData(){
+  if(DB.ready) return DB.getAllFormationsAdmin();
+  return _localAllData();
+}
+
+/* ── Render stats ── */
+async function renderStats(){
+  const data = await getAllData();
+  let contacts_n = 0;
+  if(DB.ready){ const c = await DB.getContacts({limit:999}); contacts_n = c.length; }
+  document.getElementById('statsRow').innerHTML=`
+    <div class="stat-box"><div class="stat-n gold">${data.length}</div><div class="stat-l">Total formations</div></div>
+    <div class="stat-box"><div class="stat-n">${data.filter(f=>f.active!==false).length}</div><div class="stat-l">Actives</div></div>
+    <div class="stat-box"><div class="stat-n">${data.filter(f=>f.format==='live').length}</div><div class="stat-l">Live</div></div>
+    <div class="stat-box"><div class="stat-n">${data.filter(f=>f.format==='pdf').length}</div><div class="stat-l">PDF</div></div>
+    <div class="stat-box"><div class="stat-n gold">${contacts_n}</div><div class="stat-l">Contacts</div></div>
+  `;
+}
+
+/* ── Render table ── */
+async function renderTable(){
+  const data = await getAllData();
+  const tb = document.getElementById('tableBody');
+  if(!data.length){tb.innerHTML='<div style="padding:40px;text-align:center;color:rgba(22,17,9,.3);font-family:var(--disp)">Aucune formation. Ajoutez-en une !</div>';return;}
+  tb.innerHTML = data.map(f=>`
+    <div class="t-row" id="tr-${f.id}">
+      <div><div class="t-icon"><i class="${f.icon||'ri-book-line'}"></i></div></div>
+      <div>
+        <div class="t-name">${f.titre}</div>
+        <div class="t-sub">${f.soustitre||''}</div>
+      </div>
+      <div><span class="t-badge ${f.format}">${f.format==='live'?'Live':'PDF'}</span></div>
+      <div class="t-price">${fmt(f.prix)}</div>
+      <div><span class="t-badge ${f.active===false?'inactif':'actif'}">${f.active===false?'Inactive':'Active'}</span></div>
+      <div class="t-actions">
+        <button class="btn btn-outline btn-sm" onclick="editFormation('${f.id}')"><i class="ri-edit-line"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deleteFormation('${f.id}')"><i class="ri-delete-bin-line"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function refreshList(){await renderStats();await renderTable();toast('Actualisé','ri-check-line');}
+
+/* ── Modal ── */
+let editingId = null;
+function openModal(f=null){
+  editingId = f?f.id:null;
+  document.getElementById('modalTitle').textContent = f?'Modifier la formation':'Nouvelle formation';
+  document.getElementById('fId').value = f?.id||'';
+  document.getElementById('fTitre').value = f?.titre||'';
+  document.getElementById('fSoustitre').value = f?.soustitre||'';
+  document.getElementById('fCategorie').value = f?.categorie||'web';
+  document.getElementById('fFormat').value = f?.format||'pdf';
+  document.getElementById('fNiveau').value = f?.niveau||'Débutant';
+  document.getElementById('fDuree').value = f?.duree||'';
+  document.getElementById('fSeances').value = f?.seances||'';
+  document.getElementById('fPrix').value = f?.prix||'';
+  document.getElementById('fAncienPrix').value = f?.ancien_prix||'';
+  document.getElementById('fIcon').value = f?.icon||'';
+  document.getElementById('fTag').value = f?.tag||'';
+  document.getElementById('fDescCourte').value = f?.description_courte||'';
+  document.getElementById('fDesc').value = f?.description||'';
+  document.getElementById('fObjectifs').value = (f?.objectifs||[]).join('\n');
+  document.getElementById('fProgramme').value = f?.programme?JSON.stringify(f.programme,null,2):'[]';
+  document.getElementById('fRecomm').value = String(f?.recommande||'false');
+  document.getElementById('fActive').value = String(f?.active!==false);
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');editingId=null;}
+async function editFormation(id){const all=await getAllData();const f=all.find(x=>String(x.id)===String(id));if(f)openModal(f);}
+
+/* ── Save ── */
+async function saveFormation(){
+  const titre = document.getElementById('fTitre').value.trim();
+  const prix = parseInt(document.getElementById('fPrix').value);
+  const descCourte = document.getElementById('fDescCourte').value.trim();
+  const objRaw = document.getElementById('fObjectifs').value.trim();
+  if(!titre||!prix||!descCourte||!objRaw){toast('Remplissez les champs obligatoires *','ri-alert-line',true);return;}
+
+  let programme = [];
+  try{programme=JSON.parse(document.getElementById('fProgramme').value||'[]');}catch(e){}
+
+  const all = await getAllData();
+  const payload = {
+    slug: titre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
+    titre,
+    soustitre: document.getElementById('fSoustitre').value.trim(),
+    categorie: document.getElementById('fCategorie').value,
+    niveau: document.getElementById('fNiveau').value,
+    duree: document.getElementById('fDuree').value.trim(),
+    seances: document.getElementById('fSeances').value.trim(),
+    format: document.getElementById('fFormat').value,
+    prix,
+    devise:'FCFA',
+    ancien_prix: parseInt(document.getElementById('fAncienPrix').value)||null,
+    icon: document.getElementById('fIcon').value.trim()||'ri-book-2-line',
+    tag: document.getElementById('fTag').value.trim()||null,
+    description_courte: descCourte,
+    description: document.getElementById('fDesc').value.trim(),
+    objectifs: objRaw.split('\n').map(s=>s.trim()).filter(Boolean),
+    programme,
+    recommande: document.getElementById('fRecomm').value==='true',
+    active: document.getElementById('fActive').value==='true',
+  };
+
+  try {
+    if(DB.ready){
+      if(editingId) await DB.updateFormation(editingId, payload);
+      else await DB.createFormation(payload);
+    } else {
+      /* localStorage fallback */
+      const baseIds = (window.AF_FORMATIONS_BASE||[]).map(f=>f.id);
+      const newF = {...payload, id: editingId || nextId(all)};
+      if(editingId && baseIds.includes(editingId)){
+        const over = JSON.parse(localStorage.getItem('AF_OVERRIDES')||'{}');
+        over[String(editingId)] = newF;
+        saveOverrides(over);
+      } else if(editingId){
+        const extra = JSON.parse(localStorage.getItem('AF_EXTRA')||'[]');
+        const idx = extra.findIndex(f=>String(f.id)===String(editingId));
+        if(idx>=0) extra[idx]=newF; else extra.push(newF);
+        saveExtra(extra);
+      } else {
+        const extra = JSON.parse(localStorage.getItem('AF_EXTRA')||'[]');
+        extra.push(newF);
+        saveExtra(extra);
+      }
+    }
+  } catch(e){
+    toast('Erreur : '+e.message,'ri-alert-line',true);
+    return;
+  }
+
+  closeModal();
+  await renderStats();
+  await renderTable();
+  toast(editingId?'Formation modifiée':'Formation ajoutée','ri-check-line');
+}
+
+/* ── Delete ── */
+async function deleteFormation(id){
+  if(!confirm('Supprimer cette formation ?')) return;
+  try {
+    if(DB.ready){
+      await DB.deleteFormation(id);
+    } else {
+      const baseIds = (window.AF_FORMATIONS_BASE||[]).map(f=>f.id);
+      if(baseIds.includes(id)){
+        const over = JSON.parse(localStorage.getItem('AF_OVERRIDES')||'{}');
+        over[String(id)] = {active:false};
+        saveOverrides(over);
+      } else {
+        const extra = JSON.parse(localStorage.getItem('AF_EXTRA')||'[]');
+        saveExtra(extra.filter(f=>String(f.id)!==String(id)));
+      }
+    }
+  } catch(e){
+    toast('Erreur : '+e.message,'ri-alert-line',true);
+    return;
+  }
+  await renderStats();await renderTable();
+  toast('Formation supprimée','ri-delete-bin-line',true);
+}
+
+/* ── JSON export ── */
+async function renderJson(){
+  const data = await getAllData();
+  const out = JSON.stringify(data,null,2);
+  document.getElementById('jsonBox').textContent = out;
+}
+function copyJson(){
+  const txt = document.getElementById('jsonBox').textContent;
+  navigator.clipboard.writeText(txt).then(()=>toast('JSON copié !','ri-clipboard-line'));
+}
+
+/* ── Toast ── */
+function toast(msg, icon='ri-check-line', err=false){
+  const t = document.getElementById('toast');
+  t.innerHTML=`<i class="${icon}"></i>${msg}`;
+  t.className='toast'+(err?' err':'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+/* ── Contacts view ── */
+async function renderContacts(){
+  const box = document.getElementById('contactsBody');
+  if(!box) return;
+  if(!DB.ready){ box.innerHTML='<div style="padding:40px;text-align:center;color:rgba(22,17,9,.3);font-family:var(--disp)">Supabase non configuré — aucun contact disponible en mode local.</div>'; return; }
+  const contacts = await DB.getContacts({limit:100});
+  if(!contacts.length){ box.innerHTML='<div style="padding:40px;text-align:center;color:rgba(22,17,9,.3);font-family:var(--disp)">Aucun contact enregistré.</div>'; return; }
+  box.innerHTML = contacts.map(c=>`
+    <div class="t-row" style="grid-template-columns:1fr 180px 120px 100px 120px">
+      <div>
+        <div class="t-name">${c.prenom||''} ${c.nom||''}</div>
+        <div class="t-sub">${c.email||''} ${c.telephone?'· '+c.telephone:''}</div>
+      </div>
+      <div class="t-sub">${c.sujet||c.type_demande||'—'}</div>
+      <div class="t-sub">${c.source||'site'}</div>
+      <div><span class="t-badge ${c.lu?'actif':'inactif'}">${c.lu?'Lu':'Nouveau'}</span></div>
+      <div class="t-sub">${c.created_at?new Date(c.created_at).toLocaleDateString('fr-FR'):'—'}</div>
+    </div>
+  `).join('');
+}
+
+/* ── Init ── */
+async function init(){
+  DB.initAdmin(); /* Upgrade to service_role key for admin (safe no-op if not configured) */
+  await renderStats();
+  await renderTable();
+}
+if(authed) init();
+
+/* Click outside modal */
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+</script>
+</body>
+</html>

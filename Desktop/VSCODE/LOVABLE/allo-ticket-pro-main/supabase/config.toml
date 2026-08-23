@@ -1,0 +1,23 @@
+project_id = "joxywabjjzoyxzsgnvrb"
+
+[functions.create-bictorys-payment]
+verify_jwt = false
+
+[functions.bictorys-webhook]
+verify_jwt = false
+
+[functions.verify-payment]
+verify_jwt = false
+
+[functions.validate-ticket]
+verify_jwt = false
+
+[functions.gdpr-purge]
+verify_jwt = false
+
+[functions.send-ticket-email]
+verify_jwt = false
+
+[functions.create-free-ticket]
+verify_jwt = false
+

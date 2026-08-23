@@ -1,0 +1,1 @@
+ALTER TABLE public.ticket_types ADD COLUMN fees numeric NOT NULL DEFAULT 0;

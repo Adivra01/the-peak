@@ -1,0 +1,59 @@
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import AdminSidebar from '@/components/admin/AdminSidebar';
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+const AdminLayout = () => {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-background flex">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block">
+        <AdminSidebar 
+          collapsed={sidebarCollapsed} 
+          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
+        />
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {mobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+
+      {/* Mobile Sidebar */}
+      <div className={`
+        fixed inset-y-0 left-0 z-50 transform md:hidden transition-transform duration-300
+        ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <AdminSidebar onToggle={() => setMobileSidebarOpen(false)} />
+      </div>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
+        {/* Mobile Header */}
+        <div className="md:hidden sticky top-0 z-30 bg-background border-b border-border p-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileSidebarOpen(true)}
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+        </div>
+
+        {/* Page Content */}
+        <div className="p-6">
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default AdminLayout;

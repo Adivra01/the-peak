@@ -1,0 +1,79 @@
+/* Common responsive safeguards for every page in the THE PEAK static site. */
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{min-width:320px;max-width:100%;overflow-x:clip}
+img,video,svg,iframe{max-width:100%}
+input,select,textarea,button{max-width:100%}
+.wrap{width:min(100% - 40px,1240px)}
+.foot{padding:38px 0 48px}
+.foot .wrap{gap:22px;flex-wrap:wrap}
+.footer{padding:38px 0 46px}
+.footer-row{gap:24px}
+@media(max-width:900px){
+ .layout-grid,.clarity-grid,.contact-grid,.intro-grid,.method-grid,.legal-layout,.infra-layout{grid-template-columns:1fr;gap:34px}
+ .service-grid,.showcase-grid,.content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .table-scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:760px){
+ .wrap{width:calc(100% - 36px)}
+ .head .wrap{gap:12px}
+ .head .nav{max-width:calc(100vw - 160px);overflow-x:auto;white-space:nowrap;gap:12px;padding:8px 1px;scrollbar-width:none}
+ .head .nav::-webkit-scrollbar{display:none}
+ .head .nav a{flex:0 0 auto}
+ .foot{padding:34px 0 50px}
+ .foot .wrap{align-items:flex-start;flex-direction:column;gap:16px}
+ .footer{padding:34px 0 46px}
+ .footer-row{align-items:flex-start;flex-direction:column;gap:17px}
+ .footer-links{width:100%;gap:12px 18px;line-height:1.8}
+ .footer-links a{padding:3px 0}
+ .footer-row small{order:initial;width:auto}
+ .contact-page{padding:120px 0 80px}
+ .contact-grid,.contact-form{grid-template-columns:1fr}
+ .contact-form .field,.contact-form .consent,.contact-form .form-status,.contact-form button{grid-column:1}
+ .contact-form input,.contact-form select,.contact-form textarea{min-width:0}
+ .contact-page .actions,.actions{gap:10px}
+ .actions .btn{max-width:100%;white-space:normal}
+ .work-preview-grid,.showcase-grid,.content-grid,.service-grid{grid-template-columns:1fr}
+ .work-preview-card,.showcase-card,.content-card{min-width:0}
+ .section-bar,.showcase-heading,.work-preview-head{align-items:flex-start;flex-direction:column}
+ .dialog-media{grid-template-columns:1fr}
+ .form-grid{grid-template-columns:1fr}
+ .field.wide{grid-column:1}
+ .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .admin-top h1,.section-bar h2{overflow-wrap:anywhere}
+ .account-dialog{width:min(520px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:22px 18px}
+}
+@media(max-width:420px){
+ .wrap{width:calc(100% - 30px)}
+ .brand-logo{width:132px}
+ .hero-content{padding-inline:20px}
+ .hero h1{font-size:clamp(54px,13vw,74px)}
+ .hero-meta{flex-wrap:wrap;gap:14px 18px}
+ .service-card-content{width:80%;padding:20px 16px}
+ .service-card h3{font-size:26px}
+ .metric-grid{grid-template-columns:1fr 1fr}
+ .metric{min-width:0}
+ .editor-actions,.account-settings-actions{flex-wrap:wrap}
+ .editor-actions>* ,.account-settings-actions>*{flex:1 1 140px}
+ .footer-links{gap:10px 14px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+.account-settings-button{border:1px solid #aeb8bf;background:transparent;color:inherit;padding:10px 13px;font:600 10px Inter,Arial,sans-serif;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.account-settings-button:hover{border-color:#ff6a00;color:#ff6a00}
+.account-dialog{width:min(520px,calc(100% - 28px));max-height:calc(100dvh - 28px);padding:28px;border:1px solid #dfe4e7;background:#f7f8fa;color:#101820;box-shadow:0 24px 90px #0006;overflow:auto}
+.account-dialog::backdrop{background:#05090bc9;backdrop-filter:blur(4px)}
+.account-settings-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid #dbe1e5}
+.account-settings-head span,.account-divider{color:#f06a14;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.account-settings-head h2{margin:8px 0 0;color:#0b2d5b;font:700 32px/1 var(--display,Arial,sans-serif)}
+.account-settings-close{border:0;background:none;color:#52616a;font-size:25px;cursor:pointer}
+.account-dialog label{display:grid;gap:7px;margin:13px 0;color:#53616c;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.account-dialog input{width:100%;min-height:44px;padding:11px;border:1px solid #cfd8de;background:#fff;color:#101820;font:14px Inter,Arial,sans-serif}
+.account-divider{margin-top:24px;padding-top:17px;border-top:1px solid #dbe1e5}
+.account-help{margin:6px 0 12px;color:#697680;font-size:11px;line-height:1.6}
+.account-settings-status{min-height:20px;color:#0b2d5b;font-size:12px}
+.account-settings-actions{display:flex;justify-content:flex-end;gap:10px;padding-top:13px;border-top:1px solid #dbe1e5}
+.account-settings-actions button{min-height:42px;padding:10px 14px;border:1px solid #aeb8bf;background:transparent;color:#0b2d5b;font:700 10px Inter,Arial,sans-serif;cursor:pointer}
+.account-settings-actions button[type=submit]{border-color:#ff6a00;background:#ff6a00;color:white}
+.admin-user .account-settings-button{color:#0b2d5b}
+.client-head .account-settings-button{color:#0b2d5b}
+@media(max-width:420px){.account-dialog{padding:22px 16px}.account-settings-head h2{font-size:27px}}

@@ -10,7 +10,13 @@
     let tries=0;while(!window.peakSupabase&&tries++<80)await new Promise(r=>setTimeout(r,50));
     const sb=window.peakSupabase;if(!sb)throw Error('Supabase indisponible.');
     const {data:{user},error}=await sb.auth.getUser();if(error||!user){if(location.protocol==='file:'){say('Cette prévisualisation file:// ne retrouve pas la session Supabase après le changement de fichier. Ouvre le site avec une adresse locale http://localhost pour tester les espaces.');return}location.replace('connexion.html');return}
-    const {data:profile}=await sb.from('profiles').select('full_name,company,phone').eq('id',user.id).maybeSingle();
+    const {data:profile,error:profileError}=await sb.from('profiles').select('role,full_name,company,phone').eq('id',user.id).maybeSingle();
+    if(profileError)throw profileError;
+    if(profile?.role!=='client'){
+      const destination=profile?.role==='admin'?'admin.html':'connexion.html';
+      location.replace(new URL(destination,location.href).href);
+      return;
+    }
     $('welcome').textContent=`Bonjour ${(profile?.full_name||user.email||'client').split(' ')[0]}.`;
     $('identity').textContent=`Espace associé à ${user.email}${profile?.company?' · '+profile.company:''}.`;
     const {data:projects,error:projectError}=await sb.from('client_projects').select('id,title,service_slug,summary,status,progress,next_step,due_date,updated_at').order('updated_at',{ascending:false});if(projectError)throw projectError;

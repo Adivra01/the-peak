@@ -77,6 +77,91 @@ input,select,textarea,button{max-width:100%}
 .admin-user .account-settings-button{color:#0b2d5b}
 .client-head .account-settings-button{color:#0b2d5b}
 @media(max-width:420px){.account-dialog{padding:22px 16px}.account-settings-head h2{font-size:27px}}
+
+/* Small phones, narrow foldables, landscape phones, and text zoom. */
+html,body{width:100%;min-width:0;max-width:100%}
+main,header,footer,section,article,nav,form,fieldset,dialog{min-width:0}
+button,input,select,textarea{min-width:0}
+@media(max-width:520px){
+ .wrap{width:calc(100% - 32px)}
+ .head .wrap{min-width:0}
+ .head .nav{min-width:0;max-width:calc(100vw - 150px)}
+ .head .nav a,.navlinks a,.side-link{min-height:44px}
+ .menu-toggle{min-width:44px;min-height:44px}
+ .navlinks.open{max-height:calc(100dvh - 72px);overflow-y:auto;overscroll-behavior:contain}
+ .hero-stage{height:auto;min-height:max(620px,100svh);max-height:none}
+ .hero-content{padding:104px 18px 34px}
+ .hero h1{font-size:clamp(42px,13.5vw,68px);line-height:.9;overflow-wrap:anywhere}
+ .legal-hero h1,.showcase-hero h1,.admin-top h1,.section-bar h2,.card-title{overflow-wrap:anywhere}
+ .hero-copy{font-size:14px}
+ .hero-actions .btn{flex:1 1 100%;width:100%;min-height:46px}
+ .hero-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px;font-size:8px;letter-spacing:.08em}
+ .hero-meta>*{min-width:0;overflow-wrap:anywhere}
+ .intro,.services,.method,.contact,.work-preview,.statement{padding-block:clamp(58px,16vw,78px)}
+ .section-head{display:block}
+ .section-head .lede{margin-top:18px}
+ .service-card{aspect-ratio:auto;min-height:300px}
+ .service-card-content{width:100%;padding:26px 22px}
+ .service-card .service-number{margin-bottom:22px}
+ .service-card h3{font-size:clamp(25px,8vw,32px);overflow-wrap:anywhere}
+ .service-card p{font-size:12px}
+ .hero[data-index] h1{font-size:clamp(38px,10vw,54px);line-height:.95;overflow-wrap:anywhere}
+ .web-steps,.growth-path,.brand-orbit,.visual-board,.software-flow{grid-template-columns:1fr}
+ .infra-mark{min-height:280px}
+ .infra-mark strong{font-size:clamp(42px,13vw,58px)}
+ .contact-points a,.contact-form .btn,.btn,.button{min-height:44px}
+ .public-filter,.filter,.auth-tabs button,.upload-control,.text-button,.icon-button,.eye-button,.faq summary{min-height:44px}
+ .eye-button{min-width:44px}
+ .faq summary{display:flex;align-items:center}
+ .work-preview-head,.section-bar,.showcase-heading{gap:16px}
+ .work-preview-link,.showcase-heading .button{min-height:44px;display:inline-flex;align-items:center}
+ .foot-main{grid-template-columns:1fr}
+ .foot-description,.footer-brand-block{grid-column:auto}
+ .legal-hero h1,.showcase-hero h1{font-size:clamp(38px,11vw,60px);overflow-wrap:anywhere}
+ .legal-layout{gap:26px}
+ .toc{grid-template-columns:1fr 1fr;gap:6px}
+ .toc a{min-height:44px;padding:12px 9px;overflow-wrap:anywhere}
+ .policy h2{font-size:clamp(27px,8vw,34px);overflow-wrap:anywhere}
+ .showcase-dialog,.portfolio-preview,.invoice-preview-dialog{max-height:calc(100dvh - 12px)}
+ .dialog-close,.preview-close{min-width:44px;min-height:44px}
+ .inline-update{grid-template-columns:1fr}
+ .inline-update p{grid-column:auto}
+ .side-nav{scroll-snap-type:x proximity;padding-bottom:3px}
+ .side-link{flex:0 0 auto;scroll-snap-align:start;padding:10px 12px}
+ .side-link span{display:none}
+ .admin-main{min-width:0}
+ .admin-top h1,.section-bar h2{font-size:clamp(30px,9vw,36px)}
+ .editor,.invoice-editor{width:calc(100% - 12px);max-width:none;max-height:calc(100dvh - 12px)}
+ .editor form,.invoice-editor form{max-height:calc(100dvh - 12px);padding-inline:14px}
+ .editor-actions,.account-settings-actions{gap:8px}
+ .editor-actions>* ,.account-settings-actions>*{flex:1 1 125px}
+ .invoice-meta-fields{grid-template-columns:1fr}
+ .invoice-parties{grid-template-columns:1fr}
+ .invoice-lines-table{min-width:620px}
+ .invoice-screen-actions{position:sticky;bottom:0}
+}
+@media(max-width:360px){
+ .wrap{width:calc(100% - 28px)}
+ .brand-logo{width:122px}
+ .head .nav{max-width:calc(100vw - 136px);gap:9px}
+ .hero-content{padding-inline:14px}
+ .hero h1{font-size:clamp(39px,12.8vw,46px)}
+ .hero-meta{grid-template-columns:1fr 1fr;row-gap:14px}
+ .hero-meta>*:last-child{grid-column:1/-1}
+ .metric-grid{grid-template-columns:1fr}
+ .toc{grid-template-columns:1fr}
+ .auth-right{padding-inline:16px}
+ .showcase-dialog,.portfolio-preview{padding:16px}
+}
+@media(max-width:760px) and (max-height:500px){
+ .hero-stage{min-height:560px}
+ .auth-shell{min-height:100svh}
+ .auth-visual{height:240px;min-height:220px}
+ .auth-right{padding-top:28px;padding-bottom:28px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 /* Consistent site footer: clear navigation, contact details and copyright. */
 .foot{padding:54px 0 22px;background:#080d0f;color:#d4dbe0}
 .foot .wrap{display:block;max-width:1240px}

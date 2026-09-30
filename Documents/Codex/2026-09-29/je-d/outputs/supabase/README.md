@@ -2,7 +2,7 @@
 
 Le site utilise exclusivement le nouveau projet Supabase `bntsczbnrehkqmbbvtci`. La clé publiée dans `assets/supabase-config.js` est une clé **publishable** prévue pour le navigateur; aucune clé `service_role` n’est nécessaire côté site.
 
-Les migrations datées de `supabase/migrations/` ont été appliquées au projet via l’intégration Supabase. Elles créent Auth/profils, demandes, projets clients, actualités de projet, catégories/réalisations, produits à vendre, Storage et règles RLS. La sécurité de l’espace client repose sur `auth.uid()` et les administrateurs sont identifiés par `profiles.role`.
+Les migrations datées de `supabase/migrations/` ont été appliquées au projet via l’intégration Supabase. Elles créent Auth/profils, demandes, projets clients, actualités de projet, catégories/réalisations, produits à vendre, factures, Storage et règles RLS. La sécurité de l’espace client repose sur `auth.uid()` et les administrateurs sont identifiés par `profiles.role`.
 
 ## Premier compte administrateur
 
@@ -30,7 +30,10 @@ Le changement de mot de passe fonctionne depuis **Mon profil · Paramètres** po
 - `client_projects`, `project_updates`: projets, progression, étapes et nouvelles visibles dans l’espace client.
 - `portfolio_categories`, `portfolio_projects`: catégories et projets publiés.
 - `digital_products`: catalogue de sites/produits à vendre, prix, description, démo et médias.
+- `invoices`: factures et lignes flexibles en XOF, avec numérotation automatique; lecture et gestion réservées aux administrateurs.
 - Storage `peak-portfolio`: visuels publics; écriture réservée aux administrateurs.
 - Storage `peak-client-files`: espace privé cloisonné par identifiant de compte.
 
 Les fichiers de migration restent la référence versionnée pour recréer le schéma.
+
+La migration `20260929213000_invoice_payment_date.sql` ajoute `paid_on` pour enregistrer et afficher la date de règlement d'une facture.

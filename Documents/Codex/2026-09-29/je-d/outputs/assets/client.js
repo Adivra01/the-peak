@@ -1,10 +1,15 @@
 (async()=>{
   const $=id=>document.getElementById(id),say=t=>{$('status').textContent=t};
   const safe=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  $('logout').addEventListener('click',async e=>{
+    const button=e.currentTarget;button.disabled=true;button.textContent='Déconnexion…';
+    try{await window.peakSignOut?.()}catch{}
+    location.replace(new URL('connexion.html?logged_out=1',location.href).href);
+  });
   try{
     let tries=0;while(!window.peakSupabase&&tries++<80)await new Promise(r=>setTimeout(r,50));
     const sb=window.peakSupabase;if(!sb)throw Error('Supabase indisponible.');
-    const {data:{user},error}=await sb.auth.getUser();if(error||!user){location.replace('connexion.html');return}
+    const {data:{user},error}=await sb.auth.getUser();if(error||!user){if(location.protocol==='file:'){say('Cette prévisualisation file:// ne retrouve pas la session Supabase après le changement de fichier. Ouvre le site avec une adresse locale http://localhost pour tester les espaces.');return}location.replace('connexion.html');return}
     const {data:profile}=await sb.from('profiles').select('full_name,company,phone').eq('id',user.id).maybeSingle();
     $('welcome').textContent=`Bonjour ${(profile?.full_name||user.email||'client').split(' ')[0]}.`;
     $('identity').textContent=`Espace associé à ${user.email}${profile?.company?' · '+profile.company:''}.`;
@@ -15,5 +20,4 @@
       for(const p of projects||[]){const target=box.querySelector(`[data-updates="${p.id}"]`);const {data:updates}=await sb.from('project_updates').select('body,created_at').eq('project_id',p.id).order('created_at',{ascending:false}).limit(5);if(target&&updates?.length)target.innerHTML=`<h3>Dernières nouvelles</h3>${updates.map(u=>`<p>${safe(u.body)} <small>${new Date(u.created_at).toLocaleDateString('fr-FR')}</small></p>`).join('')}`}
     }
   }catch(e){say(e.message||'Connexion au compte indisponible.')}
-  $('logout').addEventListener('click',async()=>{await window.peakSupabase?.auth.signOut();location.replace('connexion.html')});
 })();

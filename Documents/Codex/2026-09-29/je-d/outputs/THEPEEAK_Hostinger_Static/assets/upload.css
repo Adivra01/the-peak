@@ -1,0 +1,5 @@
+.upload-control{position:relative;overflow:hidden}
+.upload-control input[type=file]{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;cursor:pointer}
+.upload-control[aria-busy=true]{opacity:.55;cursor:progress}
+.upload-status{min-height:1.5em;margin:8px 0 0;color:#345b48;font-size:11px;line-height:1.5}
+.upload-status.error{color:#a13a29}

@@ -8,7 +8,7 @@
   async function redirectByRole(user) {
     const {data:profile,error}=await client().from('profiles').select('role').eq('id',user.id).maybeSingle();
     if(error)throw new Error(`Connexion réussie, mais impossible de lire votre rôle : ${error.message}`);
-    if(!profile)throw new Error('Votre compte est connecté, mais son profil THE PEAK est introuvable. Contactez l’administrateur.');
+    if(!profile)throw new Error('Votre compte est connecté, mais son profil THEPEEAK est introuvable. Contactez l’administrateur.');
     const destination={admin:'admin.html',client:'espace-client.html'}[profile.role];
     if(!destination)throw new Error('Le rôle de ce compte n’est pas reconnu. Contactez l’administrateur.');
     message('Connexion réussie. Ouverture de votre espace…','success');
@@ -23,5 +23,4 @@
   const params=new URLSearchParams(location.search); if(params.has('error_description'))message(params.get('error_description'),'error');else if(params.has('logged_out'))message('Vous êtes déconnecté.','success');
   function recoveryForm(){if(document.getElementById('recovery-form'))return;forms.login.hidden=forms.register.hidden=forms.forgot.hidden=true;tabs.login.hidden=tabs.register.hidden=true;title.textContent='Choisir un nouveau mot de passe.';subtitle.textContent='Utilisez au moins 8 caractères.';const form=document.createElement('form');form.id='recovery-form';form.className='auth-form';form.innerHTML='<div class="auth-field"><label for="new-password">Nouveau mot de passe</label><input id="new-password" type="password" minlength="8" autocomplete="new-password" required></div><button class="btn auth-submit" type="submit">Enregistrer le mot de passe <span class="arrow">↗</span></button>';status.before(form);form.addEventListener('submit',e=>{e.preventDefault();busy(form,async()=>{const {error}=await client().auth.updateUser({password:document.getElementById('new-password').value});if(error)throw error;history.replaceState({},'',location.pathname);form.remove();mode('login');message('Mot de passe mis à jour. Vous pouvez vous connecter.','success')})})}
   ready().then(async()=>{client().auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')recoveryForm()});if(location.hash.includes('type=recovery')){setTimeout(recoveryForm,50);return}const {data:{session}}=await client().auth.getSession();if(session?.user&&!params.has('logged_out'))await redirectByRole(session.user)}).catch(e=>{if(e?.message)message(e.message,'error')});
-  if(location.protocol==='file:')message('Aperçu local détecté : une URL file:// peut empêcher Supabase de conserver la session entre les pages. Teste la connexion depuis le site en HTTPS après sa mise en ligne.','error');
 })();

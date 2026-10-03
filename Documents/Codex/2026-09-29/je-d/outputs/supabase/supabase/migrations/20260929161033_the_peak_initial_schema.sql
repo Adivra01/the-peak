@@ -1,4 +1,4 @@
--- THE PEAK · projet Supabase neuf. Aucun objet préexistant n'est modifié.
+-- THEPEEAK · projet Supabase neuf. Aucun objet préexistant n'est modifié.
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
 grant usage on schema private to authenticated;

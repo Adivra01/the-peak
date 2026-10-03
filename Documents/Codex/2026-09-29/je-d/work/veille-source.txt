@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veille — Agences digitales Mali & Sénégal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#101614; --surface:#18211E; --surface-2:#202b27; --line:#2d3b36;
+  --text:#E6EAE7; --muted:#8EA099; --gold:#D4A94F; --teal:#5FA894; --red:#C4654F;
+  --accent:var(--gold);
+  --display:"Bricolage Grotesque",Georgia,serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+body[data-pays="senegal"]{--accent:#7FA5C9}
+body[data-pays="civ"]{--accent:#E08A4C}
+body[data-pays="niger"]{--accent:#8FBF6A}
+:root:not([data-theme="light"]){color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 80px}
+
+header{padding:52px 0 26px;border-bottom:1px solid var(--line)}
+.kicker{font-size:13px;color:var(--teal);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,5.6vw,56px);
+  line-height:1.03;letter-spacing:-.02em;margin:0 0 16px;max-width:18ch}
+.lede{color:var(--muted);max-width:63ch;margin:0;font-size:17px}
+.stamp{margin-top:20px;display:inline-flex;gap:10px;align-items:center;font-size:13px;
+  color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+
+/* bascule pays */
+.switch{display:flex;gap:0;margin:26px 0 0;border:1px solid var(--line);width:fit-content}
+.switch button{background:transparent;border:none;color:var(--muted);font:inherit;font-size:15px;
+  padding:11px 26px;cursor:pointer;border-radius:0}
+.switch button[aria-pressed="true"]{background:var(--accent);color:#14110a;font-weight:600}
+body[data-pays="senegal"] .switch button[aria-pressed="true"]{color:#0d141b}
+body[data-pays="civ"] .switch button[aria-pressed="true"]{color:#1a1206}
+body[data-pays="niger"] .switch button[aria-pressed="true"]{color:#101a0a}
+.switch button:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
+
+nav.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+nav.jump a{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line);
+  border-radius:3px;padding:5px 11px}
+nav.jump a:hover,nav.jump a:focus-visible{color:var(--text);border-color:var(--teal)}
+
+.marche{margin-top:30px;border:1px solid var(--line);background:var(--surface);padding:18px 20px;font-size:14.5px}
+.marche b{color:var(--accent)}
+.marche p{margin:0}
+
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin:30px 0 0}
+.col{background:var(--surface);padding:24px 20px 26px;display:flex;flex-direction:column}
+.col.lead{background:var(--surface-2)}
+.rank{font-family:var(--display);font-size:13px;font-weight:600;color:var(--accent);margin:0 0 4px}
+.name{font-family:var(--display);font-size:25px;font-weight:700;margin:0 0 2px;line-height:1.1}
+.dom{font-size:13px;margin:0 0 16px}
+.dom a{color:var(--teal);text-decoration:none;border-bottom:1px solid rgba(95,168,148,.35)}
+.score{font-family:var(--display);font-size:42px;font-weight:800;line-height:1;margin:0;color:var(--accent)}
+.score span{font-size:16px;font-weight:400;color:var(--muted)}
+.scorelabel{font-size:12px;color:var(--muted);margin:4px 0 8px}
+.ca{font-size:13px;color:var(--muted);margin:0 0 16px;padding-top:10px;border-top:1px dashed var(--line)}
+.ca b{color:var(--teal);font-weight:600;font-size:16px;display:block;font-family:var(--display)}
+.ca em{display:block;font-style:normal;margin-top:7px;padding-top:7px;border-top:1px dotted var(--line)}
+.ca em b{color:var(--accent);font-size:15px}
+.bars{margin:0 0 18px;display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:1fr 46px;gap:10px;align-items:center;font-size:13px}
+.bar-row b{font-weight:500;color:var(--muted)}
+.track{grid-column:1/-1;height:4px;background:#2a3833;border-radius:2px;overflow:hidden;margin-top:-4px}
+.fill{height:100%;background:var(--teal)}
+.col.lead .fill{background:var(--accent)}
+.verdict{margin-top:auto;padding-top:16px;border-top:1px solid var(--line);font-size:14px}
+.verdict p{margin:0 0 10px}
+.verdict .lab{color:var(--teal);font-weight:600}
+.verdict .lab.weak{color:var(--red)}
+
+section{margin-top:56px;scroll-margin-top:20px}
+h2{font-family:var(--display);font-size:clamp(22px,3.4vw,30px);font-weight:700;
+  letter-spacing:-.01em;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 22px;max-width:64ch}
+
+.detail{border:1px solid var(--line);margin-bottom:-1px;background:var(--surface)}
+.detail summary{padding:16px 20px;cursor:pointer;list-style:none;display:flex;
+  justify-content:space-between;align-items:center;gap:16px;
+  font-family:var(--display);font-size:18px;font-weight:600}
+.detail summary::-webkit-details-marker{display:none}
+.detail summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.chev{color:var(--muted);font-size:13px;font-weight:400;font-family:var(--body);white-space:nowrap}
+.detail[open] summary{border-bottom:1px solid var(--line)}
+.detail .body{padding:18px 20px 22px;font-size:14.5px}
+.facts{display:grid;grid-template-columns:150px 1fr;gap:8px 18px;margin:0 0 18px;font-size:14px}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0}
+.facts a{color:var(--teal);text-decoration:none}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;padding:0;list-style:none}
+.tags li{font-size:12.5px;border:1px solid var(--line);border-radius:3px;padding:3px 9px;color:var(--muted)}
+.note{display:block;width:100%;background:#131a18;border:1px solid var(--line);color:var(--text);
+  font:inherit;font-size:14px;padding:10px 12px;border-radius:4px;resize:vertical;min-height:70px}
+.note:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+.notelab{font-size:13px;color:var(--muted);display:block;margin:0 0 6px}
+
+.chan{display:grid;gap:7px;margin:0 0 16px}
+.chan-row{display:grid;grid-template-columns:1fr auto;gap:10px;font-size:13.5px;align-items:center}
+.chan-row span{color:var(--muted)}
+.chan-bar{grid-column:1/-1;height:9px;background:#2a3833;margin-top:-3px}
+.chan-bar i{display:block;height:100%;background:var(--teal)}
+
+.gap{border-left:3px solid var(--accent);padding:4px 0 4px 22px}
+.gap ul{margin:14px 0 0;padding:0 0 0 18px}
+.gap li{margin-bottom:9px}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surface-2);font-weight:600;color:var(--muted);font-size:12.5px}
+td{background:var(--surface)}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+.src{color:var(--muted);font-size:12.5px;white-space:normal}
+
+.sim{border:1px solid var(--line);background:var(--surface);padding:22px 20px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.presets button{background:transparent;border:1px solid var(--line);color:var(--muted);
+  padding:8px 15px;border-radius:3px;font-size:14px}
+.presets button[aria-pressed="true"]{background:var(--accent);color:#17120a;border-color:var(--accent);font-weight:600}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:18px 30px}
+.sl label{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;margin-bottom:7px}
+.sl label b{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+.sl input[type=range]{width:100%;accent-color:var(--teal)}
+.out{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:20px}
+.out div p{margin:0;font-size:13px;color:var(--muted)}
+.out div b{font-family:var(--display);font-size:26px;font-weight:800;display:block;line-height:1.15}
+.out .big b{color:var(--accent)}
+.mix{margin-top:20px;font-size:13.5px;color:var(--muted)}
+.mixbar{display:flex;height:11px;margin:9px 0 8px;overflow:hidden}
+.mixbar i{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px}
+.legend span{display:inline-flex;align-items:center}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;margin-right:6px}
+.legend span:nth-child(1)::before{background:var(--teal)}
+.legend span:nth-child(2)::before{background:var(--accent)}
+.legend span:nth-child(3)::before{background:var(--red)}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+button{font:inherit;font-size:14.5px;font-weight:500;cursor:pointer;background:var(--accent);
+  color:#17120a;border:none;border-radius:4px;padding:11px 20px}
+button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.toast{font-size:13.5px;color:var(--teal);margin:12px 0 0;min-height:20px}
+
+.radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line)}
+.radar div{background:var(--surface);padding:16px 18px}
+.radar h3{font-family:var(--display);font-size:17px;margin:0 0 4px;font-weight:600}
+.radar p{margin:0;font-size:13.5px;color:var(--muted)}
+
+.method{background:var(--surface);border:1px solid var(--line);padding:18px 20px;font-size:14px}
+.method p{margin:0 0 12px}
+.method p:last-child{margin:0}
+.method b{color:var(--teal)}
+.method a{color:var(--teal)}
+.warn{border-left:3px solid var(--red)}
+.warn b{color:var(--red)}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.compare div{background:var(--surface);padding:18px 20px}
+.compare h3{font-family:var(--display);font-size:17px;margin:0 0 10px;font-weight:600}
+.compare h3.ml{color:var(--gold)}
+.compare h3.sn{color:#7FA5C9}
+.compare ul{margin:0;padding-left:17px;font-size:14px}
+.compare li{margin-bottom:8px}
+
+footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+@media (max-width:760px){
+  .podium,.compare{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr;gap:2px 0}
+  .facts dt{margin-top:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body data-pays="mali">
+<div class="wrap">
+
+<header>
+  <p class="kicker">Veille concurrentielle · Afrique de l'Ouest francophone</p>
+  <h1>Qui occupe le terrain digital au Mali et au Sénégal</h1>
+  <p class="lede">Deux marchés, trois agences dominantes chacun. Ce qu'elles vendent, à quel prix, par quel canal elles trouvent leurs clients, et ce que ça peut peser.</p>
+  <p class="stamp"><span class="dot"></span>Sites, tarifs et classements vérifiés le 2 octobre 2026</p>
+  <div class="switch" role="group" aria-label="Choisir le marché">
+    <button type="button" data-pays="mali" aria-pressed="true">Mali</button>
+    <button type="button" data-pays="senegal" aria-pressed="false">Sénégal</button>
+    <button type="button" data-pays="civ" aria-pressed="false">Côte d'Ivoire</button>
+    <button type="button" data-pays="niger" aria-pressed="false">Niger</button>
+  </div>
+  <nav class="jump">
+    <a href="#tarifs">Grille tarifaire</a>
+    <a href="#ca">Chiffre d'affaires</a>
+    <a href="#canaux">Canaux d'acquisition</a>
+    <a href="#pubs">Activité publicitaire</a>
+    <a href="#fiches">Fiches détaillées</a>
+    <a href="#duel">Mali face au Sénégal</a>
+    <a href="#export">Export Sheets</a>
+  </nav>
+</header>
+
+<div class="marche" id="marche"></div>
+<div class="podium" id="podium"></div>
+
+<section id="tarifs">
+  <h2 id="t-tarifs"></h2>
+  <p class="sub" id="s-tarifs"></p>
+  <div class="tablewrap"><table id="prix"></table></div>
+</section>
+
+<section id="ca">
+  <h2>Combien ça pèse</h2>
+  <p class="sub" id="s-ca"></p>
+  <div class="sim">
+    <div class="presets" id="presets"></div>
+    <div class="sliders" id="sliders"></div>
+    <div class="out">
+      <div class="big"><b id="o-mois">—</b><p>CA mensuel estimé</p></div>
+      <div class="big"><b id="o-an">—</b><p>CA annuel estimé</p></div>
+      <div><b id="o-recur">—</b><p>part récurrente</p></div>
+      <div><b id="o-client">—</b><p>CA moyen par client et par mois</p></div>
+    </div>
+    <div class="mix">
+      <div class="mixbar">
+        <i id="m1" style="background:var(--teal)"></i>
+        <i id="m2" style="background:var(--accent)"></i>
+        <i id="m3" style="background:var(--red)"></i>
+      </div>
+      <div class="legend"><span id="l1"></span><span id="l2"></span><span id="l3"></span></div>
+    </div>
+  </div>
+  <div class="method" id="m-ca" style="margin-top:18px"></div>
+</section>
+
+<section id="canaux">
+  <h2>Par où leurs clients arrivent</h2>
+  <p class="sub">Pondération déduite de ce que chaque site met en avant : volume de contenu, boutons de contact, présence réseaux, dispositifs de capture, références institutionnelles.</p>
+  <div id="canaux-box"></div>
+</section>
+
+<section id="pubs">
+  <h2>Activité publicitaire</h2>
+  <p class="sub">Ce qu'elles font pour leurs clients, et ce qu'elles font pour elles-mêmes — ce n'est pas la même chose.</p>
+  <div id="pubs-box"></div>
+  <div class="method" style="margin-top:20px">
+    <p><b>Le moyen de vérifier, gratuitement.</b> La Bibliothèque publicitaire de Meta montre toutes les publicités actives de n'importe quelle page Facebook ou Instagram, avec leur date de lancement et leurs visuels. Cherche chaque nom sur <a href="https://www.facebook.com/ads/library/" target="_blank" rel="noopener">facebook.com/ads/library</a>, en réglant le pays sur Mali puis sur Sénégal.</p>
+    <p>Tu y vois combien de créations tournent, depuis quand, et sur quel angle. En consultant toutes les deux semaines, tu repères leurs lancements avant leurs clients.</p>
+  </div>
+</section>
+
+<section id="fiches">
+  <h2>Le dossier de chaque agence</h2>
+  <p class="sub">Données relevées sur leurs sites et dans les classements publics. Ouvre une fiche pour les contacts, l'offre complète et tes propres notes.</p>
+  <div id="details"></div>
+</section>
+
+<section id="faille">
+  <h2 id="t-faille"></h2>
+  <div class="gap"><p class="sub" id="s-faille" style="margin-bottom:0"></p><ul id="l-faille"></ul></div>
+</section>
+
+<section>
+  <h2>Sur le radar</h2>
+  <p class="sub">Pas dans le top 3, mais à surveiller.</p>
+  <div class="radar" id="radar"></div>
+</section>
+
+<section id="duel">
+  <h2>Mali face au Sénégal</h2>
+  <p class="sub">Les deux marchés ne jouent pas le même jeu. Ce qui marche à Bamako ne se transpose pas tel quel à Dakar.</p>
+  <div class="compare">
+    <div>
+      <h3 class="ml">Mali</h3>
+      <ul>
+        <li>Marché jeune et peu structuré. Aucun classement professionnel sérieux n'existe : les « top 10 » sont écrits par les agences elles-mêmes.</li>
+        <li>Les trois leaders n'affichent aucun prix. Le client doit appeler pour savoir combien ça coûte.</li>
+        <li>Ticket moyen d'un site : 150 000 à 800 000 FCFA. Le haut du marché plafonne autour de 1,2 M.</li>
+        <li>Clientèle : PME, commerces, ONG. Peu de grands comptes digitalisés.</li>
+        <li>Acquisition dominée par le référencement et WhatsApp. L'achat média pour soi est quasi inexistant.</li>
+        <li>Aucun acteur ne vend de produit ni de SaaS. On facture du temps.</li>
+        <li><b>Conséquence</b> : un entrant qui affiche ses prix et vend du récurrent se distingue immédiatement.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="sn">Sénégal</h3>
+      <ul>
+        <li>Marché mature. Classements professionnels, annuaires internationaux, chiffres d'affaires et effectifs déclarés publiquement.</li>
+        <li>Les prix sont affichés, y compris les abonnements mensuels de community management. Le marché est transparent.</li>
+        <li>Ticket moyen d'un site : 300 000 à 1,5 M FCFA. Les portails institutionnels montent à 20 M.</li>
+        <li>Clientèle : banques, télécoms, État, bailleurs, multinationales. People Input travaille pour la BCEAO et la BRVM.</li>
+        <li>Acquisition par la référence institutionnelle et l'appel d'offres plus que par Google.</li>
+        <li>L'intégration Mobile Money, Wave et Orange Money est une compétence vendue en tant que telle.</li>
+        <li><b>Conséquence</b> : impossible d'y entrer par le prix. Il faut une spécialité technique ou une référence qui ouvre les portes.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="method" style="margin-top:20px">
+    <p><b>Le pont entre les deux.</b> Sabma Digital est le seul acteur présent des deux côtés, et elle se déplace : son site garde une page Mali mais son siège, son numéro et son activité sont désormais à Dakar. Le mouvement va du Mali vers le Sénégal, jamais l'inverse.</p>
+    <p>Un site vendu 400 000 FCFA à Bamako se vend 800 000 à Dakar pour un travail comparable. L'écart n'est pas dans la compétence, il est dans le pouvoir d'achat des clients.</p>
+  </div>
+</section>
+
+<section id="export">
+  <h2>Export vers Google Sheets</h2>
+  <p class="sub">Copie le tableau, puis colle-le dans une feuille vide : chaque colonne tombe à sa place. L'export complet contient les six agences, Mali et Sénégal.</p>
+  <div class="tablewrap"><table id="table"></table></div>
+  <div class="actions">
+    <button id="copyall">Copier les 6 agences</button>
+    <button id="copyprix" class="ghost">Copier la grille tarifaire affichée</button>
+    <button id="csv" class="ghost">Télécharger le CSV complet</button>
+    <button id="sheet" class="ghost">Ouvrir une feuille vide</button>
+  </div>
+  <p class="toast" id="toast" role="status"></p>
+</section>
+
+<footer>
+  <p>Les notes sur 10 évaluent ce qui est observable publiquement : qualité et fraîcheur du site, profondeur du contenu, largeur de l'offre, preuves clients affichées, activité réseaux, ancrage local. Au Mali, aucun chiffre d'affaires n'est accessible : les montants viennent du modèle ci-dessus. Au Sénégal, les chiffres d'affaires et effectifs sont ceux que les agences déclarent elles-mêmes à l'annuaire topseos, qui est un service payant — à traiter avec prudence. Les tarifs sont ceux publiés par des agences actives sur chaque marché et servent de référence.</p>
+</footer>
+
+</div>
+
+<script>
+const F = n => new Intl.NumberFormat("fr-FR").format(Math.round(n));
+const M = n => n>=1e9 ? (n/1e9).toFixed(2).replace(".",",")+" Md"
+             : n>=1e6 ? (n/1e6).toFixed(n>=1e7?0:1).replace(".",",")+" M" : F(n);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CRITERES = ["Site","Contenu et visibilité","Largeur d'offre","Preuves clients","Réseaux sociaux","Ancrage local"];
+const caOf = p => p.retainers*p.ticketRet + p.sites*p.ticketSite + p.spots*p.ticketSpot;
+
+/* ================= DONNÉES ================= */
+const DATA = {
+civ:{
+  label:"Côte d'Ivoire",
+  marche:"<p><b>Marché ivoirien.</b> Le plus mûr des quatre. Abidjan est le hub UEMOA, et la bataille ne se joue plus sur le site vitrine : elle se joue sur le contenu. PixlStudio, MEDYN, Vendoprone, Umex, LeadGrowth publient en boucle des « top 10 des meilleures agences d'Abidjan » et des « combien coûte un site web » pour capter Google avant le concurrent. Résultat unique dans la région : <b>presque tout le monde affiche ses prix</b>. Le client arrive informé. L'improvisation tarifaire n'y est plus possible.</p>",
+  tTarifs:"Ce que le marché ivoirien facture vraiment",
+  sTarifs:"Contrairement au Mali, ces prix sont publiés par les agences elles-mêmes, sur leurs propres pages tarifaires. C'est le marché le plus transparent d'Afrique de l'Ouest francophone — et donc le plus difficile à attaquer par le bas.",
+  sCa:"Aucune agence ivoirienne du top 3 ne publie son chiffre d'affaires. Le modèle reconstruit ci-dessous part de tickets moyens supérieurs d'environ 40 % à ceux du Mali, ce que confirme la grille tarifaire publique.",
+  mCa:"<p><b>À lire avant d'utiliser ces chiffres.</b> Ordres de grandeur reconstruits, pas de données déclarées. Abidjan concentre des budgets corporate (banques, télécoms, grande distribution) qui n'existent pas à Bamako : le haut du marché y est nettement plus riche que ne le dit ce modèle.</p><p>Pour affiner : demande un devis anonyme, compte les études de cas publiées par trimestre, et regarde les effectifs annoncés sur LinkedIn.</p>",
+  tFaille:"La place qu'elles laissent vide en Côte d'Ivoire",
+  sFaille:"Marché encombré, mais quatre angles morts subsistent :",
+  failles:[
+    "<b>Le contenu est écrit pour Google, pas pour le client.</b> Les « top 10 » se recopient entre eux. Personne ne publie de vraie étude de marché chiffrée — celle que tu es justement en train de construire.",
+    "<b>La guerre des prix tire vers le bas.</b> Des vitrines clé en main à 290 000 ou 299 000 FCFA cassent le marché d'entrée. Y entrer par le prix est un piège : il faut entrer par la spécialisation.",
+    "<b>Quasiment aucune offre produit récurrente.</b> Même ici, on vend du projet. Les abonnements mensuels et les tableaux de bord restent rares.",
+    "<b>Pas d'offre data ou IA crédible.</b> Un seul acteur, Vendoprone, se positionne sur la data et l'IA. C'est l'angle le plus ouvert pour quelqu'un qui vient de la data science."
+  ],
+  prix:[
+    ["Site vitrine clé en main (domaine + hébergement 1 an)","299 000","unique","creation-de-site-web.africa"],
+    ["Site vitrine, entrée de gamme","290 000","unique","Webxpert"],
+    ["Site vitrine, fourchette de marché","150 000 – 800 000","unique","PixlStudio"],
+    ["Site vitrine professionnel, à partir de","200 000","unique","Sabma Digital Côte d'Ivoire"],
+    ["Site vitrine 5 à 10 pages","environ 500 000","unique","LeadGrowth"],
+    ["Site vitrine complet, multi-pages avancé","à partir de 500 000","unique","PixlStudio"],
+    ["Site e-commerce, entrée de gamme","à partir de 750 000","unique","Webxpert"],
+    ["Site vitrine e-commerce (conception + intégration)","500 000 – 1 500 000","unique","étude de marché locale"],
+    ["Site e-commerce, fourchette de marché","800 000 – 3 500 000","unique","PixlStudio"],
+    ["E-commerce complet, panier et paiement en ligne","1 500 000 – 2 000 000","unique","LeadGrowth"],
+    ["Projet e-commerce riche, haut de gamme","2 000 000 et plus","unique","Djama Med"],
+    ["Fourchette globale tous projets confondus","100 000 – 3 000 000","unique","Sabma Digital Côte d'Ivoire"],
+    ["Nom de domaine","environ 9 000","par an","étude de marché locale"]
+  ],
+  radar:[
+    {n:"Vendoprone", d:"vendoprone.africa", t:"Le seul positionné data marketing, IA et automatisation. Newsletter, diagnostic de site en ligne. C'est ton concurrent le plus proche sur le terrain data — et le plus instructif."},
+    {n:"MEDYN", d:"medyn.co", t:"Blog de comparatifs très agressif sur le référencement. Vitrines et e-commerce, optimisation SEO."},
+    {n:"Webxpert", d:"webxpert-ci.com", t:"Affiche ses prix d'entrée publiquement : 290 000 en vitrine, 750 000 en e-commerce. Casse le marché par le bas."},
+    {n:"Sabma Digital Côte d'Ivoire", d:"sabmadigital.com/ci", t:"La même enseigne qu'au Mali et au Sénégal, avec une page tarifaire ivoirienne dédiée. Confirme sa stratégie de pages pays."},
+    {n:"LeadGrowth / Umex", d:"leadgrowth.ci, umexservices.com", t:"Deux producteurs de contenu « combien coûte un site web à Abidjan ». Captent la recherche de prix avant les agences installées."}
+  ],
+  agences:[
+  {
+    nom:"PixlStudio", dom:"pixlstudio.africa", url:"https://www.pixlstudio.africa/",
+    notes:[8,10,8,7,8,8],
+    ville:"Abidjan",
+    tel:"à confirmer sur le site",
+    mail:"à confirmer sur le site",
+    offre:["Création de sites web","Web design","Marketing digital","SEO","Contenu éditorial","Design créatif"],
+    revendique:"Pas de volume chiffré affiché ; autorité construite par le contenu",
+    reseaux:"Présence sociale secondaire — l'acquisition passe d'abord par Google",
+    conversion:"Articles de comparaison, pages tarifaires détaillées, puis formulaire de devis",
+    force:"La meilleure machine éditoriale d'Afrique de l'Ouest francophone. Elle publie les classements d'agences d'Abidjan, les grilles de prix 2026, les guides par type de site, en français et en anglais. Elle ne se bat pas pour être trouvée : elle est la page que le client lit avant de choisir.",
+    faille:"Son autorité repose sur le contenu, pas sur des références clients visibles ni sur une spécialisation technique. Un concurrent qui publie des résultats chiffrés plutôt que des comparatifs génériques reprend le terrain.",
+    canaux:[["Référencement et contenu",60],["Trafic direct et notoriété",15],["Réseaux sociaux organiques",10],["Bouche-à-oreille et partenaires",10],["Publicité payante",5]],
+    pub:{
+      pour:"Services de marketing digital classiques pour les marques ivoiriennes : réseaux sociaux, design, acquisition.",
+      soi:"Acquisition quasi entièrement organique. Elle achète du contenu, pas de la publicité — stratégie lente à construire mais très difficile à déloger.",
+      lire:"Si elle commence à acheter des mots-clés sur « agence web Abidjan », c'est que le contenu sature. Signal de maturité du marché."
+    },
+    preset:{retainers:18, ticketRet:250000, sites:5, ticketSite:700000, spots:20, ticketSpot:90000}
+  },
+  {
+    nom:"Comfordev", dom:"comfordev.com", url:"https://comfordev.com/",
+    notes:[8,7,9,7,7,8],
+    ville:"Abidjan",
+    tel:"à confirmer sur le site",
+    mail:"à confirmer sur le site",
+    offre:["Création de site internet","Boutique e-commerce","Design graphique","Application web et mobile","Référencement SEO","Webmarketing","Réseaux sociaux"],
+    revendique:"Portfolio et support technique mis en avant",
+    reseaux:"Réseaux sociaux intégrés à l'offre et à la vitrine",
+    conversion:"Formulaire de devis, portfolio, offre de support après livraison",
+    force:"L'offre la plus large du trio, du graphisme à l'application mobile, avec un support technique affiché. Pour une PME ivoirienne qui veut un seul interlocuteur, c'est le choix rassurant.",
+    faille:"Positionnement généraliste, peu différenciant dans un marché saturé de généralistes. Pas de produit propriétaire ni de spécialisation sectorielle.",
+    canaux:[["Référencement et contenu",35],["Bouche-à-oreille et partenaires",25],["Réseaux sociaux organiques",20],["Trafic direct",15],["Publicité payante",5]],
+    pub:{
+      pour:"Webmarketing et gestion de réseaux sociaux pour des PME ivoiriennes.",
+      soi:"Mix référencement et recommandation. Pas de campagne visible sur son propre nom.",
+      lire:"Surveille l'apparition d'études de cas chiffrées : ce serait le signe qu'elle monte en gamme."
+    },
+    preset:{retainers:14, ticketRet:220000, sites:4, ticketSite:650000, spots:16, ticketSpot:80000}
+  },
+  {
+    nom:"Carrément Web", dom:"carrementweb.net", url:"https://carrementweb.net/",
+    notes:[7,6,8,6,7,8],
+    ville:"Abidjan",
+    tel:"à confirmer sur le site",
+    mail:"à confirmer sur le site",
+    offre:["Création de site web","Communication digitale","Conception graphique","Marketing digital","Application mobile"],
+    revendique:"Agence de communication digitale installée à Abidjan",
+    reseaux:"Communication digitale au cœur de l'offre",
+    conversion:"Prise de contact classique, devis sur demande",
+    force:"Positionnement communication digitale assumé, plus proche de l'agence de pub traditionnelle que du studio technique. Cela lui ouvre les budgets image que les studios web ne captent pas.",
+    faille:"Peu de contenu, peu de preuves publiques, pas de prix. Dans un marché où les concurrents publient tout, le silence coûte cher.",
+    canaux:[["Bouche-à-oreille et partenaires",35],["Réseaux sociaux organiques",25],["Référencement et contenu",20],["Trafic direct",15],["Publicité payante",5]],
+    pub:{
+      pour:"Campagnes de communication digitale et création graphique pour des annonceurs locaux.",
+      soi:"Acquisition principalement relationnelle. Faible dépendance au digital pour sa propre croissance — fragilité réelle.",
+      lire:"Si elle publie une grille tarifaire, c'est qu'elle subit la pression des producteurs de contenu. À surveiller."
+    },
+    preset:{retainers:11, ticketRet:200000, sites:3, ticketSite:600000, spots:12, ticketSpot:75000}
+  }
+  ]
+},
+niger:{
+  label:"Niger",
+  marche:"<p><b>Marché nigérien.</b> Le vide que tu cherchais. Une poignée d'agences, aucune domination claire, <b>aucun prix affiché nulle part</b> — pas même une fourchette. L'acteur le plus visible, Sirba Communication, n'a pratiquement pas de site : il vit sur une page Facebook. Ici, ton concurrent n'est pas une agence, c'est une page Facebook. Et une partie du marché est occupée par des opérateurs à distance qui n'ont jamais mis les pieds à Niamey.</p><p><b>Et surtout : le Niger est en zone CFA.</b> Même franc qu'au Mali, Orange Money et Moov des deux côtés. C'est pour ça que c'est ton marché de test idéal, même si ce n'est pas ton marché de construction.</p>",
+  tTarifs:"Ce que le marché nigérien facture — et ce qu'il cache",
+  sTarifs:"Il n'existe aucune grille tarifaire publique au Niger. C'est le constat principal de cette veille. Les montants ci-dessous sont les repères régionaux applicables, pas des prix relevés sur place : à vérifier par devis anonyme.",
+  sCa:"Aucune donnée. Aucune agence nigérienne ne publie de chiffre d'affaires, aucun annuaire payant ne couvre le pays. Le modèle ci-dessous part de tickets inférieurs d'environ 30 % à ceux du Mali.",
+  mCa:"<p><b>À lire avant d'utiliser ces chiffres.</b> C'est l'estimation la plus fragile des quatre pays : aucun point d'ancrage public. Traite-la comme une hypothèse de travail, pas comme un chiffre.</p><p>Le moyen le plus rapide de la recaler : demander trois devis anonymes à NigerCom, Mougani et Shadow pour un même cahier des charges. Trois appels, et tu as la grille réelle du pays.</p>",
+  tFaille:"La place qu'elles laissent vide au Niger",
+  sFaille:"Marché quasiment libre. Les angles morts ne sont plus des détails, ce sont des trous :",
+  failles:[
+    "<b>Aucun prix affiché, nulle part.</b> Pas une fourchette, pas un pack. Digital Africa pose même la question « quel est le prix d'un site web au Niger ? » dans sa FAQ — et ne répond par aucun chiffre. Afficher un prix, ici, c'est déjà gagner.",
+    "<b>Le marché est capté par des pages copiées-collées.</b> Venegre a une page « agence web Niamey » dont le texte parle encore d'entreprises en RDC et de Kinshasa. Elle n'a pas pris la peine de changer le pays. C'est le niveau de la concurrence à distance.",
+    "<b>L'acquisition se joue sur Facebook, pas sur Google.</b> Sirba Communication, parmi les plus visibles, est d'abord une page Facebook. Le référencement est un terrain quasiment inoccupé.",
+    "<b>Le marché est institutionnel.</b> Mougani travaille surtout avec des ONG, des institutions et l'État. Le segment PME privée est largement non servi.",
+    "<b>Zéro récurrent, zéro produit.</b> Aucun abonnement, aucun outil, aucune offre data. Tout est au projet."
+  ],
+  prix:[
+    ["Grille tarifaire publique nigérienne","aucune","—","constat de la veille"],
+    ["Prix d'un site web au Niger selon Digital Africa","posé en question, jamais chiffré","—","digital.africa/fr/pays/niger"],
+    ["Site vitrine — repère régional applicable","150 000 – 400 000","unique","repère Mali / Awa"],
+    ["Site vitrine professionnel — repère régional","350 000 – 800 000","unique","repère régional"],
+    ["Site e-commerce — repère régional","500 000 – 900 000","unique","repère régional"],
+    ["Abonnement tout inclus — repère Awa","75 000","par mois","awa.africa/niger"],
+    ["Gestion de campagnes — repère régional","100 000 – 300 000","par mois","repère Mali"],
+    ["Budget média test — repère régional","50 000 – 100 000","par mois","repère Mali"]
+  ],
+  radar:[
+    {n:"Sirba Communication", d:"facebook.com/sirbacommunication", t:"Agence web et développement, environ 2 795 abonnés Facebook, 122 personnes qui en parlent. Pas de vrai site : la page EST l'agence. C'est le portrait exact du marché."},
+    {n:"TIC Niger", d:"ticniger.com", t:"Sites, applications mobiles, marketing digital. Site peu mis à jour. Même enseigne que TIC Tchad — opérateur multi-pays."},
+    {n:"Adarka web design / 01design / AFIACOM / Bangeez", d:"annuaire GoAfricaOnline", t:"Petites structures de Niamey référencées en annuaire. Très peu de présence web propre."},
+    {n:"Digital Africa", d:"digital.africa/fr/pays/niger", t:"Opérateur à distance avec page Niger. Couvre Niamey, Zinder, Maradi, Agadez, Tahoua, Diffa — sur le papier."},
+    {n:"Venegre", d:"venegre.com/agence-web-niamey", t:"Page Niamey dont le contenu parle encore de la RDC et de Kinshasa. Copier-coller non corrigé. La faille la plus exploitable du marché."},
+    {n:"Awa", d:"awa.africa/niger", t:"Formules forfaitaires, méthodologie en neuf étapes, maintenance incluse. Le seul modèle réellement structuré présent au Niger — et il est opéré à distance."}
+  ],
+  agences:[
+  {
+    nom:"NigerCom", dom:"nigercommunication.com", url:"https://www.nigercommunication.com/",
+    notes:[7,5,8,6,5,9],
+    ville:"Niamey, Niger",
+    tel:"+227 97 26 68 08",
+    mail:"contact@nigercommunication.com",
+    offre:["Création et refonte de sites","Référencement et SEO","E-marketing","Responsive design","CMS et création de contenu","Conseil en communication globale"],
+    revendique:"Active depuis 2008 ; relais en sous-région et en Europe",
+    reseaux:"Liens sociaux présents en pied de page, activité faible",
+    conversion:"Téléphone et e-mail directs, pas de parcours de conversion construit",
+    force:"La plus ancienne du pays, active depuis 2008, avec des relais déclarés dans la sous-région et en Europe. Cette longévité lui donne l'accès aux comptes institutionnels, qui est la vraie monnaie du marché nigérien.",
+    faille:"Le SEO est vendu comme service mais pas pratiqué sur son propre site. Aucun prix, aucun contenu, aucune étude de cas récente. Dix-huit ans d'antériorité et quasiment aucune empreinte numérique : elle est attaquable par n'importe qui qui publie.",
+    canaux:[["Bouche-à-oreille et réseau institutionnel",45],["Trafic direct et notoriété",25],["Référencement et contenu",15],["Réseaux sociaux organiques",10],["Publicité payante",5]],
+    pub:{
+      pour:"Pilotage de stratégies e-marketing et référencement pour ses clients.",
+      soi:"Aucune campagne visible. Acquisition presque entièrement relationnelle, construite sur dix-huit ans de présence.",
+      lire:"Si elle se met à publier du contenu, c'est que son réseau ne suffit plus à remplir le carnet."
+    },
+    preset:{retainers:8, ticketRet:150000, sites:2, ticketSite:400000, spots:8, ticketSpot:50000}
+  },
+  {
+    nom:"Mougani", dom:"mougani.com", url:"https://www.mougani.com/",
+    notes:[7,5,7,8,6,9],
+    ville:"Niamey, Niger — BP 13542",
+    tel:"à confirmer sur le site",
+    mail:"à confirmer sur le site",
+    offre:["Conception et développement web","Communication digitale","Application mobile","Solutions dématérialisées","Gestion des systèmes d'information"],
+    revendique:"Plus de 6 ans d'activité ; accompagne entreprises, ONG et institutions gouvernementales",
+    reseaux:"Présence sociale limitée, portfolio mis en avant à la place",
+    conversion:"Demande de devis gratuit avec promesse de réponse en 3 heures — le seul engagement de délai affiché dans le pays",
+    force:"Le portfolio le plus crédible du Niger : Saheljob, Code Loccol, Sanef, E-Takara Junior, les sites des forces nigériennes, la conférence de l'Union africaine à Niamey. Des références d'État que personne d'autre ne peut aligner. Et un devis promis en trois heures, ce qui est unique sur la zone.",
+    faille:"Dépendance forte au secteur public et aux ONG — des cycles longs, des paiements lents et une exposition politique directe. Rien de construit sur le segment PME privée, aucun prix, aucun contenu éditorial.",
+    canaux:[["Appels d'offres et marchés publics",40],["Bouche-à-oreille et réseau",25],["Trafic direct et portfolio",20],["Référencement et contenu",10],["Réseaux sociaux organiques",5]],
+    pub:{
+      pour:"Communication digitale institutionnelle et événementielle, plutôt que de l'achat média de performance.",
+      soi:"Aucune campagne. L'acquisition passe par l'appel d'offres et la recommandation institutionnelle.",
+      lire:"Sa promesse de devis en trois heures est l'élément à copier et à battre : annonce une heure, avec un prix dedans."
+    },
+    preset:{retainers:6, ticketRet:180000, sites:3, ticketSite:500000, spots:6, ticketSpot:60000}
+  },
+  {
+    nom:"Shadow", dom:"shaadow.net", url:"https://shaadow.net/",
+    notes:[6,4,7,4,6,8],
+    ville:"Niamey, Niger — Koubia, Commune 5",
+    tel:"à confirmer sur le site",
+    mail:"à confirmer sur le site",
+    offre:["Création de sites internet","Marketing des réseaux sociaux","E-mail marketing","Web marketing","Transformation numérique"],
+    revendique:"Solutions sur mesure pour entreprises, ONG et associations",
+    reseaux:"Les réseaux sociaux sont le cœur du discours commercial",
+    conversion:"Formulaire de contact, argumentaire centré sur l'unicité du design",
+    force:"La seule des trois à mettre le marketing des réseaux sociaux et l'e-mail marketing au centre de son offre, plutôt que le site web. C'est le positionnement le plus proche de la demande réelle des PME nigériennes.",
+    faille:"Très peu de preuves : pas de portfolio visible, pas de références nommées, pas de prix, pas de contenu. Le discours est générique — « un site qui vous ressemble » — sans aucun résultat chiffré derrière.",
+    canaux:[["Réseaux sociaux organiques",35],["Bouche-à-oreille",30],["Trafic direct",20],["Référencement et contenu",10],["Publicité payante",5]],
+    pub:{
+      pour:"Gestion de réseaux sociaux et e-mail marketing pour PME, ONG et associations.",
+      soi:"Pas de campagne visible. Acquisition sociale et relationnelle.",
+      lire:"C'est le concurrent le plus directement exposé à ton test Niamey : même segment, même canal, aucune preuve à opposer."
+    },
+    preset:{retainers:7, ticketRet:120000, sites:2, ticketSite:350000, spots:10, ticketSpot:45000}
+  }
+  ]
+},
+mali:{
+  label:"Mali",
+  marche:"<p><b>Marché malien.</b> Peu structuré, aucun classement professionnel indépendant, aucun prix affiché par les leaders. Les « top 10 des agences au Mali » qui sortent sur Google sont presque tous écrits par les agences elles-mêmes pour se placer premières. Le classement ci-dessous note ce que leurs sites montrent réellement.</p>",
+  tTarifs:"Ce que le marché malien facture vraiment",
+  sTarifs:"Prix publics relevés sur les sites d'agences actives au Mali. Astramave, Konatech et Sabma n'affichent aucun tarif : ces montants viennent de leurs concurrents directs qui, eux, les publient. C'est la fourchette dans laquelle elles se situent forcément.",
+  sCa:"Aucune de ces agences ne publie son chiffre d'affaires, et aucun registre malien ne le rend accessible. Ce simulateur le reconstruit à partir de ce qui est observable : volumes revendiqués, taille d'équipe visible, prix du marché. Les curseurs sont à toi.",
+  mCa:"<p><b>À lire avant d'utiliser ces chiffres.</b> Ce sont des ordres de grandeur, pas des données déclarées. Ils servent à savoir si un concurrent est à 20 millions ou à 100 millions par an, pas à connaître son bilan.</p><p>Pour les affiner : demande un devis anonyme à chacune, compte les posts clients qu'elles publient chaque mois sur Facebook, et regarde la taille d'équipe affichée sur LinkedIn. Trois signaux gratuits qui recalent le modèle très vite.</p>",
+  tFaille:"La place qu'elles laissent vide au Mali",
+  sFaille:"Les trois vendent la même chose : des livrables. Cinq angles morts reviennent chez toutes :",
+  failles:[
+    "<b>Aucun prix affiché.</b> Tout passe par « devis après diagnostic ». Pendant ce temps, des concurrents plus petits publient des grilles claires et captent le client pressé.",
+    "<b>Aucune offre produit.</b> Zéro SaaS, zéro outil que le client garde. Elles facturent du temps, donc leur CA plafonne avec leur effectif.",
+    "<b>La data est un argument, pas un livrable.</b> Elles écrivent « analyse de données » mais ne vendent ni tableau de bord, ni reporting automatisé, ni prédiction.",
+    "<b>Le récurrent est faible.</b> L'essentiel du revenu vient de projets ponctuels à refaire. Un seul acteur du marché, Awa, vend un abonnement mensuel — et ce n'est pas l'un des trois.",
+    "<b>Rien en bambara.</b> Tout est en français, alors qu'une grande partie des décideurs PME traite en bambara au téléphone."
+  ],
+  prix:[
+    ["Site vitrine basique (moins de 5 pages)","100 000 – 200 000","unique","Sabma Digital, NOMADE-mali, Haidigit"],
+    ["Site vitrine professionnel","350 000 – 800 000","unique","Paul Maxime Dossou, Kolonell, Awa (Pack Pro)"],
+    ["Site vitrine premium (multilingue, animations)","1 000 000 – 1 200 000","unique","Kolonell (Growth), Awa (Premium)"],
+    ["Site institutionnel / portail","300 000 – 500 000","unique","Haidigit"],
+    ["Site e-commerce avec Mobile Money","500 000 – 900 000","unique","NOMADE-mali, Paul Maxime Dossou"],
+    ["Site e-commerce + application mobile","900 000 et plus","unique","NOMADE-mali"],
+    ["Logiciel de gestion sur mesure","300 000 – 500 000","unique","NOMADE-mali"],
+    ["Application Android hybride","500 000","unique","NOMADE-mali"],
+    ["Application iOS hybride","700 000","unique","NOMADE-mali"],
+    ["Nom de domaine .com ou .ml","9 500","par an","NOMADE-mali"],
+    ["Hébergement web","20 000 – 50 000","par an","NOMADE-mali, Haidigit"],
+    ["Maintenance annuelle du site","200 000 – 300 000","par an","Awa"],
+    ["Abonnement tout inclus (site + contenu + SEO)","75 000","par mois","Awa (Pack Ultime)"],
+    ["Gestion de campagnes Facebook (honoraires)","100 000 – 300 000","par mois","Haidigit"],
+    ["Budget média Facebook — test","50 000 – 100 000","par mois","Haidigit"],
+    ["Budget média Facebook — intermédiaire","150 000 – 300 000","par mois","Haidigit"],
+    ["Budget média Facebook — ambitieux","400 000 et plus","par mois","Haidigit"],
+    ["Budget global pub + gestion, résultats réels","200 000 – 600 000","par mois","Haidigit"]
+  ],
+  radar:[
+    {n:"Awa", d:"awa.africa/mali", t:"Le seul à vendre un abonnement mensuel tout inclus à 75 000 FCFA. Packs affichés de 800 000 à 1,2 M. Modèle économique le plus intelligent du marché."},
+    {n:"Masadigitale", d:"masadigitale.com", t:"Bamako. Applications mobiles et logiciels de gestion sur mesure — plus technique que les trois autres."},
+    {n:"NOMADE-mali", d:"nomade-mali.com", t:"Publie une grille tarifaire complète, ligne par ligne. Rare et agressif sur les prix bas."},
+    {n:"Haidigit", d:"haidigit.com", t:"Mise tout sur le contenu pédagogique « combien ça coûte ». Capte les recherches de prix avant les autres."}
+  ],
+  agences:[
+  {
+    nom:"Astramave", dom:"astramave.com", url:"https://astramave.com/",
+    notes:[9,9,7,8,8,9],
+    ville:"Bamako — Sébénikoro, cité IFABAGO",
+    tel:"+223 79 56 67 94",
+    mail:"contact@astramave.com",
+    offre:["Stratégie marketing","Campagnes Meta","Community management","Identité visuelle","Sites web & logiciels","Impression numérique","Formations"],
+    revendique:"+779 clients, +3745 publicités lancées, +4685 projets",
+    reseaux:"Facebook, Instagram, TikTok, YouTube, LinkedIn",
+    conversion:"WhatsApp direct, audit gratuit, diagnostic interactif et simulateur de revenus perdus sur la page d'accueil",
+    force:"Le site le plus abouti du marché et une vraie machine à contenu : articles ciblant « meilleure agence marketing digital Mali », pages locales, pages par service. Elle capte la recherche Google avant les autres.",
+    faille:"Généraliste assumée, du logo à la bâche imprimée. Pas de spécialité technique qui justifie un gros budget, et aucun prix nulle part.",
+    canaux:[["Référencement et contenu",40],["WhatsApp direct",25],["Réseaux sociaux organiques",15],["Bouche-à-oreille et partenaires",15],["Publicité payante pour elle-même",5]],
+    pub:{
+      pour:"Volume le plus élevé du marché malien : +3745 publicités lancées revendiquées, essentiellement Meta. Son offre publicitaire est structurée en cinq étapes, du cadrage du budget à l'optimisation continue.",
+      soi:"Elle investit son énergie dans le référencement, pas dans l'achat média pour elle-même. Son trafic vient de Google, ce qui lui coûte du temps plutôt que du budget — et rend son acquisition difficile à copier vite.",
+      lire:"Si elle se met à acheter de la publicité sur son propre nom, c'est que le référencement ne suffit plus. Signal à surveiller."
+    },
+    preset:{retainers:25, ticketRet:175000, sites:4, ticketSite:450000, spots:30, ticketSpot:60000}
+  },
+  {
+    nom:"Konatech", dom:"konatech.org", url:"https://www.konatech.org/",
+    notes:[8,8,8,7,7,9],
+    ville:"Bamako — Magnambougou Faso Kanu",
+    tel:"+223 76 49 95 06 (WhatsApp, lun–ven 8h–17h)",
+    mail:"contact@konatech.org",
+    offre:["KonaLink — réseau d'influenceurs","Réseaux sociaux","Publicité en ligne","Création web","SEO","Production vidéo","Branding","Stratégie digitale","Formations"],
+    revendique:"+200 entreprises accompagnées, note affichée 4,9/5",
+    reseaux:"Présence active, tout converge vers WhatsApp",
+    conversion:"WhatsApp en bouton principal, portfolio, avis clients, FAQ",
+    force:"Deux armes que les autres n'ont pas : la production vidéo en interne et KonaLink, un réseau d'influenceurs. Pour une marque qui veut du volume de visibilité rapide, c'est l'offre la plus complète.",
+    faille:"Le site bloque les robots d'analyse, donc peu de signaux vérifiables. Positionnement « agence 360 » sans produit propriétaire ni automatisation profonde.",
+    canaux:[["Réseaux sociaux et influenceurs",35],["Référencement et contenu",25],["WhatsApp direct",20],["Bouche-à-oreille",15],["Vidéo et YouTube",5]],
+    pub:{
+      pour:"Mélange achat média et influence. KonaLink lui permet de livrer de la visibilité sans passer uniquement par le budget Meta — un levier que ses concurrents doivent sous-traiter.",
+      soi:"Acquisition portée par la preuve sociale et le contenu : son article « Top 10 des agences au Mali » est une opération de référencement offensive où elle se place première.",
+      lire:"Compte le nombre d'influenceurs maliens qui la citent en un mois. C'est la mesure réelle de la puissance de KonaLink."
+    },
+    preset:{retainers:15, ticketRet:200000, sites:3, ticketSite:500000, spots:20, ticketSpot:75000}
+  },
+  {
+    nom:"Sabma Digital", dom:"sabmadigital.com/ml", url:"https://sabmadigital.com/ml/",
+    notes:[6,6,9,6,5,4],
+    ville:"Page Mali active, mais siège désormais à Dakar, Sénégal",
+    tel:"+221 78 964 98 60",
+    mail:"via formulaire du site",
+    offre:["Logiciels ERP","Création de site & e-commerce","Application mobile","SEO","Google / Meta / TikTok Ads","Marketing d'influence","E-réputation","Photo, vidéo, audio, 3D","Intelligence artificielle","Recrutement & formation"],
+    revendique:"Active depuis 2020, sites à partir de 100 000 FCFA, certifications affichées",
+    reseaux:"Facebook principalement, activité faible",
+    conversion:"Formulaire long et détaillé, devis WhatsApp, paiements Wave / Orange Money / PayPal",
+    force:"Le catalogue le plus large du lot : ERP, IA, recrutement, 3D. C'est l'agence qui peut répondre à un appel d'offres d'entreprise, pas seulement à une PME.",
+    faille:"Signal fort : le pied de page affiche maintenant Dakar et un numéro sénégalais. Le Mali est devenu une page locale gérée à distance, et le contenu date de 2023. Son ancrage bamakois s'effrite.",
+    canaux:[["Référencement historique",45],["Réseau Dakar et maillage de pages",25],["Formulaire du site",20],["Réseaux sociaux",10]],
+    pub:{
+      pour:"Offre la plus large sur le papier : Google Ads, Meta, TikTok, YouTube, influence, e-réputation. Mais rien n'indique un volume de campagnes maliennes actif.",
+      soi:"Aucun achat média visible. Elle vit sur son ancienneté et ses positions Google acquises depuis 2020, ce qui s'érode à mesure que le contenu vieillit.",
+      lire:"Sa page Mali est son seul point d'entrée local. Si elle cesse de la mettre à jour, le marché bamakois se libère d'un concurrent sur le segment entreprise."
+    },
+    preset:{retainers:4, ticketRet:250000, sites:1, ticketSite:700000, spots:3, ticketSpot:150000}
+  }]
+},
+
+senegal:{
+  label:"Sénégal",
+  marche:"<p><b>Marché sénégalais.</b> Beaucoup plus mature. Des annuaires professionnels internationaux classent les agences de Dakar et publient leur année de création, leur chiffre d'affaires, leur effectif et leur taux de rétention client. Le classement ci-dessous reprend l'ordre de topseos au 1<sup>er</sup> octobre 2026, croisé avec ce que montrent leurs sites.</p>",
+  tTarifs:"Ce que le marché sénégalais facture vraiment",
+  sTarifs:"À Dakar, les prix sont publiés, y compris les abonnements mensuels. C'est la différence la plus nette avec Bamako : le client peut comparer avant d'appeler. Les montants sont en FCFA, même monnaie des deux côtés.",
+  sCa:"Ici, les agences déclarent publiquement leur chiffre d'affaires et leur effectif aux annuaires. Ces chiffres apparaissent sur chaque fiche ci-dessous. Le simulateur reste utile pour les recouper : si le modèle ascendant donne dix fois moins que le chiffre déclaré, c'est l'un des deux qui ment.",
+  mCa:"<p><b>Deux sources qui ne s'accordent pas.</b> Les chiffres d'affaires déclarés par les agences de Dakar à l'annuaire topseos (jusqu'à 3 à 5 millions de dollars, soit 1,8 à 3 milliards de FCFA) sont très supérieurs à ce que donne une reconstruction ascendante à partir des prix du marché et des effectifs annoncés.</p><p><b>Trois explications possibles</b>, et tu ne peux pas trancher sans enquêter : le chiffre couvre un groupe entier ou plusieurs pays, il inclut le budget média des clients refacturé, ou il est simplement gonflé — topseos est un annuaire payant où les entreprises remplissent elles-mêmes leur fiche.</p><p>Retiens l'ordre de grandeur et la hiérarchie, pas le montant exact.</p>",
+  tFaille:"La place qu'elles laissent vide au Sénégal",
+  sFaille:"Le marché est servi, mais il reste segmenté de façon rigide :",
+  failles:[
+    "<b>Un trou au milieu.</b> D'un côté les géants qui travaillent pour les banques et l'État, de l'autre les freelances à 150 000 FCFA. La PME qui veut du sérieux sans budget institutionnel est mal servie.",
+    "<b>Le contenu est faible chez les gros.</b> People Input a des références extraordinaires mais quasiment aucun contenu éditorial. Ils ne captent pas la recherche, ils attendent l'appel d'offres.",
+    "<b>Peu de verticalisation.</b> Presque tout le monde est généraliste. Rares sont ceux qui disent « nous ne faisons que la santé » ou « que la microfinance ».",
+    "<b>La data et l'IA sont citées, rarement produites.</b> Même constat qu'au Mali, à un autre niveau de budget.",
+    "<b>Le wolof est absent des interfaces.</b> Les produits livrés sont en français, parfois en anglais, presque jamais dans la langue d'usage."
+  ],
+  prix:[
+    ["Landing page simple","75 000 – 250 000","unique","Systalink, Teranga Web"],
+    ["Site vitrine standard","150 000 – 600 000","unique","Systalink, Teranga Web, Htag"],
+    ["Site vitrine simple vu par une agence établie","300 000 – 800 000","unique","Absitech"],
+    ["Site vitrine premium sur mesure","400 000 – 1 200 000","unique","Systalink, Sabma Digital, Awa (Pack Pro)"],
+    ["Blog ou site de contenu","150 000 – 500 000","unique","Teranga Web"],
+    ["Site institutionnel d'entreprise","450 000 – 900 000","unique","Teranga Web"],
+    ["Site e-commerce standard","350 000 – 800 000","unique","Teranga Web, Systalink"],
+    ["Site e-commerce avancé avec Wave et Orange Money","1 500 000 – 4 000 000","unique","Absitech, Systalink"],
+    ["Application web métier (ERP ou CRM)","2 000 000 – 8 000 000","unique","Absitech"],
+    ["Portail institutionnel public (mairie, ministère)","3 000 000 – 20 000 000","unique","Absitech"],
+    ["Nom de domaine","10 000 – 25 000","par an","Systalink"],
+    ["Hébergement professionnel","30 000 – 72 000","par an","Systalink, creationsdesiteweb"],
+    ["Maintenance annuelle du site","200 000 – 300 000","par an","Awa Sénégal"],
+    ["Abonnement tout inclus (site + contenu + SEO)","75 000","par mois","Awa Sénégal (Pack Ultime)"],
+    ["Community management — 1 réseau","110 000","par mois","Sabma Digital (tarif marché affiché)"],
+    ["Community management — multi-réseaux","260 000","par mois","Sabma Digital"],
+    ["Community management — premium","480 000","par mois","Sabma Digital"],
+    ["Packs gestion de pages (8 h à 30 h par mois)","78 800 – 360 770","par mois","creation-site-web-senegal"],
+    ["Community manager freelance expérimenté","300 000 – 2 000 000","par mois","creation-site-web-senegal"]
+  ],
+  radar:[
+    {n:"Ringier Digital Marketing", d:"rdm.sn", t:"Créée en 2016, 25+ salariés, CA déclaré 1 à 3 M$. Adossée au groupe suisse Ringier — moyens média hors de portée des indépendants."},
+    {n:"NOISY DIGITAL", d:"noisydigital.com", t:"2012, 20+ salariés, CA déclaré 3 à 5 M$. L'un des plus anciens et des mieux dotés de Dakar."},
+    {n:"SenMarketing", d:"senmarketing.net", t:"2013, 20+ salariés, régie publicitaire digitale. Score de satisfaction le plus élevé du classement."},
+    {n:"Sabma Digital", d:"sabmadigital.com/sn", t:"Le pont Mali-Sénégal. Revendique 8 ans d'activité, publie une grille de community management claire. À suivre des deux côtés."},
+    {n:"Afriweb", d:"afriweb.sn", t:"Scat Urbam, Dakar. Site, mobile, e-commerce, marketing. Positionnement PME accessible."},
+    {n:"Absitech / Systalink", d:"absitech.dev", t:"Deux acteurs qui publient des guides tarifaires détaillés et captent toutes les recherches de prix à Dakar."}
+  ],
+  agences:[
+  {
+    nom:"People Input", dom:"peopleinput.com", url:"https://www.peopleinput.com/",
+    notes:[8,5,9,10,6,10],
+    ville:"Dakar — Immeuble Soda Marième, bâtiment A",
+    tel:"+221 33 827 31 45",
+    mail:"contact@peopleinput.com",
+    declare:"CA 1 à 5 M$ · 10 à 50 salariés · 20+ clients actifs · rétention 87 % · référencée depuis 2013",
+    offre:["Conseil en transformation digitale","Développement web et mobile","Mobile banking","E-commerce","APIs Mobile Money","Design UX/UI","SEO et SEA","Monétisation"],
+    revendique:"Plus de 20 ans d'expérience en Afrique. Clients : BCEAO, GIM-UEMOA, BRVM, Orabank, BHS, Banque Agricole, DGID, ARTP, APIX, ANSD, Eiffage, Auchan, Lafarge Holcim Côte d'Ivoire, Free et Yas.",
+    reseaux:"Facebook et LinkedIn, activité modérée",
+    conversion:"Formulaire de contact, référence institutionnelle, appel d'offres",
+    force:"Le portefeuille de références le plus lourd d'Afrique de l'Ouest francophone : banque centrale, bourse régionale, administration fiscale, régulateur télécoms. Maîtrise déclarée des APIs Orange Money, Wave, MTN, Mixx et du système BCEAO — une compétence que presque personne ne possède dans la région.",
+    faille:"Quasiment aucun contenu éditorial, pas de blog, pas de prix, peu de présence sociale. Elle ne capte pas la demande entrante : elle attend que les institutions l'appellent. Un concurrent qui occupe le terrain du contenu peut lui prendre tout le segment PME et scale-up.",
+    canaux:[["Référence institutionnelle et appels d'offres",45],["Réseau et recommandation directe",30],["LinkedIn",15],["Référencement",10]],
+    pub:{
+      pour:"Elle vend du SEO et du SEA mais ce n'est pas son cœur. Son métier est la plateforme technique : e-banking, intégration ERP, passerelles de paiement.",
+      soi:"Aucun achat média visible et aucun besoin apparent. Son acquisition passe par la réputation et les marchés institutionnels, un canal fermé qui ne se gagne pas à coups de budget Meta.",
+      lire:"Surveille ses nouvelles références bancaires. Chaque banque gagnée verrouille un client pour cinq à dix ans et ferme ce compte au marché."
+    },
+    preset:{retainers:10, ticketRet:800000, sites:2, ticketSite:5000000, spots:10, ticketSpot:500000}
+  },
+  {
+    nom:"Interaktive", dom:"2bi.sn", url:"http://www.2bi.sn/",
+    notes:[7,7,8,8,7,9],
+    ville:"Dakar",
+    tel:"+221 78 302 30 30",
+    mail:"via le site",
+    declare:"CA déclaré 3 à 5 M$ · 20+ salariés · 20+ clients actifs · rétention 86 % · créée en 2014",
+    offre:["Communication digitale","Stratégie de marque","Création de contenus","Réseaux sociaux","Campagnes publicitaires","Web et mobile"],
+    revendique:"Première du classement topseos Dakar en octobre 2026, avec 10 avis clients vérifiés — le volume d'avis le plus élevé du top 3 avec Senegal Marketing Services.",
+    reseaux:"Présence active sur les réseaux, orientation communication",
+    conversion:"Réputation, avis clients vérifiés, appel direct",
+    force:"Agence de communication digitale la mieux notée de Dakar, avec un chiffre d'affaires déclaré au niveau des plus gros et une rétention client de 86 %. Elle tient la position de référence généraliste premium sur le marché sénégalais.",
+    faille:"Peu de signaux techniques différenciants. Elle est forte sur la communication, pas sur la plateforme : sur un projet qui touche au paiement ou à la donnée, elle doit s'associer.",
+    canaux:[["Réputation et avis clients",35],["Réseau et recommandation",25],["Réseaux sociaux",20],["Référencement",15],["Appels d'offres",5]],
+    pub:{
+      pour:"Cœur de métier : campagnes et communication digitale pour les marques sénégalaises. Volume non publié, mais la rétention de 86 % indique des budgets récurrents, pas des coups ponctuels.",
+      soi:"Acquisition par la réputation plus que par l'achat média. Son classement et ses avis vérifiés font le travail que d'autres paient en publicité.",
+      lire:"Ses avis sur les annuaires professionnels sont son actif. Un afflux soudain d'avis négatifs ou une chute de classement ouvrirait une fenêtre."
+    },
+    preset:{retainers:20, ticketRet:400000, sites:3, ticketSite:1200000, spots:15, ticketSpot:250000}
+  },
+  {
+    nom:"Senegal Marketing Services", dom:"senegalmarketing.com", url:"http://www.senegalmarketing.com/",
+    notes:[6,7,7,7,6,8],
+    ville:"Dakar",
+    tel:"+221 77 477 80 91",
+    mail:"via le site",
+    declare:"CA déclaré 250 k$ à 1 M$ · 10+ salariés · 20+ clients actifs · rétention 82 % · créée en 2015",
+    offre:["Marketing digital","Référencement","Publicité en ligne","Réseaux sociaux","Création de sites"],
+    revendique:"11 avis clients publiés, le volume le plus élevé du classement de Dakar. Positionnement tarifaire bas selon l'annuaire.",
+    reseaux:"Présence correcte sans domination",
+    conversion:"Avis clients, prix accessible, contact direct",
+    force:"La seule du top 3 à viser franchement la PME avec un positionnement tarifaire bas et un volume d'avis élevé. Elle occupe le segment que People Input et Interaktive négligent.",
+    faille:"Chiffre d'affaires et effectif nettement en dessous des deux autres. Elle gagne en volume de petits clients, ce qui la rend vulnérable : chaque client pèse peu, mais en coûte autant à gérer.",
+    canaux:[["Avis clients et annuaires",30],["Référencement",30],["Bouche-à-oreille PME",25],["Réseaux sociaux",15]],
+    pub:{
+      pour:"Gestion de campagnes pour des PME sénégalaises, sur des budgets plus modestes que ses deux concurrentes du haut de tableau.",
+      soi:"Stratégie de preuve sociale : 11 avis publiés, c'est le plus gros volume du marché dakarois. C'est son levier d'acquisition principal et il est peu coûteux.",
+      lire:"Son positionnement bas prix la rend sensible à l'arrivée d'un concurrent qui industrialise la production. C'est le maillon le plus exposé du top 3."
+    },
+    preset:{retainers:20, ticketRet:230000, sites:2, ticketSite:700000, spots:12, ticketSpot:150000}
+  }]
+}};
+
+/* ================= RENDU ================= */
+const CHAMPS = [
+  {k:"retainers", lab:"Clients en abonnement mensuel", min:0, max:60, step:1, suf:""},
+  {k:"ticketRet", lab:"Montant moyen de l'abonnement", min:50000, max:2000000, step:25000, suf:" FCFA"},
+  {k:"sites", lab:"Sites ou plateformes livrés par mois", min:0, max:15, step:1, suf:""},
+  {k:"ticketSite", lab:"Prix moyen d'un projet", min:150000, max:8000000, step:50000, suf:" FCFA"},
+  {k:"spots", lab:"Prestations ponctuelles par mois", min:0, max:80, step:1, suf:""},
+  {k:"ticketSpot", lab:"Prix moyen d'une prestation", min:20000, max:1000000, step:10000, suf:" FCFA"}
+];
+
+document.getElementById("sliders").innerHTML = CHAMPS.map(c=>`
+  <div class="sl">
+    <label for="s-${c.k}">${c.lab}<b id="v-${c.k}"></b></label>
+    <input type="range" id="s-${c.k}" min="${c.min}" max="${c.max}" step="${c.step}">
+  </div>`).join("");
+
+let pays = "mali", classees = [], etat = {};
+
+function trier(p){ return [...DATA[p].agences].sort((a,b)=>
+  b.notes.reduce((s,n)=>s+n,0) - a.notes.reduce((s,n)=>s+n,0)); }
+const total = a => a.notes.reduce((s,n)=>s+n,0);
+
+function rendreSim(){
+  CHAMPS.forEach(c=>{
+    document.getElementById("s-"+c.k).value = etat[c.k];
+    document.getElementById("v-"+c.k).textContent = F(etat[c.k]) + c.suf;
+  });
+  const recur = etat.retainers*etat.ticketRet,
+        web   = etat.sites*etat.ticketSite,
+        spot  = etat.spots*etat.ticketSpot,
+        mois  = recur+web+spot,
+        clients = etat.retainers + etat.sites + etat.spots;
+  document.getElementById("o-mois").textContent  = M(mois)+" FCFA";
+  document.getElementById("o-an").textContent    = M(mois*12)+" FCFA";
+  document.getElementById("o-recur").textContent = mois ? Math.round(recur/mois*100)+" %" : "—";
+  document.getElementById("o-client").textContent= clients ? M(mois/clients)+" FCFA" : "—";
+  const pct = v => mois ? v/mois*100 : 0;
+  document.getElementById("m1").style.width = pct(recur)+"%";
+  document.getElementById("m2").style.width = pct(web)+"%";
+  document.getElementById("m3").style.width = pct(spot)+"%";
+  document.getElementById("l1").textContent = "Abonnements "+Math.round(pct(recur))+" %";
+  document.getElementById("l2").textContent = "Projets "+Math.round(pct(web))+" %";
+  document.getElementById("l3").textContent = "Ponctuel "+Math.round(pct(spot))+" %";
+}
+
+function rendrePays(p){
+  pays = p;
+  document.body.dataset.pays = p;
+  const D = DATA[p];
+  classees = trier(p);
+
+  document.querySelectorAll(".switch button").forEach(b=>
+    b.setAttribute("aria-pressed", b.dataset.pays===p));
+
+  document.getElementById("marche").innerHTML = D.marche;
+  document.getElementById("t-tarifs").textContent = D.tTarifs;
+  document.getElementById("s-tarifs").textContent = D.sTarifs;
+  document.getElementById("s-ca").textContent = D.sCa;
+  document.getElementById("m-ca").innerHTML = D.mCa;
+  document.getElementById("t-faille").textContent = D.tFaille;
+  document.getElementById("s-faille").textContent = D.sFaille;
+  document.getElementById("l-faille").innerHTML = D.failles.map(f=>`<li>${f}</li>`).join("");
+
+  document.getElementById("podium").innerHTML = classees.map((a,i)=>`
+    <div class="col${i===0?" lead":""}">
+      <p class="rank">${i+1}${i===0?"ᵉʳ":"ᵉ"}</p>
+      <h3 class="name">${esc(a.nom)}</h3>
+      <p class="dom"><a href="${a.url}" target="_blank" rel="noopener">${esc(a.dom)}</a></p>
+      <p class="score">${total(a)}<span>/60</span></p>
+      <p class="scorelabel">score de présence observable</p>
+      <p class="ca"><b>${M(caOf(a.preset)*12)} FCFA</b>CA annuel reconstruit par le modèle
+        ${a.declare?`<em><b>Déclaré par l'agence</b>${esc(a.declare)}</em>`:""}</p>
+      <div class="bars">
+        ${a.notes.map((n,j)=>`<div class="bar-row"><b>${CRITERES[j]}</b><b style="text-align:right">${n}/10</b>
+          <div class="track"><div class="fill" style="width:${n*10}%"></div></div></div>`).join("")}
+      </div>
+      <div class="verdict">
+        <p><span class="lab">Force</span> — ${esc(a.force.split(".")[0])}.</p>
+        <p><span class="lab weak">Faille</span> — ${esc(a.faille.split(".")[0])}.</p>
+      </div>
+    </div>`).join("");
+
+  document.getElementById("prix").innerHTML =
+    `<thead><tr><th>Prestation</th><th style="text-align:right">Prix en FCFA</th><th>Base</th><th>Publié par</th></tr></thead><tbody>` +
+    D.prix.map(x=>`<tr><td style="white-space:normal">${esc(x[0])}</td><td class="num">${esc(x[1])}</td><td>${esc(x[2])}</td><td class="src">${esc(x[3])}</td></tr>`).join("") +
+    `</tbody>`;
+
+  document.getElementById("presets").innerHTML = classees.map((a,i)=>
+    `<button type="button" data-i="${i}" aria-pressed="${i===0}">${esc(a.nom)}</button>`).join("");
+  etat = {...classees[0].preset};
+  rendreSim();
+
+  document.getElementById("canaux-box").innerHTML = classees.map(a=>`
+    <details class="detail" open>
+      <summary>${esc(a.nom)}<span class="chev">${esc(a.canaux[0][0].toLowerCase())} en tête</span></summary>
+      <div class="body">
+        <div class="chan">${a.canaux.map(c=>`<div class="chan-row"><span>${esc(c[0])}</span><span>${c[1]} %</span>
+          <div class="chan-bar"><i style="width:${c[1]*2.2}%"></i></div></div>`).join("")}</div>
+        <p style="margin:0 0 8px;color:var(--muted);font-size:13.5px">Conversion : ${esc(a.conversion)}</p>
+        ${(E=>E?`<p style="margin:0;color:var(--muted);font-size:13.5px"><b style="color:var(--text)">SEO</b> — ${esc(E.seo)}</p>`:"")(ENRICH[a.dom])}
+      </div>
+    </details>`).join("");
+
+  document.getElementById("pubs-box").innerHTML = classees.map(a=>`
+    <details class="detail">
+      <summary>${esc(a.nom)}<span class="chev">voir l'analyse</span></summary>
+      <div class="body">
+        <p><b style="color:var(--teal)">Ce qu'elle fait pour ses clients</b><br>${esc(a.pub.pour)}</p>
+        <p><b style="color:var(--accent)">Ce qu'elle fait pour elle-même</b><br>${esc(a.pub.soi)}</p>
+        <p style="margin-bottom:0"><b style="color:var(--red)">À surveiller</b><br>${esc(a.pub.lire)}</p>
+      </div>
+    </details>`).join("");
+
+  document.getElementById("details").innerHTML = classees.map((a,i)=>`
+    <details class="detail"${i===0?" open":""}>
+      <summary>${esc(a.nom)}<span class="chev">${total(a)}/60 · ${esc(a.dom)}</span></summary>
+      <div class="body">
+        <dl class="facts">
+          <dt>Localisation</dt><dd>${esc(a.ville)}</dd>
+          <dt>Téléphone</dt><dd>${esc(a.tel)}</dd>
+          <dt>E-mail</dt><dd>${esc(a.mail)}</dd>
+          <dt>Site</dt><dd><a href="${a.url}" target="_blank" rel="noopener">${esc(a.dom)}</a></dd>
+          ${a.declare?`<dt>Déclaré aux annuaires</dt><dd>${esc(a.declare)}</dd>`:""}
+          <dt>Revendique</dt><dd>${esc(a.revendique)}</dd>
+          <dt>Réseaux</dt><dd>${esc(a.reseaux)}</dd>
+          <dt>CA reconstruit</dt><dd>${M(caOf(a.preset)*12)} FCFA par an — modèle</dd>
+        </dl>
+        <ul class="tags">${a.offre.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
+        <p><b style="color:var(--teal)">Ce qu'elle fait bien</b><br>${esc(a.force)}</p>
+        <p><b style="color:var(--red)">Où elle est attaquable</b><br>${esc(a.faille)}</p>
+        ${(E=>E?`
+        <p><b style="color:var(--accent)">Forme de SEO</b><br>${esc(E.seo)}</p>
+        <p><b style="color:var(--accent)">Réseaux sociaux</b><br>${esc(E.social)}</p>
+        <p><b style="color:var(--accent)">Comment elle convertit</b><br>${esc(E.conv)}</p>
+        <p><b style="color:var(--accent)">Ce qu'elle demande au prospect</b><br>${esc(E.quest)}</p>
+        <p><b style="color:var(--gold)">Chiffre d'affaires</b><br>${esc(E.ca)}</p>`:"")(ENRICH[a.dom])}
+        <label class="notelab" for="n-${pays}-${i}">Tes notes sur ${esc(a.nom)}</label>
+        <textarea class="note" id="n-${pays}-${i}" data-key="note-${a.dom}" placeholder="Devis entendus, clients perdus, campagnes repérées…"></textarea>
+      </div>
+    </details>`).join("");
+
+  document.querySelectorAll(".note").forEach(t=>{
+    const k = t.dataset.key;
+    try{ const v = localStorage.getItem(k); if(v) t.value = v; }catch(e){}
+    t.addEventListener("input",()=>{ try{ localStorage.setItem(k,t.value); }catch(e){} });
+  });
+
+  document.getElementById("radar").innerHTML = D.radar.map(r=>
+    `<div><h3>${esc(r.n)}</h3><p>${esc(r.d)} — ${esc(r.t)}</p></div>`).join("");
+
+  rendreTable();
+}
+
+document.querySelector(".switch").addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  rendrePays(b.dataset.pays);
+  document.getElementById("marche").scrollIntoView({behavior:"smooth",block:"start"});
+});
+document.getElementById("presets").addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  document.querySelectorAll("#presets button").forEach(x=>x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  etat = {...classees[+b.dataset.i].preset};
+  rendreSim();
+});
+CHAMPS.forEach(c=>{
+  document.getElementById("s-"+c.k).addEventListener("input", e=>{
+    etat[c.k] = +e.target.value; rendreSim();
+  });
+});
+
+
+/* ---------- couche acquisition enrichie, par domaine ---------- */
+const ENRICH = {
+"astramave.com":{
+  seo:"SEO de contenu offensif. Pages par service, pages locales Bamako, articles ciblant « meilleure agence marketing digital Mali ». Elle écrit pour être la réponse, pas pour être listée.",
+  social:"Facebook, Instagram, TikTok, YouTube, LinkedIn — à vérifier un par un, les URL exactes ne sont pas publiées en pied de page.",
+  conv:"Diagnostic interactif et simulateur de revenus perdus directement sur la page d'accueil, puis bascule WhatsApp. C'est le parcours de conversion le plus abouti du Mali.",
+  quest:"Le diagnostic pose des questions de qualification budgétaire déguisées en audit gratuit : secteur, présence actuelle, objectif de croissance.",
+  ca:"Non publié. Modèle ascendant : environ 96 M FCFA par an."
+},
+"konatech.org":{
+  seo:"SEO d'autorité détournée. Son article « Top 10 des agences au Mali » la place première de son propre classement. Technique efficace et peu coûteuse.",
+  social:"Présence active multi-réseaux, tout converge vers WhatsApp. KonaLink lui donne en plus un relais d'influenceurs.",
+  conv:"WhatsApp en bouton principal, horaires affichés (lun–ven 8h–17h), portfolio, avis clients, FAQ.",
+  quest:"Qualification par la FAQ avant le contact — elle filtre les curieux en amont plutôt qu'au téléphone.",
+  ca:"Non publié. Modèle ascendant : environ 72 M FCFA par an."
+},
+"sabmadigital.com":{
+  seo:"SEO par pages pays dupliquées : une page Mali, une page Sénégal, une page Côte d'Ivoire, une page Guinée. Même structure, pays changé. Volume sans ancrage.",
+  social:"Faible. L'enseigne mise sur le référencement multi-pays, pas sur le social.",
+  conv:"Devis gratuit, catalogue de services très large comme argument de réassurance.",
+  quest:"Parcours standard : type de projet, budget, délai.",
+  ca:"Non publié. Part malienne estimée à environ 26 M FCFA par an — et son pied de page bascule déjà vers Dakar."
+},
+"peopleinput.com":{
+  seo:"Quasi inexistant. Pas de blog, pas de pages tarifaires. Elle ne cherche pas à être trouvée : elle est déjà dans les listes d'appels d'offres.",
+  social:"Présence institutionnelle minimale.",
+  conv:"Pas de parcours entrant. Le client arrive par appel d'offres ou par recommandation. Aucun formulaire de qualification.",
+  quest:"Logique de réponse à cahier des charges, pas de découverte commerciale.",
+  ca:"Déclaré à l'annuaire payant topseos : 1 à 5 M USD, 10 à 50 salariés, rétention 87 %. Chiffre auto-déclaré, à prendre comme une hiérarchie, pas comme un montant."
+},
+"2bi.sn":{
+  seo:"Présence en annuaire payant plutôt qu'en référencement naturel. Première du classement topseos Dakar d'octobre 2026 — un classement qui se paie.",
+  social:"À vérifier.",
+  conv:"Contact direct, positionnement généraliste premium.",
+  quest:"Non observable publiquement.",
+  ca:"Déclaré : 3 à 5 M USD, 20+ salariés, rétention 86 %. Auto-déclaré."
+},
+"senegalmarketing.com":{
+  seo:"Faible. Visibilité portée par les avis et les annuaires.",
+  social:"À vérifier.",
+  conv:"Positionnement prix bas, contact direct, 11 avis publics.",
+  quest:"Non observable publiquement.",
+  ca:"Déclaré : 250 000 à 1 M USD, 10+ salariés, rétention 82 %. Auto-déclaré."
+},
+"pixlstudio.africa":{
+  seo:"Le SEO le plus sophistiqué de la région, et le plus copiable. Trois familles de contenu : les classements (« top 10 des agences d'Abidjan »), les grilles de prix (« tarifs réels 2026 en FCFA »), les guides par type de site. Versions française et anglaise. Elle occupe la requête avant que le client sache quelle agence il veut.",
+  social:"Secondaire. Son moteur, c'est Google.",
+  conv:"Le contenu fait la qualification. Le lecteur arrive sur une page de prix, se situe dans la fourchette, puis demande un devis déjà informé.",
+  quest:"Le parcours suppose un client qui connaît son budget — c'est précisément l'effet du contenu tarifaire.",
+  ca:"Non publié. Modèle reconstruit sur des tickets supérieurs d'environ 40 % au Mali."
+},
+"comfordev.com":{
+  seo:"Référencement correct sur les requêtes « agence web Abidjan » et « création de site internet Abidjan », sans machine de contenu derrière.",
+  social:"Réseaux sociaux intégrés à l'offre et à la vitrine.",
+  conv:"Formulaire de devis, portfolio, promesse de support technique après livraison.",
+  quest:"Qualification classique par formulaire : type de projet, périmètre.",
+  ca:"Non publié."
+},
+"carrementweb.net":{
+  seo:"Présence basique. Peu de contenu, visibilité surtout sur son nom.",
+  social:"Communication digitale au cœur du discours, activité propre à vérifier.",
+  conv:"Prise de contact classique, devis sur demande, aucun prix affiché.",
+  quest:"Non observable publiquement.",
+  ca:"Non publié."
+},
+"nigercommunication.com":{
+  seo:"Paradoxe : elle vend du référencement et n'en fait pas. Pas de blog, pas de pages par service, pas de pages locales. Dix-huit ans d'existence et presque aucune empreinte.",
+  social:"Liens sociaux en pied de page, activité faible.",
+  conv:"Téléphone (+227 97 26 68 08) et e-mail. Aucun parcours de conversion construit, aucun formulaire de qualification.",
+  quest:"Aucune question posée en amont : tout se joue à l'appel.",
+  ca:"Aucune donnée publique au Niger. Modèle le plus fragile des quatre pays."
+},
+"mougani.com":{
+  seo:"Faible en volume, mais le portfolio joue le rôle du contenu : Saheljob, Code Loccol, Sanef, E-Takara Junior, sites des forces nigériennes, conférence de l'Union africaine 2019.",
+  social:"Limitée. Les références institutionnelles remplacent la preuve sociale.",
+  conv:"Demande de devis gratuit avec promesse de réponse en 3 heures. Seul engagement de délai affiché dans le pays — et donc le repère à battre.",
+  quest:"Formulaire de devis standard, qualification faite à la réponse.",
+  ca:"Aucune donnée publique."
+},
+"shaadow.net":{
+  seo:"Très faible. Pas de contenu, pas de pages par requête.",
+  social:"Le marketing des réseaux sociaux est son argument central — c'est donc là qu'il faut l'observer en priorité.",
+  conv:"Formulaire de contact. Argumentaire sur l'unicité du design, aucun chiffre, aucun prix.",
+  quest:"Non observable publiquement.",
+  ca:"Aucune donnée publique."
+}
+};
+
+/* ---------- export, tous les pays ---------- */
+const COLS = ["Pays","Rang","Agence","Site","Score /60",...CRITERES,"CA annuel reconstruit (FCFA)",
+  "Déclaré par l'agence","Canal n°1","Ville","Téléphone","E-mail","Force","Faille","Vérifié le"];
+function toutesLignes(){
+  const out = [];
+  ["mali","senegal","civ","niger"].forEach(p=>{
+    trier(p).forEach((a,i)=>out.push([
+      DATA[p].label, i+1, a.nom, a.dom, total(a), ...a.notes, caOf(a.preset)*12,
+      a.declare || "non publié", a.canaux[0][0]+" ("+a.canaux[0][1]+" %)",
+      a.ville, a.tel, a.mail, a.force, a.faille, "2026-10-02"
+    ]));
+  });
+  return out;
+}
+function rendreTable(){
+  const rows = toutesLignes();
+  document.getElementById("table").innerHTML =
+    `<thead><tr>${COLS.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>` +
+    rows.map(r=>`<tr>${r.map((c,j)=>
+      `<td${j>=12?' style="white-space:normal;min-width:250px"':''}${j===11?' class="num"':''}>${esc(j===11?F(c):c)}</td>`
+    ).join("")}</tr>`).join("") + `</tbody>`;
+}
+
+const toast = document.getElementById("toast");
+const say = m => { toast.textContent = m; setTimeout(()=>{ if(toast.textContent===m) toast.textContent=""; },4500); };
+const tsvOf = (cols,rws) => [cols,...rws].map(r=>r.map(c=>String(c).replace(/[\t\n]/g," ")).join("\t")).join("\n");
+
+document.getElementById("copyall").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(tsvOf(COLS,toutesLignes()));
+       say("Les 6 agences sont copiées. Colle dans une feuille vide."); }
+  catch(e){ say("La copie a échoué. Utilise le bouton CSV."); }
+});
+document.getElementById("copyprix").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(
+        tsvOf(["Prestation","Prix FCFA","Base","Publié par"], DATA[pays].prix));
+       say("Grille tarifaire "+DATA[pays].label+" copiée."); }
+  catch(e){ say("La copie a échoué."); }
+});
+document.getElementById("csv").addEventListener("click", ()=>{
+  const csv = [COLS,...toutesLignes()].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  try{
+    const url = URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}));
+    const a = Object.assign(document.createElement("a"),{href:url,download:"veille-agences-afrique-ouest.csv"});
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    say("CSV téléchargé. Dans Sheets : Fichier puis Importer.");
+  }catch(e){ say("Le téléchargement est bloqué ici. Utilise le bouton Copier."); }
+});
+document.getElementById("sheet").addEventListener("click", ()=>{
+  window.open("https://sheets.new","_blank","noopener");
+});
+
+rendrePays("mali");
+</script>
+</body>
+</html>

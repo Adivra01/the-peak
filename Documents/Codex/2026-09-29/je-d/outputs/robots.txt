@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://africademia.com/sitemap.xml
+
+Sitemap: https://thepeeak.com/sitemap.xml

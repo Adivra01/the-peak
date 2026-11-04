@@ -2,7 +2,7 @@
   const waitSupabase=()=>new Promise((resolve,reject)=>{let i=0;const tick=()=>window.peakSupabase?resolve(window.peakSupabase):i++>80?reject(Error('Connexion Supabase indisponible')):setTimeout(tick,50);tick()});
   const labels={web:'Web & mobile',marketing:'Marketing digital',branding:'Branding',infrastructure:'Infrastructure',creation:'Visuels & vidéo',software:'Logiciels métier',ecommerce:'E-commerce',other:'Autre'};
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const safe=v=>{try{const u=new URL(v,location.origin);return ['http:','https:'].includes(u.protocol)?u.href:'#'}catch{return '#'}};
+  const safe=v=>{try{const u=new URL(v,document.baseURI);return ['http:','https:'].includes(u.protocol)?u.href:'#'}catch{return '#'}};
   const parse=v=>{if(Array.isArray(v))return v;if(typeof v==='string'){try{const a=JSON.parse(v);return Array.isArray(a)?a:[]}catch{return v.split(/[,\n]/).map(x=>x.trim()).filter(Boolean)}}return []};
   const palette=v=>parse(v).find(x=>/^palette\s*:/i.test(String(x)))?.split(':').slice(1).join(':').split(/[|,\s]+/).map(x=>x.trim()).filter(x=>/^#[0-9a-f]{3,8}$/i.test(x)).slice(0,6)||[];
   const paletteMarkup=(values,compact=false)=>values.length?`<div class="palette-strip ${compact?'palette-strip-compact':''}" aria-label="Palette de couleurs">${values.map(color=>`<span style="background:${color}" title="${color}"></span>`).join('')}</div>`:'';

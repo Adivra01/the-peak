@@ -1,0 +1,6 @@
+import { db } from '@/lib/db'
+
+export default function ClientsPage() {
+  const rows = db.prepare(`SELECT u.id,u.name,u.email,u.status,u.created_at,COUNT(p.id) purchase_count,COALESCE(SUM(CASE WHEN p.status='paid' THEN p.amount ELSE 0 END),0) total FROM users u LEFT JOIN purchases p ON p.user_id=u.id WHERE u.role='client' GROUP BY u.id ORDER BY u.created_at DESC`).all() as Array<{id:string;name:string;email:string;status:string;created_at:string;purchase_count:number;total:number}>
+  return <><header className="dashboard-heading"><div><span className="section-number">COMMUNAUTÉ</span><h1>Clients.</h1></div><p>{rows.length} profil{rows.length > 1 ? 's' : ''} client.</p></header><div className="client-grid">{rows.map((row,index) => <article className="client-card" key={row.id}><span className="client-number">{String(index+1).padStart(2,'0')}</span><div className="client-avatar">{row.name.charAt(0).toUpperCase()}</div><h3>{row.name}</h3><p>{row.email}</p><div><span>{row.purchase_count} achat{row.purchase_count>1?'s':''}</span><span>{new Intl.NumberFormat('fr-FR').format(row.total)} XOF</span></div><small className={`status-pill ${row.status}`}>{row.status}</small></article>)}</div></>
+}

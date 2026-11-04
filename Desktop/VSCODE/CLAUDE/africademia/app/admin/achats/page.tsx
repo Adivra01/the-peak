@@ -1,0 +1,6 @@
+import { db } from '@/lib/db'
+
+export default function PurchasesPage() {
+  const rows = db.prepare(`SELECT p.id,p.provider_reference,p.provider,p.amount,p.currency,p.status,p.purchased_at,u.name,u.email,f.title FROM purchases p JOIN users u ON u.id=p.user_id JOIN formations f ON f.slug=p.formation_slug ORDER BY p.purchased_at DESC`).all() as Array<{id:string;provider_reference:string;provider:string;amount:number;currency:string;status:string;purchased_at:string;name:string;email:string;title:string}>
+  return <><header className="dashboard-heading"><div><span className="section-number">TRANSACTIONS</span><h1>Achats.</h1></div><p>{rows.length} transaction{rows.length > 1 ? 's' : ''} enregistrée{rows.length > 1 ? 's' : ''}.</p></header><div className="data-table wide-table"><div className="table-row purchase-head"><span>Client</span><span>Formation</span><span>Référence</span><span>Montant</span><span>Statut</span></div>{rows.map(row => <div className="table-row purchase-head" key={row.id}><span><b>{row.name}</b><small>{row.email}</small></span><span>{row.title}</span><span><small>{row.provider}</small>{row.provider_reference}</span><span>{new Intl.NumberFormat('fr-FR').format(row.amount)} {row.currency}</span><span><i className={`status-pill ${row.status}`}>{row.status}</i></span></div>)}</div></>
+}

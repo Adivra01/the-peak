@@ -1,0 +1,20 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/auth/logout/route": "app/api/auth/logout/route.js",
+  "/api/admin/formations/[slug]/route": "app/api/admin/formations/[slug]/route.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
+  "/api/webhooks/chariow/route": "app/api/webhooks/chariow/route.js",
+  "/page": "app/page.js",
+  "/api/health/db/route": "app/api/health/db/route.js",
+  "/connexion/page": "app/connexion/page.js",
+  "/espace/page": "app/espace/page.js",
+  "/inscription/page": "app/inscription/page.js",
+  "/formations/[slug]/page": "app/formations/[slug]/page.js",
+  "/formations/page": "app/formations/page.js",
+  "/incubateur/page": "app/incubateur/page.js",
+  "/admin/achats/page": "app/admin/achats/page.js",
+  "/admin/formations/page": "app/admin/formations/page.js",
+  "/admin/clients/page": "app/admin/clients/page.js",
+  "/admin/page": "app/admin/page.js"
+}

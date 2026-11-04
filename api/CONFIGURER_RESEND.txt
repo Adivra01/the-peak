@@ -1,0 +1,13 @@
+CONFIGURATION RESEND AVANT HÉBERGEMENT
+
+Le fichier de configuration à compléter est .env, dans ce même dossier api.
+Il est masqué parce que son nom commence par un point.
+
+Sur Mac : dans Finder, appuyez sur Commande + Maj + point (.) pour afficher les fichiers masqués.
+Dans le gestionnaire de fichiers Hostinger, activez l'affichage des fichiers cachés si nécessaire.
+
+Ouvrez api/.env et remplacez la ligne vide par :
+RESEND_API_KEY=VOTRE_NOUVELLE_CLE_RESEND
+
+Conservez le nom exact .env. Ne partagez pas la clé et ne l'ajoutez pas au dépôt Git.
+Le fichier api/.htaccess bloque l'accès web direct au fichier .env.
